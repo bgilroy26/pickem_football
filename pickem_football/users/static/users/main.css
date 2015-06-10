@@ -1,16 +1,6 @@
-header{
-	border-bottom: 2px solid black;
+header .main_page_link{
+    border-bottom: .1em solid black;
 }
-
-h2.title{
-	text-decoration: underline;
-}
-/*
-.footer{
-	margin:auto;
-	position: static;
-	border-top: .1em solid black;
-}*/
 
 .root_menu li {
     display:inline-block;
@@ -29,8 +19,8 @@ li {
     list-style-type:none;
 }
 
-/*.footer{
+.footer{
 	margin:auto;
 	position: static;
 	border-top: .1em solid black;
-}*/
+}
