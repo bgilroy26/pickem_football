@@ -23,14 +23,21 @@
                 <div id="user_profile">
         			<h1 class = "this-profiled_user"><strong>User: {{ profiled_user.username }} </strong></h1><br />
 
-                        <ul class = "user_info">
-                            <img src = "{% static 'users/'  %}{{viewed_user_profile.picture }} ">
-                            <li><strong>Name: </strong>&nbsp {{ profiled_user.first_name }} {{ profiled_user.last_name }}</li>
-                            <li><strong>About me: </strong>About me:  &nbsp {{ viewed_user_profile.about }}</li>
-                            <li><strong>Member Since: </strong>&nbsp {{ profiled_user.date_joined }}</li>
 
-                        </ul>
+                            <ul class = "profile">
+                                <li><img src = "{% static 'users/'  %}{{viewed_user_profile.picture }} "><li>
+                                <li>
+                                    <ul class = "user_info">
+                                        <li><strong>Name: </strong> {{ profiled_user.first_name }} {{ profiled_user.last_name }}</li>
+                                        <li><strong>About me: </strong> {{ viewed_user_profile.about }}</li>
+                                        <li><strong>Member Since: </strong> {{ profiled_user.date_joined }}</li>
+                                    </ul>
+                                </li>
+                            </ul>
 
+                        <br/>
+                        <br/>
+                        <br/>
                         <br/>
 
                             <form enctype="multipart/form-data" name="profile_form" action="/users/{{profiled_user.username}}/" method="POST">

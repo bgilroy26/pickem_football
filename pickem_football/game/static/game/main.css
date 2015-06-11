@@ -32,6 +32,8 @@ li {
 img {
 	height:7em;
 	width: 7em;
+	float:left;
+	margin-right:4em;
 }
 
 /*.footer{
@@ -39,3 +41,16 @@ img {
 	position: static;
 	border-top: .1em solid black;
 }*/
+ul.profile {
+	clear:both;
+	display:inline-block;
+	width:100%;
+}
+
+ul.profile li{
+	margin:1.75em;
+}
+
+form {
+	margin-left:4em;
+}
