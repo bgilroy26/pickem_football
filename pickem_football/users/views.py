@@ -11,18 +11,15 @@ import requests
 
 
 class LoginView(View):
-    template = 'users/login.html'
-    empty_form = UserForm()
+    login_url = 'http://127.0.0.1:8000/users/login/'
 
     def get(self,request):
         if request.session.get('_auth_user_id'):
             active_user_id = int(request.session.get('_auth_user_id'))
             if User.objects.filter(id=active_user_id):
                 active_user = User.objects.filter(id=active_user_id)[0]
-        #         return JsonResponse({'user_form':self.empty_form, 'active_user', active_user})
-        # return JsonResponse({'Error':'Login Error, try again', 'user_form': self.empty_form, 'active_user':active_user})
-                return render(request,self.template,{'user_form':self.empty_form, 'active_user':active_user})
-        return render(request,self.template,{'user_form':self.empty_form})
+                return JsonResponse({'active_user':True})
+        return JsonResponse({'active_user':False})
 
     def post(self,request):
         username = request.POST['username']
@@ -30,8 +27,8 @@ class LoginView(View):
         active_user = authenticate(username=username, password=password)
         if active_user:
             login(request,active_user)
-            return redirect('/users/{}/'.format(active_user.username))
-        return render(request, self.template, {'error':'Name and/or password incorrect.  Please try again.', 'user_form':self.empty_form})
+            return JsonResponse({'Success':True, 'active_user':active_user})
+        return JsonResponse({'Success':False})
 
 class RegisterView(View):
     empty_form = UserForm()

@@ -2,13 +2,14 @@ from django.conf.urls import include, url,patterns
 from django.contrib import admin
 from users.views import RegisterView,LoginView, ProfileView, LogoutView
 from django.views.generic import View
+from django.views.decorators.csrf import csrf_exempt
 
 
 urlpatterns = patterns('',
 
     # url(r'^index$',IndexView.as_view()),
 
-    url(r'^login/$', LoginView.as_view()),
+    url(r'^login/$', csrf_exempt(LoginView.as_view())),
 
     url(r'^register/$', RegisterView.as_view()),
 
