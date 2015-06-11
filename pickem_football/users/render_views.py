@@ -25,15 +25,13 @@ class LoginView(View):
         return render(request,self.template,{'user_form':self.empty_form})
 
     def post(self,request):
-        if request.session.get('_auth_user_id'):
-            active_user_id = int(request.session.get('_auth_user_id'))
-            username = request.POST['username']
-            password = request.POST['password']
-            active_user = authenticate(username=username, password=password)
-            if active_user:
-                login(request,active_user)
-                return redirect('/users/{}/'.format(active_user.username))
-            return render(request, self.template, {'error':'Name and/or password incorrect.  Please try again.', 'login_form':self.empty_form})
+        username = request.POST['username']
+        password = request.POST['password']
+        active_user = authenticate(username=username, password=password)
+        if active_user:
+            login(request,active_user)
+            return redirect('/users/{}/'.format(active_user.username))
+        return render(request, self.template, {'error':'Name and/or password incorrect.  Please try again.', 'user_form':self.empty_form})
 
 class RegisterView(View):
     empty_form = UserForm()
@@ -65,7 +63,6 @@ class RegisterView(View):
 class LogoutView(View):
     template = 'users/logout.html'
 
-    @login_required
     def get(self,request):
         if request.session.get('_auth_user_id'):
             active_user_id = int(request.session.get('_auth_user_id'))
@@ -74,7 +71,6 @@ class LogoutView(View):
                 return render(request,self.template,{'active_user':active_user})
         return redirect('/game/index/')
 
-    @login_required
     def post(self,request):
         logout(request)
         return redirect('/game/index/')
