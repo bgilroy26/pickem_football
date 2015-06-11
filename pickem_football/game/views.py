@@ -11,32 +11,32 @@ class IndexView(View):
 	template = 'game/index.html'
 
 	def get(self,request):
-		if request.session.get('id'):
-			active_user_id = request.session.get('id')
+		if request.session.get('_auth_user_id'):
+			active_user_id = int(request.session.get('_auth_user_id'))
 			if User.objects.filter(id=active_user_id):
 				active_user = User.objects.filter(id=active_user_id)[0]
-				if Membership.objects.filter(user=active_user):
-					user_teams = Team.objects.filter(user=active_user)
-					for team in user_teams:
+				# if Membership.objects.filter(user=active_user):
+				# 	user_teams = Team.objects.filter(user=active_user)
+					# for team in user_teams:
 						# if League.objects.filter(team=team):
 						# 	all_leagues = League.objects.filter(membership=a_membership)
-							return render(request,self.template,{'active_user':active_user})
+				return render(request,self.template,{'active_user':active_user})
 		return render(request, self.template)
 
 class LeagueView(View):
 	template = 'game/user_leagues.html'
 
 	def get(self,request):
-		if request.session.get('id'):
-			active_user_id = request.session.get('id')
+		if request.session.get('_auth_user_id'):
+			active_user_id = int(request.session.get('_auth_user_id'))
 			if User.objects.filter(id=active_user_id):
 				active_user = User.objects.filter(id=active_user_id)[0]
-				if Membership.objects.filter(user=active_user):
-					user_memberships = Membership.objects.filter(user=active_user)
-					for a_membership in user_memberships:
-						if League.objects.filter(membership=a_membership):
-							all_leagues = League.objects.filter(membership=a_membership)
-							return render(request,self.template, {'active_user':active_user, 'user_leagues': user_leagues, 'user_memberships':user_memberships})
+				# if Membership.objects.filter(user=active_user):
+					# user_memberships = Membership.objects.filter(user=active_user)
+					# for a_membership in user_memberships:
+						# if League.objects.filter(membership=a_membership):
+							# all_leagues = League.objects.filter(membership=a_membership)
+				return render(request,self.template, {'active_user':active_user, 'user_leagues': user_leagues})
 		return render(request, self.template)
 
 # class MatchupView(View):
