@@ -8,7 +8,6 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
 
-
     {% endblock header %}
 
     		{% block content %}
@@ -18,22 +17,25 @@
                 <h2>Error: {{error}}</h2>
             {% endif %}
 
+            {{ form.errors }}
+            {{ form.non_field_errors }}
+
                 <div id="user_profile">
-        			<h1 class = "this-profiled_user"><strong>User: {{profiled_user.username}}</strong></h1><br />
+        			<h1 class = "this-profiled_user"><strong>User: {{ profiled_user.username }} </strong></h1><br />
 
                         <ul class = "user_info">
-                            <li>About me:  {{viewed_user_profile.about}}</li>
-                            <li>Member Since: {{viewed_user_profile.created_at}}</li>
+                            <img src = "{% static 'users/'  %}{{viewed_user_profile.picture }} ">
+                            <li><strong>Name: </strong>&nbsp {{ profiled_user.first_name }} {{ profiled_user.last_name }}</li>
+                            <li><strong>About me: </strong>About me:  &nbsp {{ viewed_user_profile.about }}</li>
+                            <li><strong>Member Since: </strong>&nbsp {{ profiled_user.date_joined }}</li>
+
                         </ul>
 
-                            <form name="profile_form" action="/users/{{profiled_user.username}}/" method="POST">
+                        <br/>
+
+                            <form enctype="multipart/form-data" name="profile_form" action="/users/{{profiled_user.username}}/" method="POST">
                     				{% csrf_token %}
                     				{{ profile_form.as_ul }}
-                    			<input type="submit" value="Update">
-                			</form>
-
-                            <form name="profile_form" action="/users/{{profiled_user.username}}/" method="POST">
-                    				{% csrf_token %}
                     				{{ extended_profile_form.as_ul }}
                     			<input type="submit" value="Update">
                 			</form>

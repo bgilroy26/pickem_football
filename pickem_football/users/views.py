@@ -15,7 +15,6 @@ class LoginView(View):
     empty_form = UserForm()
 
     def get(self,request):
-        print(request.GET)
         if request.session.get('id'):
             active_user_id = request.session.get('id')
             if User.objects.filter(id=active_user_id):
@@ -82,28 +81,33 @@ class ProfileView(View):
         #@login_required
     def get(self,request,username):
         active_user_id = request.session.get('_auth_user_id')
-        print(active_user_id)
         active_user = User.objects.filter(id=active_user_id)[0]
         if User.objects.filter(username=username):
             profiled_user = User.objects.filter(username=username)[0]
             viewed_user_profile = UserProfile.objects.filter(user=profiled_user)[0]
             if profiled_user.id == active_user.id:
-                profile_form = UserProfileForm(initial={'about':viewed_user_profile.about})
-                extended_profile_form = UserExtendedProfileForm()
-                return render(request,self.template,{'active_user':active_user,'profile_form':profile_form, 'profiled_user':profiled_user,'extended_profile_form':extended_profile_form})
+                profile_form = UserProfileForm(initial={'first_name':profiled_user.first_name, 'last_name':profiled_user.last_name})
+                extended_profile_form = UserExtendedProfileForm(initial={'about':viewed_user_profile.about})
+                print(viewed_user_profile)
+                print(viewed_user_profile.picture)
+                viewed_user_profile.picture = viewed_user_profile.picture.name.strip('users/static/users/')
+                viewed_user_profile.save()
+                return render(request,self.template,{'active_user':active_user,'profile_form':profile_form, 'profiled_user':profiled_user,'viewed_user_profile':viewed_user_profile,'extended_profile_form':extended_profile_form})
             return render(request,self.template,{'active_user':active_user,'profiled_user':profiled_user})
         return redirect('/game/index/')
 
-    @login_required
+    # @login_required
     def post(self, request, username):
-        active_user_id = request.session.get('_auth_user_id')
+        empty_profile_form = UserProfileForm
+        empty_extended_form = UserExtendedProfileForm
+        active_user_id = int(request.session.get('_auth_user_id'))
         active_user = User.objects.filter(id=active_user_id)[0]
         if User.objects.filter(username=username):
             profiled_user = User.objects.filter(username=username)[0]
             viewed_user_profile = UserProfile.objects.filter(user=profiled_user)[0]
             if active_user_id == profiled_user.id:
                 updated_form = UserProfileForm(request.POST)
-                updated_extended_form = UserExtendedProfileForm(request.POST)
+                updated_extended_form = UserExtendedProfileForm(request.POST,request.FILES)
                 if updated_form.is_valid():
                     profiled_user.first_name = updated_form.cleaned_data.get('first_name')
                     profiled_user.last_name = updated_form.cleaned_data.get('last_name')
@@ -112,6 +116,6 @@ class ProfileView(View):
                     viewed_user_profile.about = updated_extended_form.cleaned_data.get('about')
                     viewed_user_profile.picture = updated_extended_form.cleaned_data.get('picture')
                     viewed_user_profile.save()
-                    return redirect('/users/{}/'.format(profiled_user.username))
-                return render(request, self.template, {'error':'Invalid input; please try again','user':profiled_user,'profile_form':profile_form})
+                return redirect('/users/{}/'.format(profiled_user))
+            return render(request, self.template, {'error':'Invalid input; please try again','user':profiled_user,'profile_form':empty_profile_form,'extended_profile_form':empty_extended_form})
         return redirect('/game/index/')

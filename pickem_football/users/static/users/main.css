@@ -24,3 +24,7 @@ li {
 	position: static;
 	border-top: .1em solid black;
 }
+img {
+	height:7em;
+	width: 7em;
+}

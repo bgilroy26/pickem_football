@@ -29,6 +29,11 @@ li {
     list-style-type:none;
 }
 
+img {
+	height:7em;
+	width: 7em;
+}
+
 /*.footer{
 	margin:auto;
 	position: static;
