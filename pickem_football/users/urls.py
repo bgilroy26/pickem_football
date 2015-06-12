@@ -11,11 +11,11 @@ urlpatterns = patterns('',
 
     url(r'^login/$', csrf_exempt(LoginView.as_view())),
 
-    url(r'^register/$', RegisterView.as_view()),
+    url(r'^register/$', csrf_exempt(RegisterView.as_view())),
 
-    url(r'^logout/$',LogoutView.as_view()),
+    url(r'^logout/$', csrf_exempt(LogoutView.as_view())),
 
-    url(r'^(?P<username>[a-z0-9A-Z]{1,20})/$', ProfileView.as_view()),
+    url(r'^(?P<username>[a-z0-9A-Z]{1,20})/$', csrf_exempt(ProfileView.as_view())),
 
     # url(r'^search$', SearchView.as_view()),
     #
