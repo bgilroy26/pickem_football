@@ -9,13 +9,30 @@ class League(models.Model):
     updated_at = models.DateTimeField(auto_now = True)
     commissioner = models.ForeignKey(User)
     nfl_year = models.IntegerField()
+    marquee = models.ImageField(blank=True, upload_to = 'game/static/league')
     slug = models.SlugField()
 
+    def to_json(self):
+        return {'name':self.name,'buy_in':self.buy_in, 'created_at':self.created_at, 'updated_at':self.updated_at, 'commissioner':self.commissioner, 'nfl_year':self.nfl_year,'slug':self.slug,'marquee':self.marquee}
+
+
 class Team(models.Model):
-    name = models.CharField(max_length=75,default=None)
-    pic = models.ImageField(default=None)
+    name = models.CharField(max_length=75,default=None,unique=True)
+    mascot = models.ImageField(blank=True, upload_to = 'game/static/team')
     manager = models.ForeignKey(User)
     league = models.ForeignKey(League)
+    wins = models.IntegerField()
+    losses = models.IntegerField()
+    slug = models.SlugField()
+    champion = models.BooleanField(default=False)
+
+    def get_record(self):
+        return str(self.wins, '-', self.losses)
+
+    def to_json(self):
+        return {'name':self.name,'manager':self.manager,'mascot':self.mascot,'commissioner':self.commissioner,
+        'slug':self.slug,'wins':self.wins,'losses':self.losses,'league':self.league,}
+
 
 class TeamPick(models.Model):
     nfl_week = models.IntegerField()

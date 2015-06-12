@@ -1,30 +1,30 @@
-from django.shortcuts import render,redirect
 from django.views.generic import View
 from django.http import JsonResponse,Http404
 from game.models import League, Team, TeamPick
 from users.models import User
 import requests
 import json
-# Create your views here.
 
-class IndexView(View):
-	template = 'game/index.html'
+class ActiveTeamsView(View):
 
-	def get(self,request):
-		if request.session.get('_auth_user_id'):
-			active_user_id = int(request.session.get('_auth_user_id'))
-			if User.objects.filter(id=active_user_id):
-				active_user = User.objects.filter(id=active_user_id)[0]
-				# if Membership.objects.filter(user=active_user):
-				# 	user_teams = Team.objects.filter(user=active_user)
-					# for team in user_teams:
-						# if League.objects.filter(team=team):
-						# 	all_leagues = League.objects.filter(membership=a_membership)
-				return render(request,self.template,{'active_user':active_user})
-		return render(request, self.template)
+	def get(self,request,username):
+		player_teams = Team.objects.filter(user__username=username,league__nfl_year=2014)
+		return JsonResponse({'active_player_teams':player_teams})
+
+class PastTeamsView(View):
+
+	def get(self,request,username):
+		player_teams = Team.objects.filter(user__username=username,league__nfl_year=year).exclude(league__nfl_year=2014)
+		return JsonResponse({'past_player_teams':player_teams})
+
+class InvitesView(View):
+
+	def get(self,request,username):
+		pending_leagues = Team.objects.filter(user__username=username,name=None)
+		return JsonResponse({'pending_leagues':pending_leagues})
+
 
 class LeagueView(View):
-	template = 'game/user_leagues.html'
 
 	def get(self,request):
 		if request.session.get('_auth_user_id'):

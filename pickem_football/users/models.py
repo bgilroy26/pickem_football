@@ -10,8 +10,6 @@ class UserMethods(User):
       class Meta:
           proxy=True
 
-
-
 class UserProfile(models.Model):
 
     about = models.TextField(max_length=700, default='[user description]')

@@ -94,11 +94,17 @@ class ProfileView(View):
                 if active_user_id == profiled_user.id:
                     for key, value in request.POST.items():
                         if key == 'first_name' or key == 'last_name' or key =='email':
+
                             setattr(profiled_user, key, value)
                             profiled_user_dict[key]=value
+
+                            setattr(active_user, key, value)
+                            active_user_dict[key]=value
+
                         elif key == 'about' or key == 'picture':
                             setattr(viewed_user_profile, key, value)
                             viewed_user_profile_dict[key]=value
+
                     profiled_user.save()
                     viewed_user_profile.save()
                 return JsonResponse({'Success':True, 'active_user':active_user_dict, 'profiled_user_dict':profiled_user_dict, 'viewed_user_profile_dict':viewed_user_profile_dict})
