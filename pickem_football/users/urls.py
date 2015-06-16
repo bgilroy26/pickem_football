@@ -7,8 +7,6 @@ from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = patterns('',
 
-    # url(r'^index$',IndexView.as_view()),
-
     url(r'^login/$', csrf_exempt(LoginView.as_view())),
 
     url(r'^register/$', csrf_exempt(RegisterView.as_view())),
