@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils.text import slugify
 
 
 class League(models.Model):
@@ -14,11 +13,11 @@ class League(models.Model):
     slug = models.SlugField()
 
     def to_json(self):
-        return {'name':self.name,'buy_in':self.buy_in, 'created_at':self.created_at, 'updated_at':self.updated_at, 'commissioner':self.commissioner.name, 'nfl_year':self.nfl_year,'slug':self.slug,'marquee':self.marquee.name}
+        return {'name':self.name,'buy_in':self.buy_in, 'created_at':self.created_at, 'updated_at':self.updated_at, 'commissioner':self.commissioner.username, 'nfl_year':self.nfl_year,'slug':self.slug,'marquee':self.marquee.name}
 
 
 class Team(models.Model):
-    name = models.CharField(max_length=100,default=None,unique=True)
+    name = models.CharField(max_length=100,default=None)
     mascot = models.ImageField(blank=True, upload_to = 'game/static/team')
     manager = models.ForeignKey(User)
     league = models.ForeignKey(League)
@@ -29,6 +28,7 @@ class Team(models.Model):
 
     def get_season_record(self):
         return str(self.wins, '-', self.losses)
+
 
     def to_json(self):
         return {'name':self.name,'manager':self.manager.username,'mascot':self.mascot.name,
