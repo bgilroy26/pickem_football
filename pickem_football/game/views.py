@@ -43,7 +43,6 @@ class WeeklyScoresView(View):
 		scores_dict = json.loads(string_dict)
 		return JsonResponse({'scores_dict':scores_dict})
 
-
 class TeamPickView(View):
 
 	def get(self, request, year, week, team_slug):

@@ -6,6 +6,20 @@ from django.http import JsonResponse,Http404
 import json
 import requests
 
+class UserTeamsView(View):
+
+    def get(self, request):
+
+        print(request.session.get(dir))
+        print(request.user)
+        
+            print(active_user)
+            user_teams = Team.objects.filter(manager=active_user)
+            print(user_teams)
+            teams_list = [team.to_json() for team in user_teams]
+            print(teams_list)
+
+        return JsonResponse({'teams':teams_list,'user':active_user})
 
 class LoginView(View):
 
@@ -17,6 +31,7 @@ class LoginView(View):
         return JsonResponse({'active_user':False})
 
     def post(self,request):
+        print(request.POST)
         username = request.POST['username']
         password = request.POST['password']
         authenticated_user = authenticate(username=username, password=password)
