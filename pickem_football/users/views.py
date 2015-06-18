@@ -8,10 +8,7 @@ import requests
 
 class CheckSessionView(View):
     def get(self,request):
-        print('hi')
         if request.session.get('_auth_user_id'):
-            print('hello')
-            key = request.session.session_key
             active_user_id =  int(request.session.get('_auth_user_id'))
             active_user = UserMethods.objects.filter(id=active_user_id)[0]
             active_user_dict = active_user.to_json()
@@ -129,13 +126,13 @@ class LogoutView(View):
 
 class UserTeamsView(View):
 
-    def get(self, request, user_id):
-        request.session['_auth_user_id'] = user_id
-        request.session.save()
-        active_user = UserMethods.objects.filter(id=user_id)[0]
+    def get(self, request):
+        if request.session.get('_auth_user_id'):
+            active_user_id = request.session.get('_auth_user_id')
+            active_user = UserMethods.objects.filter(id=user_id)[0]
 
-        user_teams = Team.objects.filter(manager=active_user)
-        teams_list = [team.to_json() for team in user_teams]
-        print(teams_list)
+            user_teams = Team.objects.filter(manager=active_user)
+            teams_list = [team.to_json() for team in user_teams]
 
-        return JsonResponse({'teams':teams_list,'active_user':active_user.to_json()})
+            return JsonResponse({'teams':teams_list,'active_user':active_user.to_json()})
+        return JsonResponse({'active_user':None})

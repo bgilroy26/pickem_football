@@ -15,7 +15,7 @@ urlpatterns = patterns('',
 
     url(r'^logout/$', csrf_exempt(LogoutView.as_view())),
 
-    url(r'^(?P<user_id>[0-9]+)/profile/$', UserTeamsView.as_view()),
+    url(r'^profile/$', UserTeamsView.as_view()),
 
 
     # url(r'^search$', SearchView.as_view()),

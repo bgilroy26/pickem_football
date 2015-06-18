@@ -1,0 +1,65 @@
+{% extends 'interface/base.html' %}
+    {% load staticfiles %}
+
+    {% block head %}
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
+
+        {{ block.super }}
+
+    {% endblock head %}
+
+    {% block header %}
+
+        {{ block.super }}
+
+    {% endblock header %}
+
+    {% block content %}
+
+        <div class = "search_form">
+
+            <form name = "hash-search_form" id = "search" action = "/users/search" method = "POST">
+
+                {% csrf_token %}
+
+                <input type= "text" name = "hash_search" placeholder = "Enter a hashtag">
+
+                <input type = "submit" value = "Search!">
+
+            </form>
+
+        <div class = "search_results">
+
+            {% if search_results %}
+                <ul>
+                    <h2>Search results for hashtag {{hashtag}}</h2>
+
+                        {% for result in search_results %}
+
+                            <li><strong>{{result.title}}</strong></li>
+                            <li id = "target_content">{{result.content}}</li>
+                            <li id = "target_user"><a href = "/users/{{result.user.username}}"> {{result.user.username}}</a> on {{post.created_at}}</li>
+                            </br>
+
+                {% endfor %}
+
+                </ul>
+
+            {% endif %}
+
+
+
+            <script id="results_template" type="text/template">
+                {% verbatim %}
+                    <h2>Search results for {{hashtag}}</h2>
+                    {{#search_results}}
+                        <p>{{title}}</p>
+                        <p>{{content}}</p>
+                        <p>{{created_at}}</p>
+                    {{/search_results}} <!-- end Mustache Loop -->
+                {% endverbatim %}
+
+            </script>
+
+    {% endblock %}

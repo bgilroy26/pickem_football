@@ -1,0 +1,30 @@
+header .main_page_link{
+    border-bottom: .1em solid black;
+}
+
+.root_menu li {
+    display:inline-block;
+    list-style-type: none;
+    margin-left:1em;
+    margin-right:1em;
+    float:right;
+    font-size:1.5em;
+}
+
+a {
+    text-decoration:none;
+}
+
+li {
+    list-style-type:none;
+}
+
+.footer{
+	margin:auto;
+	position: static;
+	border-top: .1em solid black;
+}
+img {
+	height:7em;
+	width: 7em;
+}

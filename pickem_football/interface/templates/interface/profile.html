@@ -1,0 +1,59 @@
+{% extends "interface/base.html" %}
+    {% load staticfiles %}
+
+    {% block header %}
+
+        {{ block.super }}
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
+
+    {% endblock header %}
+
+    		{% block content %}
+
+
+            {% if error %}
+                <h2>Error: {{error}}</h2>
+            {% endif %}
+
+            {{ form.errors }}
+            {{ form.non_field_errors }}
+
+                <div id="user_profile">
+        			<h1 class = "this-profiled_user"><strong>{{ active_user_dict.username }} </strong></h1><br />
+
+
+                            <ul class = "profile">
+                                <!-- <li><img src = "{% static 'users/'  %}{{viewed_user_profile.picture }} "><li> -->
+                                <li>
+                                    <ul class = "user_info">
+                                        <li><strong>Name: </strong> {{ active_user_dict.first_name }} {{ active_user_dict.last_name }}</li>
+                                        <li><strong>Email: </strong> {{ active_user_dict.email }} </li>                                        <li><strong>About me: </strong> {{ active_user_dict.about }}</li>
+                                        <li><strong>Member Since: </strong> {{ active_user_dict.date_joined }}</li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+
+                            <form enctype="multipart/form-data" name="profile_form" action="/users/my_page/{{active_user_dict.username}}" method="POST">
+                    				{% csrf_token %}
+                    				<p>First Name   &nbsp   <input type = "text" value = "first_name"></p>
+                    				<p>Last Name    &nbsp  <input type = "text" value = "last_name"></p>
+                    				<p>Email     &nbsp  <input type = "text" value = "email"></p>
+                    				<p>About me    &nbsp  <input type = "text" value = "about"></p>
+                    				<p>Profile Pic  &nbsp   <input type = "upload" value = "picture"></p>
+                    			<input type="submit" value="Update">
+                			</form>
+                </div>
+
+                <div class = user_post_list>
+
+
+        		</div>
+
+    		{% endblock content %}
