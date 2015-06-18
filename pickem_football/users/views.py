@@ -6,39 +6,39 @@ from django.http import JsonResponse,Http404
 import json
 import requests
 
-class UserTeamsView(View):
-
-    def get(self, request):
-
-        print(request.session.get(dir))
-        print(request.user)
-        
-            print(active_user)
-            user_teams = Team.objects.filter(manager=active_user)
-            print(user_teams)
-            teams_list = [team.to_json() for team in user_teams]
-            print(teams_list)
-
-        return JsonResponse({'teams':teams_list,'user':active_user})
+class CheckSessionView(View):
+    def get(self,request):
+        print('hi')
+        if request.session.get('_auth_user_id'):
+            print('hello')
+            key = request.session.session_key
+            active_user_id =  int(request.session.get('_auth_user_id'))
+            active_user = UserMethods.objects.filter(id=active_user_id)[0]
+            active_user_dict = active_user.to_json()
+            return JsonResponse({'active_user_dict':active_user_dict})
+        return JsonResponse({'active_user': None})
 
 class LoginView(View):
 
     def get(self,request):
         if request.session.get('_auth_user_id'):
+            key = request.session.session_key
             active_user_id = int(request.session.get('_auth_user_id'))
-            active_user = User.objects.filter(id=active_user_id)[0]
-            return JsonResponse({'active_user':active_user})
+            active_user = UserMethods.objects.filter(id=active_user_id)[0]
+            active_user_dict = active_user.to_json()
+            return JsonResponse({'active_user_dict':active_user.to_json(),'key':session})
         return JsonResponse({'active_user':False})
 
     def post(self,request):
-        print(request.POST)
         username = request.POST['username']
         password = request.POST['password']
         authenticated_user = authenticate(username=username, password=password)
         if authenticated_user:
             login(request,authenticated_user)
             active_user_dict = UserMethods.objects.filter(id = int(authenticated_user.id))[0].to_json()
-            return JsonResponse({'Success':True, 'active_user_dict':active_user_dict})
+            _auth_user_id = int(request.session.get('_auth_user_id'))
+            request.session.save()
+            return JsonResponse({'Success':True, 'active_user_dict':active_user_dict,'_auth_user_id':_auth_user_id})
         return JsonResponse({'Success':False})
 
 class RegisterView(View):
@@ -77,51 +77,65 @@ class LogoutView(View):
         if request.session.get('_auth_user_id'):
             return JsonResponse({'Success':False})
         return JsonResponse({'Success':True})
+#
+# class ProfileView(View):
+#
+#     def get(self,request,username):
+#         if request.session.get('_auth_user_id'):
+#             active_user_id = int(request.session.get('_auth_user_id'))
+#             active_user_dict = UserMethods.objects.filter(id = int(active_user_id))[0].to_json()
+#             if UserMethods.objects.filter(username=username):
+#                 profiled_user = UserMethods.objects.filter(username=username)[0]
+#                 profiled_user_dict = UserMethods.objects.filter(username=username)[0].to_json()
+#                 viewed_user_profile = UserProfile.objects.filter(user=profiled_user)[0]
+#                 viewed_user_profile.picture = viewed_user_profile.picture.name.strip('users/static/users/')
+#                 viewed_user_profile.save()
+#                 viewed_user_profile_dict = UserProfile.objects.filter(user=profiled_user)[0].to_json()
+#                 viewed_user_profile.to_json()
+#                 return JsonResponse({'active_user':active_user_dict,'profiled_user_dict':profiled_user_dict,'viewed_user_profile_dict':viewed_user_profile_dict})
+#             return JsonResponse({'active_user':active_user_dict,'profiled_user_dict':None,'viewed_user_profile_dict':None})
+#         return JsonResponse({'active_user':None})
+#
+#     def post(self, request, username):
+#         if request.session.get('_auth_user_id'):
+#             active_user_id = int(request.session.get('_auth_user_id'))
+#             active_user = User.objects.filter(id=active_user_id)[0]
+#             active_user_dict = UserMethods.objects.filter(id = active_user_id)[0].to_json()
+#             if UserMethods.objects.filter(username=username):
+#                 profiled_user = User.objects.filter(username=username)[0]
+#                 viewed_user_profile = UserProfile.objects.filter(user=active_user)[0]
+#                 profiled_user_dict = UserMethods.objects.filter(username=username)[0].to_json()
+#                 viewed_user_profile_dict = UserProfile.objects.filter(user=active_user)[0].to_json()
+#                 if active_user_id == profiled_user.id:
+#                     for key, value in request.POST.items():
+#                         if key == 'first_name' or key == 'last_name' or key =='email':
+#
+#                             setattr(profiled_user, key, value)
+#                             profiled_user_dict[key]=value
+#
+#                             setattr(active_user, key, value)
+#                             active_user_dict[key]=value
+#
+#                         elif key == 'about' or key == 'picture':
+#                             setattr(viewed_user_profile, key, value)
+#                             viewed_user_profile_dict[key]=value
+#
+#                     profiled_user.save()
+#                     viewed_user_profile.save()
+#                 return JsonResponse({'Success':True, 'active_user':active_user_dict, 'profiled_user_dict':profiled_user_dict, 'viewed_user_profile_dict':viewed_user_profile_dict})
+#             return JsonResponse({'Success':False, 'active_user':active_user_dict, 'profiled_user_dict':profiled_user_dict, 'viewed_user_profile_dict':viewed_user_profile_dict})
+#         return JsonResponse({'active_user':None})
+#
 
-class ProfileView(View):
+class UserTeamsView(View):
 
-    def get(self,request,username):
-        if request.session.get('_auth_user_id'):
-            active_user_id = int(request.session.get('_auth_user_id'))
-            active_user_dict = UserMethods.objects.filter(id = int(active_user_id))[0].to_json()
-            if UserMethods.objects.filter(username=username):
-                profiled_user = UserMethods.objects.filter(username=username)[0]
-                profiled_user_dict = UserMethods.objects.filter(username=username)[0].to_json()
-                viewed_user_profile = UserProfile.objects.filter(user=profiled_user)[0]
-                viewed_user_profile.picture = viewed_user_profile.picture.name.strip('users/static/users/')
-                viewed_user_profile.save()
-                viewed_user_profile_dict = UserProfile.objects.filter(user=profiled_user)[0].to_json()
-                viewed_user_profile.to_json()
-                return JsonResponse({'active_user':active_user_dict,'profiled_user_dict':profiled_user_dict,'viewed_user_profile_dict':viewed_user_profile_dict})
-            return JsonResponse({'active_user':active_user_dict,'profiled_user_dict':None,'viewed_user_profile_dict':None})
-        return JsonResponse({'active_user':None})
+    def get(self, request, user_id):
+        request.session['_auth_user_id'] = user_id
+        request.session.save()
+        active_user = UserMethods.objects.filter(id=user_id)[0]
 
-    def post(self, request, username):
-        if request.session.get('_auth_user_id'):
-            active_user_id = int(request.session.get('_auth_user_id'))
-            active_user = User.objects.filter(id=active_user_id)[0]
-            active_user_dict = UserMethods.objects.filter(id = active_user_id)[0].to_json()
-            if UserMethods.objects.filter(username=username):
-                profiled_user = User.objects.filter(username=username)[0]
-                viewed_user_profile = UserProfile.objects.filter(user=active_user)[0]
-                profiled_user_dict = UserMethods.objects.filter(username=username)[0].to_json()
-                viewed_user_profile_dict = UserProfile.objects.filter(user=active_user)[0].to_json()
-                if active_user_id == profiled_user.id:
-                    for key, value in request.POST.items():
-                        if key == 'first_name' or key == 'last_name' or key =='email':
+        user_teams = Team.objects.filter(manager=active_user)
+        teams_list = [team.to_json() for team in user_teams]
+        print(teams_list)
 
-                            setattr(profiled_user, key, value)
-                            profiled_user_dict[key]=value
-
-                            setattr(active_user, key, value)
-                            active_user_dict[key]=value
-
-                        elif key == 'about' or key == 'picture':
-                            setattr(viewed_user_profile, key, value)
-                            viewed_user_profile_dict[key]=value
-
-                    profiled_user.save()
-                    viewed_user_profile.save()
-                return JsonResponse({'Success':True, 'active_user':active_user_dict, 'profiled_user_dict':profiled_user_dict, 'viewed_user_profile_dict':viewed_user_profile_dict})
-            return JsonResponse({'Success':False, 'active_user':active_user_dict, 'profiled_user_dict':profiled_user_dict, 'viewed_user_profile_dict':viewed_user_profile_dict})
-        return JsonResponse({'active_user':None})
+        return JsonResponse({'teams':teams_list,'active_user':active_user.to_json()})
