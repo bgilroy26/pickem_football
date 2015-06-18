@@ -1,7 +1,7 @@
 from django.conf.urls import patterns,include, url
 from django.contrib import admin
 from django.views.generic import View
-from interface.views import IndexView, LoginView,RegisterView,LogoutView, MyPageView
+from interface.views import IndexView, LoginView, RegisterView, LogoutView, ProfileView
 
 
 urlpatterns = patterns('',
@@ -14,6 +14,6 @@ urlpatterns = patterns('',
 
     url(r'^logout/$', LogoutView.as_view()),
 
-    url(r'^my_page/$', MyPageView.as_view()),
+    url(r'^profile/$', ProfileView.as_view()),
 
 )
