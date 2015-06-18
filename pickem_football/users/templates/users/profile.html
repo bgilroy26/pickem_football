@@ -1,0 +1,56 @@
+{% extends "game/base.html" %}
+    {% load staticfiles %}
+
+    {% block header %}
+
+        {{ block.super }}
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
+
+    {% endblock header %}
+
+    		{% block content %}
+
+
+            {% if error %}
+                <h2>Error: {{error}}</h2>
+            {% endif %}
+
+            {{ form.errors }}
+            {{ form.non_field_errors }}
+
+                <div id="user_profile">
+        			<h1 class = "this-profiled_user"><strong>{{ profiled_user.username }} </strong></h1><br />
+
+
+                            <ul class = "profile">
+                                <li><img src = "{% static 'users/'  %}{{viewed_user_profile.picture }} "><li>
+                                <li>
+                                    <ul class = "user_info">
+                                        <li><strong>Name: </strong> {{ profiled_user.first_name }} {{ profiled_user.last_name }}</li>
+                                        <li><strong>About me: </strong> {{ viewed_user_profile.about }}</li>
+                                        <li><strong>Member Since: </strong> {{ profiled_user.date_joined }}</li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+
+                            <form enctype="multipart/form-data" name="profile_form" action="/users/{{profiled_user.username}}/" method="POST">
+                    				{% csrf_token %}
+                    				{{ profile_form.as_ul }}
+                    				{{ extended_profile_form.as_ul }}
+                    			<input type="submit" value="Update">
+                			</form>
+                </div>
+
+                <div class = user_post_list>
+
+
+        		</div>
+
+    		{% endblock content %}

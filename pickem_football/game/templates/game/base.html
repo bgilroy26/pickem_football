@@ -1,0 +1,70 @@
+{% load staticfiles %}
+<html>
+    {% block head %}
+        <head>
+            <script src="{%static "game/main.js"%}"></script>
+            <link rel="stylesheet" type="text/css" href= "{% static 'game/main.css' %}">
+
+        </head>
+    {% endblock head %}
+
+    <body>
+
+        {% block header %}
+
+            <header>
+                <h1 class = "main_page_link"><a href="/game/index/">Welcome Final Fantasy Football!</a></h1>
+
+                    <div class='root_menu'>
+
+                        {% if active_user %}
+
+                            <ul id = "active_user_menu">
+
+                                <li><a href="/users/logout">Log Out</a></li>
+
+                                <li>|</li>
+
+                                <li><a href ="/users/{{active_user.username}}">{{active_user.username}}'s Homepage</a></li>
+
+                                <li>|</li>
+
+                                <li><a href="/users/leagues">My Leagues</a></li>
+
+                            </ul>
+
+                        {% else %}
+
+                            <ul id = "passive_user_menu">
+
+                                <li><a href="/users/login">login</a></li>
+
+                                <li>|</li>
+
+                                <li><a href="/users/register">register</a></li>
+
+                            </ul>
+
+                        {% endif %}
+
+                    </div>
+
+
+            </header>
+
+        {% endblock header %}
+
+
+        {% block content %}
+
+
+        {% endblock content %}
+
+
+        {% block footer %}
+
+        {% endblock footer %}
+
+    </body>
+
+</html>

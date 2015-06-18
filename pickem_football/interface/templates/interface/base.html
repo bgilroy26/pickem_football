@@ -1,0 +1,70 @@
+{% load staticfiles %}
+<html>
+    {% block head %}
+        <head>
+            <script src="{%static "interface/main.js"%}"></script>
+            <link rel="stylesheet" type="text/css" href= "{% static 'interface/main.css' %}">
+
+        </head>
+    {% endblock head %}
+
+    <body>
+
+        {% block header %}
+
+            <header>
+                <h1 class = "main_page_link"><a href="/interface/index/">Welcome Final Fantasy Football!</a></h1>
+
+                    <div class='root_menu'>
+
+                        {% if active_user_dict %}
+
+                            <ul id = "active_user_menu">
+
+                                <li><a href="/interface/logout">Log Out</a></li>
+
+                                <li>|</li>
+
+                                <li><a href ="/interface/my_page/">{{ active_user_dict.username }}'s Homepage</a></li>
+
+                                <li>|</li>
+
+                                <li><a href="/interface/leagues">My Leagues</a></li>
+
+                            </ul>
+
+                        {% else %}
+
+                            <ul id = "passive_user_menu">
+
+                                <li><a href="/interface/login/">login</a></li>
+
+                                <li>|</li>
+
+                                <li><a href="/interface/register/">register</a></li>
+
+                            </ul>
+
+                        {% endif %}
+
+                    </div>
+
+
+            </header>
+
+        {% endblock header %}
+
+
+        {% block content %}
+
+
+        {% endblock content %}
+
+
+        {% block footer %}
+
+        {% endblock footer %}
+
+    </body>
+
+</html>
