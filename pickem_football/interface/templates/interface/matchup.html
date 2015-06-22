@@ -1,0 +1,34 @@
+{% extends 'interface/base.html' %}
+    {% load staticfiles %}
+
+    {% block head %}
+
+        {{ block.super }}
+
+    {% endblock head %}
+
+    {% block header %}
+
+        {{ block.super }}
+
+    {% endblock header %}
+
+    {% block content %}
+
+        <div class = "matchup_list">
+                <h2>Week {{week}} Match-ups:</h2>
+                    <ul>
+                        {% for matchup in matchup_list %}
+                            <li>
+                                    <input type="radio" name= "{{ matchup.id }}" value="{{ matchup.away }}">{{ matchup.away }}
+                                @
+                                    {{ matchup.home }}<input type="radio" name= "{{ matchup.id }}" value="{{ matchup.home }}">
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                <span id = "update_pick_button"><input type = "submit" value = "Update Picks"></span>
+
+        </div>
+
+    {% endblock content %}

@@ -1,0 +1,48 @@
+{% extends 'interface/base.html' %}
+    {% load staticfiles %}
+
+    {% block head %}
+
+        {{ block.super }}
+
+    {% endblock head %}
+
+    {% block header %}
+
+        {{ block.super }}
+
+    {% endblock header %}
+
+    {% block content %}
+
+        <div class = "team_profile">
+            <h2><strong>{{current_team.name}}</strong></h2>
+
+                <ul>
+                    <li><img src = "{% static 'team/' %}{{ current_team.mascot }}"></li>
+                    <li><strong>League: </strong><a href = "/interface/league/{{ current_league.slug }}/">{{ current_league.name }}</a></li>
+                    <li><strong>Manager: </strong><a href = "/interface/profile/{{ current_team.manager }}">{{ current_team.manager }}</a></li>
+                    <li><strong>Record: </strong>{{ current_team.wins }} - {{current_team.losses }}</li>
+                </ul>
+        </div>
+
+        {% if current_team.manager == active_user %}
+            <form name="team_form" action="/interface/league/{{ current_league.slug }}/team/{{ current_team.slug }}" method="POST">
+
+                {% csrf_token %}
+                {{ team_form.as_p }}
+
+                <input type = "submit" value= "submit">
+
+            </form>
+        {% endif %}
+
+        <div class = "week_list">
+            <ul><h2>{{ current_team.name }}'s 2014 Season</h2>
+                {% for week in week_list %}
+                    <li class = "week_pick_link"><a href="/interface/league/{{ current_league.slug }}/team/{{ current_team.slug }}/week-{{ week }}/">Week {{ week }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    {% endblock content %}

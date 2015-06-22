@@ -17,6 +17,38 @@
 
     {% block content %}
 
+        {% if active_user %}
+
+            <div class = "user_list">
+                <h1><strong>Users:</strong></h1>
+
+                    <ul>
+
+                        {% for user in all_users %}
+
+                            <li><a href = "/interface/profile/{{ user.username }}/">{{ user.username }}</a></li>
+
+                        {% endfor %}
+
+                    </ul>
+            </div>
+
+            <div class = "league_list">
+                <h1><strong>Leagues:</strong></h1>
+
+                    <ul>
+
+                        {% for league in all_leagues %}
+
+                            <li><a href = "/interface/league/{{ league.slug }}/">{{ league.name }}</a></li>
+
+                        {% endfor %}
+
+                    </ul>
+            </div>
+
+        {% endif %}
+
         <div class = "leagues_menu">
 
         </div>

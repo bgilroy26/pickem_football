@@ -8,8 +8,8 @@ class League(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now = True)
     commissioner = models.ForeignKey(User)
-    nfl_year = models.IntegerField()
-    marquee = models.ImageField(blank=True, upload_to = 'game/static/league')
+    nfl_year = models.IntegerField(default=2014)
+    marquee = models.ImageField(default='rose-bowl.jpg', upload_to = 'game/static/league')
     slug = models.SlugField()
 
     def to_json(self):
@@ -18,7 +18,7 @@ class League(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=100,default=None)
-    mascot = models.ImageField(blank=True, upload_to = 'game/static/team')
+    mascot = models.ImageField(default='download.jpg', upload_to = 'game/static/team')
     manager = models.ForeignKey(User)
     league = models.ForeignKey(League)
     wins = models.IntegerField(default=0)

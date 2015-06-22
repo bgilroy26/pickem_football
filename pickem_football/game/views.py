@@ -114,7 +114,6 @@ class CreateLeagueView(View):
 			new_league = League(name=name, buy_in = buy_in, commissioner = active_user, nfl_year=year)
 
 			new_league.slug = slugify(new_league.name)
-
 			new_league.save()
 			new_league_dict = new_league.to_json()
 
