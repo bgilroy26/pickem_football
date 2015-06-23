@@ -15,7 +15,7 @@
 
             <div class = "logout_form">
 
-                    <form name="logout-form" action="/interface/logout/" method="POST">
+                    <form name="logout-form" action="{% url 'interface:logout' %}" method="POST">
 
                         {% csrf_token %}
 

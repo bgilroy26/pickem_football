@@ -13,7 +13,7 @@
         {% block header %}
 
             <header>
-                <h1 class = "main_page_link"><a href="/interface/index/">Welcome to Final Fantasy Football!</a></h1>
+                <h1 class = "main_page_link"><a href = "{% url 'interface:index' %}">Welcome to Final Fantasy Football!</a></h1>
 
                     <div class='root_menu'>
 
@@ -21,15 +21,15 @@
 
                             <ul id = "active_user_menu">
 
-                                <li><a href="/interface/logout/">Log Out</a></li>
+                                <li><a href = "{% url 'interface:logout' %}">Log Out</a></li>
 
                                 <li>|</li>
 
-                                <li><a href ="/interface/profile/{{ active_user.username }}">{{ active_user.username }}'s War Room</a></li>
+                                <li><a href = "{% url 'interface:profile' active_user.username %}">{{ active_user.username }}'s War Room</a></li>
 
                                 <li>|</li>
 
-                                <li><a href="/interface/league/create_league/">Create New League</a></li>
+                                <li><a href = "{% url 'interface:create_league' %}">Create New League</a></li>
 
                             </ul>
 
@@ -37,11 +37,11 @@
 
                             <ul id = "passive_user_menu">
 
-                                <li><a href="/interface/login/">login</a></li>
+                                <li><a href = "{% url 'interface:login' %}">login</a></li>
 
                                 <li>|</li>
 
-                                <li><a href="/interface/register/">register</a></li>
+                                <li><a href = "{% url 'interface:register' %}">register</a></li>
 
                             </ul>
 

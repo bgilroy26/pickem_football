@@ -6,8 +6,10 @@ from users.models import User, UserProfile
 from game.models import Team, League, TeamPick
 from game.forms import LeagueForm, TeamForm
 from django.utils.text import slugify
+from django import forms
 import os
 import requests
+import json
 
 
 class IndexView(View):
@@ -41,8 +43,8 @@ class LoginView(View):
         if authenticated_user:
             login(request,authenticated_user)
             auth_user = User.objects.filter(username=authenticated_user)[0]
-            return redirect('/interface/index/')
-        return redirect('/interface/login/')
+            return redirect('interface:profile', username = auth_user.username)
+        return redirect('interface:login')
 
 class RegisterView(View):
     template = 'interface/register.html'
@@ -65,8 +67,8 @@ class RegisterView(View):
                 new_user_profile.save()
                 authenticated_user = authenticate(username=submitted_username,password=submitted_password)
                 login(request,authenticated_user)
-                return redirect('/interface/profile/{}/'.format(new_user.username))
-        return redirect(request,'/interface/register/',{'Error':'Invalid entry, try again'})
+                return redirect('interface:profile', username = new_user.username)
+        return redirect('interface:register')
 
 class LogoutView(View):
     template = 'interface/logout.html'
@@ -75,11 +77,11 @@ class LogoutView(View):
         if not request.user.is_anonymous():
             active_user = User.objects.filter(id = request.user.id)[0]
             return render(request,self.template,{'active_user':active_user})
-        return redirect('/interface/index/')
+        return redirect('interface:index')
 
     def post(self,request):
         logout(request)
-        return redirect('/interface/index/')
+        return redirect('interface:index')
 
 class ProfileView(View):
     template = 'interface/profile.html'
@@ -99,8 +101,8 @@ class ProfileView(View):
                     return render(request,self.template,{'active_user':active_user, 'user_profile_form': user_profile_form,
                     'extended_profile_form':extended_profile_form,'profiled_user':profiled_user,'viewed_user_profile':viewed_user_profile,'user_teams':user_teams})
                 return render(request, self.template,{'active_user':active_user,'profiled_user':profiled_user,'viewed_user_profile':viewed_user_profile,'user_teams':user_teams})
-            return redirect(request,'/interface/index/',{'Error':"No such user"})
-        return redirect('/interface/index/')
+            return redirect('interface:index')
+        return redirect('interface:index')
 
     def post(self, request, username):
         if not request.user.is_anonymous():
@@ -119,10 +121,12 @@ class ProfileView(View):
                         profiled_user.save()
                         viewed_user_profile.about = updated_extended_form.cleaned_data.get('about')
                         viewed_user_profile.picture = updated_extended_form.cleaned_data.get('picture')
+                        if viewed_user_profile.picture is not None:
+                            viewed_user_profile.picture = updated_extended_form.cleaned_data.get('picture')
                         viewed_user_profile.save()
-                        return redirect('/interface/profile/{}/'.format(profiled_user))
-            return redirect('/interface/profile/{}/'.format(profiled_user))
-            return redirect('/interface/index/')
+                        return redirect('interface:profile', username = profiled_user.username)
+            return redirect('interface:profile', username = profiled_user.username)
+        return redirect('interface:login')
 
 class CreateLeagueView(View):
     template = 'interface/create_league.html'
@@ -133,32 +137,32 @@ class CreateLeagueView(View):
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
             return render(request, self.template, {'active_user':active_user, 'league_form':self.league_form})
-        return redirect('/interface/login/')
+        return redirect('interface:login')
 
     def post(self, request):
-        buy_in = request.POST['buy_in']
-        name = request.POST['name']
-        # new_league_form = LeagueForm(request.POST)
         if not request.user.is_anonymous():
+            league_form = LeagueForm(request.POST,request.FILES)
+            marquee = league_form.files.get('marquee')
+            name = league_form.data.get('name')
+            buy_in = league_form.data.get('buy_in')
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
-            # if new_league_form.is_valid():
-            # name = new_league_form.cleaned_data.get('name')
-            # buy_in = new_league_form.cleaned_data.get('buy_in')
+
             new_league = League(name=name, buy_in = buy_in, commissioner = active_user)
             new_league.slug = slugify(new_league.name)
             new_league.save()
             if new_league:
-                return redirect('/interface/league/{}/'.format(new_league.slug))
-            return redirect('/interface/league/create_league/')
-        return redirect('/interface/login/')
+                return redirect('interface:league_view', league_slug = new_league.slug)
+            return redirect('interface:create_league')
+        return redirect('interface:login')
 
 class LeagueView(View):
     template = 'interface/leagueview.html'
-    league_form = LeagueForm()
 
     def get(self, request, league_slug):
-
+        league_form = LeagueForm()
+        league_form.fields['name'].widget=forms.HiddenInput()
+        league_form.fields['buy_in'].widget=forms.HiddenInput()
         if not request.user.is_anonymous():
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
@@ -166,37 +170,29 @@ class LeagueView(View):
             league_teams = Team.objects.filter(league=current_league).order_by('-wins')
             if active_user == current_league.commissioner:
 
-                league_form = LeagueForm(initial={'name':current_league.name, 'marquee':current_league.marquee})
-                current_league.name = current_league.name
-                current_league.marquee = current_league.marquee
-                current_league.slug = slugify(current_league.name)
+                current_league.marquee = current_league.marquee.name.strip('/game/static/league/')
                 current_league.save()
-                return render(request, self.template, {'active_user':active_user, 'current_league':current_league, 'league_form':league_form, 'league_teams':league_teams})
+                return render(request, self.template, {'active_user':active_user, 'current_league':current_league, 'league_teams':league_teams, 'league_form':league_form})
             return render(request, self.template, {'active_user':active_user, 'current_league':current_league, 'league_teams':league_teams})
-        return redirect('/interface/login/')
+        return redirect('interface:login')
 
-        def post(self,request,league_slug):
+    def post(self,request,league_slug):
 
-            if not request.user.is_anonymous():
-                active_user_id = request.user.id
-                active_user = User.objects.filter(id=active_user_id)[0]
-                current_league = League.objects.filter(slug=league_slug)[0]
+        if not request.user.is_anonymous():
+            active_user_id = request.user.id
+            active_user = User.objects.filter(id=active_user_id)[0]
+            current_league = League.objects.filter(slug=league_slug)[0]
 
-                name = request.POST['name']
-                marquee = request.POST['marquee']
-                if active_user == current_league.commissioner:
-
-                    name = request.POST['name']
-                    marquee = request.POST['marquee']
-
-                    current_league.name = name
+            if active_user == current_league.commissioner:
+                league_form = LeagueForm(request.POST,request.FILES)
+                marquee = league_form.files.get('marquee')
+                if marquee is not None:
                     current_league.marquee = marquee
-                    current_league.slug = slugify(current_league.name)
-                    current_league.save()
 
-                return redirect('/interface/league/{}/'.format(current_league.slug))
-            return redirect('/interface/login/')
-        return redirect('/interface/login/')
+                current_league.save()
+
+            return redirect('interface:league_view', league_slug = current_league.slug)
+        return redirect('interface:login')
 
 class CreateTeamView(View):
     template = 'interface/create_team.html'
@@ -208,52 +204,56 @@ class CreateTeamView(View):
             active_user = User.objects.filter(id=active_user_id)[0]
             current_league = League.objects.filter(slug = league_slug)[0]
             return render(request, self.template, {'active_user':active_user, 'current_league':current_league, 'team_form':self.team_form})
-        return redirect('/interface/login/')
+        return redirect('interface:login')
 
     def post(self, request, league_slug):
+        print('hellloooo')
         if not request.user.is_anonymous():
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
             current_league = League.objects.filter(slug=league_slug)[0]
-
+            print('howyza')
             name = request.POST['name']
-
+            print('howdy')
             if not Team.objects.filter(manager=active_user, league=current_league):
+                print('hi')
 
                 if not Team.objects.filter(name=name, league=current_league):
+                    print('hey')
 
                     new_league_team = Team(name = name, manager = active_user, league = current_league)
 
                     new_league_team.slug = slugify(new_league_team.name)
                     new_league_team.save()
 
-                    return redirect('/interface/league/{}/team/{}/'.format(current_league.slug, new_league_team.slug))
-                return redirect('/interface/league/{}/create_team'.format(current_league.slug))
-        return redirect('/interface/index/')
+                    return redirect('interface:team_view', league_slug = current_league.slug, team_slug = new_league_team.slug)
+                return redirect('interface:create_team', league_slug = current_league.slug)
+        return redirect('interface:index')
 
 class TeamView(View):
     template = 'interface/teamview.html'
     def get(self,request, league_slug, team_slug):
+        team_form = TeamForm()
+        team_form.fields['name'].widget=forms.HiddenInput()
+
         if not request.user.is_anonymous():
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
             current_league = League.objects.filter(slug=league_slug)[0]
             current_team = Team.objects.filter(slug=team_slug)[0]
             week_list = []
-            x=0
             for x in range(1,18):
-                week_list.append(x)
-                x+=1
+                week_list.append({'slug':"week-"+str(x),'week':x})
 
             if active_user == current_team.manager:
-                team_form = TeamForm(initial={'name':current_team.name, 'mascot':current_team.mascot})
+                # team_form = TeamForm(initial={'name':current_team.name})
                 current_team.name = current_team.name
-                current_team.mascot = current_team.mascot
+                current_team.mascot = current_team.mascot.name.strip('game/static/team/')
                 current_team.slug = slugify(current_team.name)
                 current_team.save()
                 return render(request, self.template, {'active_user':active_user, 'current_team':current_team, 'team_form':team_form, 'current_league':current_league, 'week_list':week_list})
             return render(request, self.template, {'active_user':active_user, 'current_team':current_team,'current_league':current_league,'week_list':week_list})
-        return redirect('/interface/login/')
+        return redirect('interface:login')
 
     def post(self, request, league_slug, team_slug):
         if not request.user.is_anonymous():
@@ -265,19 +265,24 @@ class TeamView(View):
             current_team = Team.objects.filter(slug = team_slug, league = current_league)[0]
 
             if active_user == current_team.manager:
+                team_form = TeamForm(request.POST,request.FILES)
+                mascot = team_form.files.get('mascot')
+                name = team_form.data.get('name')
 
-                name = request.POST['name']
-                mascot = request.POST['mascot']
+                if name != current_team.name:
 
-                if not Team.objects.filter(name=name, league=current_league):
+                    if not Team.objects.filter(name=name, league=current_league):
 
-                    current_team.name = name
+                        current_team.name = name
+                        current_team.slug = slugify(current_team.name)
+
+                if mascot is not None:
                     current_team.mascot = mascot
-                    current_team.slug = slugify(current_team.name)
-                    current_team.save()
 
-                    return redirect('/interface/league/{}/team/{}/'.format(league_slug, teamslug))
-        return redirect('/interface/login/')
+                current_team.save()
+
+                return redirect('interface:team_view', league_slug = league_slug, team_slug = team_slug)
+        return redirect('interface:login')
 
 class MatchupView(View):
     template = 'interface/matchup.html'
@@ -288,27 +293,32 @@ class MatchupView(View):
             active_user = User.objects.filter(id=active_user_id)[0]
 
             current_league = League.objects.filter(slug = league_slug)[0]
-
+            print(week_slug)
             current_team = Team.objects.filter(slug = team_slug, league = current_league)[0]
             week = week_slug.strip('week-')
             r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
             matchup_list = r.json()['week_{}_schedule'.format(week)]
-            away_team_list = []
-            home_team_list = []
-            print('============')
-
+            print('matchup_list')
+            print(matchup_list)
 
             current_picks = TeamPick.objects.filter(team=current_team, nfl_week=int(week))
+            current_picks_dict_list = [pick.to_json() for pick in current_picks]
 
-            for pick in current_picks:
-                print(pick.__dict__)
-                print('********')
-            print(matchup_list)
+            #for pick in current_picks_dict_list:
+                # pick["updated_at"] = pick['updated_at'].isoformat()
+                # pick["created_at"] = pick['created_at'].isoformat()
+
+            json_data = {'picks': current_picks_dict_list}
+
             matchup_id = -1
             for game in matchup_list:
                 matchup_id += 1
 
                 game['id'] = matchup_id
 
-            return render(request, self.template, {'matchup_list':matchup_list, 'active_user':active_user, 'home_team_list':home_team_list, 'away_team_list':away_team_list,'current_picks' :current_picks, 'week':week})
-        return redirect('/interface/login/')
+            return render(request, self.template, {'current_league':current_league, 'current_team':current_team, 'matchup_list':matchup_list, 'active_user':active_user,'json_data':json_data, 'week':week, 'week_slug':week_slug})
+        return redirect('interface:login')
+
+class MakePicksView(View):
+    def post(self, request, league_slug, team_slug, week_slug):
+        pass

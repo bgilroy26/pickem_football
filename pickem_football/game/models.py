@@ -4,12 +4,12 @@ from django.contrib.auth.models import User
 
 class League(models.Model):
     name = models.CharField(max_length=200,unique=True)
-    buy_in = models.DecimalField(max_digits = 20, decimal_places = 8)
+    buy_in = models.DecimalField(max_digits = 20, decimal_places = 2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now = True)
     commissioner = models.ForeignKey(User)
     nfl_year = models.IntegerField(default=2014)
-    marquee = models.ImageField(default='rose-bowl.jpg', upload_to = 'game/static/league')
+    marquee = models.ImageField(blank=True, default='rose-bowl.jpg', upload_to = 'game/static/league')
     slug = models.SlugField()
 
     def to_json(self):
@@ -45,5 +45,6 @@ class TeamPick(models.Model):
     team = models.ForeignKey(Team)
 
     def to_json(self):
-        return {'nfl_week':self.nfl_week,'choice':self.choice,'correct':self.correct,'team':self.team.name,
-        'created_at':self.created_at,'updated_at':self.updated_at}
+        import json
+        return json.dumps({"nfl_week":self.nfl_week,"choice":self.choice,"correct":self.correct,"team":self.team.name,
+        "created_at":self.created_at.isoformat(),"updated_at":self.updated_at.isoformat()})

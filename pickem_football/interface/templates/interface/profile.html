@@ -42,7 +42,7 @@
                         <br/>
                         <br/>
                             {% if active_user == profiled_user %}
-                                <form enctype="multipart/form-data" name="profile_form" action="/interface/profile/{{ profiled_user.username }}/" method="POST">
+                                <form enctype="multipart/form-data" name="profile_form" action="{% url 'interface:profile'  profiled_user.username %}" method="POST">
                         				{% csrf_token %}
                                         {{ user_profile_form.as_p}}
                                         {{ extended_profile_form.as_p}}
@@ -55,7 +55,7 @@
                     <h2>{{ profiled_user.username }}'s Teams</h2>
                         <ul>
                             {% for team in user_teams %}
-                                <li><a href = "/interface/league/{{ team.league.slug }}/team/{{ team.slug }}"> {{ team.name }} </a></li>
+                                <li><a href = "{% url 'interface:team_view' team.league.slug team.slug %}"> {{ team.name }} </a></li>
                             {% endfor %}
                         </ul>
 

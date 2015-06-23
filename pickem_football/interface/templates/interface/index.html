@@ -26,7 +26,7 @@
 
                         {% for user in all_users %}
 
-                            <li><a href = "/interface/profile/{{ user.username }}/">{{ user.username }}</a></li>
+                            <li><a href = "{% url 'interface:profile' user.username %}">{{ user.username }}</a></li>
 
                         {% endfor %}
 
@@ -40,7 +40,7 @@
 
                         {% for league in all_leagues %}
 
-                            <li><a href = "/interface/league/{{ league.slug }}/">{{ league.name }}</a></li>
+                            <li><a href = "{% url 'interface:league_view' league.slug %}">{{ league.name }}</a></li>
 
                         {% endfor %}
 

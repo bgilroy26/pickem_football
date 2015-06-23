@@ -17,7 +17,7 @@
 
                 <h2>Sign up!</h2>
 
-                    <form name="register-form" action="/interface/register/" method="POST">
+                    <form name="register-form" action="{% url 'interface:register'}" method="POST">
 
                             {% csrf_token %}
                             {{ register_form.as_p}}

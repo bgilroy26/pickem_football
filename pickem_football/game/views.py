@@ -5,6 +5,7 @@ from game.models import League, Team, TeamPick
 from users.models import User
 from game.services import get_weekly_record,tally_weekly_results
 from django.utils.text import slugify
+import django.forms
 import requests
 import json
 import os
@@ -82,11 +83,13 @@ class WeeklyTeamResultsView(View):
 
 		if request.session.get('_auth_user_id'):
 
+
 			active_user_id = int(request.session.get('_auth_user_id'))
 			active_user = User.objects.filter(id=active_user_id)[0]
 			week_int = int(week.strip('week-'))
 
 			r = requests.get(os.environ.get('fballAPI') + year + '/' + week + '/winners/')
+			print(r)
 
 			string_dict = r.content.decode("utf-8")
 			winners_dict = json.loads(string_dict)

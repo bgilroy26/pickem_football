@@ -11,24 +11,34 @@
 
         {{ block.super }}
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
     {% endblock header %}
 
     {% block content %}
 
         <div class = "matchup_list">
                 <h2>Week {{week}} Match-ups:</h2>
+                    <!-- <form name = "pick_em_week" action = "{%url 'interface:make_picks' current_league.slug current_team.slug week_slug%}"> -->
                     <ul>
                         {% for matchup in matchup_list %}
                             <li>
-                                    <input type="radio" name= "{{ matchup.id }}" value="{{ matchup.away }}">{{ matchup.away }}
-                                @
-                                    {{ matchup.home }}<input type="radio" name= "{{ matchup.id }}" value="{{ matchup.home }}">
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name= "{{ matchup.id }}" value="{{ matchup.away }}">&nbsp{{ matchup.away }}
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<strong>@&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</strong>
+                                    &nbsp{{ matchup.home }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name= "{{ matchup.id }}" value="{{ matchup.home }}">
                             </li>
                         {% endfor %}
                     </ul>
 
                 <span id = "update_pick_button"><input type = "submit" value = "Update Picks"></span>
-
+            </form>
         </div>
+
+        <script type="text/javascript">
+            current_picks_data = {{ json_data| safe }};
+            for( i in current_picks_data.picks){
+                console.log(i)
+            }
+        </script>
 
     {% endblock content %}

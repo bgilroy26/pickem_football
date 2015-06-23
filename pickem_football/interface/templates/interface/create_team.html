@@ -17,7 +17,7 @@
 
         <h2>New Team</h2>
 
-            <form name="team_form" action="/interface/league/{{ current_league.slug }}/team/create_team/" method="POST">
+            <form form enctype="multipart/form-data" name="team_form" action="{% url 'interface:create_team' current_league.slug %}" method="POST">
 
                 {% csrf_token %}
                 {{ team_form.as_p}}
