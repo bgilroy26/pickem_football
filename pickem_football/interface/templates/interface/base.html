@@ -2,7 +2,9 @@
 <html>
     {% block head %}
         <head>
-            <script src="{%static "interface/main.js"%}"></script>
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+            <script src="{% static "interface/main.js" %}"></script>
             <link rel="stylesheet" type="text/css" href= "{% static 'interface/main.css' %}">
 
         </head>
@@ -13,23 +15,23 @@
         {% block header %}
 
             <header>
-                <h1 class = "main_page_link"><a href="/interface/index/">Welcome Final Fantasy Football!</a></h1>
+                <h1 class = "main_page_link"><a href = "{% url 'interface:index' %}">Welcome to Final Fantasy Football!</a></h1>
 
                     <div class='root_menu'>
 
-                        {% if active_user_dict %}
+                        {% if active_user %}
 
                             <ul id = "active_user_menu">
 
-                                <li><a href="/interface/logout">Log Out</a></li>
+                                <li><a href = "{% url 'interface:logout' %}">Log Out</a></li>
 
                                 <li>|</li>
 
-                                <li><a href ="/interface/my_page/">{{ active_user_dict.username }}'s Homepage</a></li>
+                                <li><a href = "{% url 'interface:profile' active_user.username %}">{{ active_user.username }}'s War Room</a></li>
 
                                 <li>|</li>
 
-                                <li><a href="/interface/leagues">My Leagues</a></li>
+                                <li><a href = "{% url 'interface:create_league' %}">Create New League</a></li>
 
                             </ul>
 
@@ -37,11 +39,11 @@
 
                             <ul id = "passive_user_menu">
 
-                                <li><a href="/interface/login/">login</a></li>
+                                <li><a href = "{% url 'interface:login' %}">login</a></li>
 
                                 <li>|</li>
 
-                                <li><a href="/interface/register/">register</a></li>
+                                <li><a href = "{% url 'interface:register' %}">register</a></li>
 
                             </ul>
 
@@ -54,12 +56,12 @@
 
         {% endblock header %}
 
-
+        <div class = "content">
         {% block content %}
 
 
         {% endblock content %}
-
+        </div>
 
         {% block footer %}
 

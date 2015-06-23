@@ -25,6 +25,63 @@ li {
 	border-top: .1em solid black;
 }
 img {
-	height:7em;
-	width: 7em;
+	height:15em;
+	width: 15em;
+}
+#user_profile {
+	margin:
+	display: inline;
+}
+
+#user_profile ul{
+	margin: 1em;
+}
+
+.profile {
+	display: inline-block;
+	float:left;
+}
+.user_info li{
+	margin: 2em;
+}
+
+.user_list {
+	margin-top:.69em;
+	float:left;
+}
+
+.league_list {
+	margin-top:1em;
+	float:right;
+}
+.league_profile {
+    float:left;
+    margin-top:2em;
+}
+.user_team_list {
+	float:right;
+}
+.team_list h3{
+	float:right;
+	margin-top: 3em;
+
+}
+.team_list {
+	float:right;
+
+}
+.team_list p {
+	margin-left:4em;
+}
+.week_list {
+	float:right;
+	margin-right:40em;
+	clear:left;
+}
+.matchup_list {
+	margin-top:5em;
+	margin-left:3em;
+}
+.matchup_list li{
+	margin:2em;
 }

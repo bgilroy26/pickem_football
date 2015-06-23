@@ -1,0 +1,29 @@
+{% extends 'interface/base.html' %}
+    {% load staticfiles %}
+
+    {% block head %}
+
+        {{ block.super }}
+
+    {% endblock head %}
+
+    {% block header %}
+
+        {{ block.super }}
+
+    {% endblock header %}
+
+    {% block content %}
+
+        <h2>New League</h2>
+
+            <form form enctype="multipart/form-data" name="team_form" action="{% url 'interface:create_league' %}" method="POST">
+
+                {% csrf_token %}
+                {{ league_form.as_p}}
+
+                <input type = "submit" value= "submit">
+
+            </form>
+
+    {% endblock content %}

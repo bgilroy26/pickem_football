@@ -1,0 +1,56 @@
+{% extends 'interface/base.html' %}
+    {% load staticfiles %}
+
+    {% block head %}
+
+        {{ block.super }}
+
+    {% endblock head %}
+
+    {% block header %}
+
+        {{ block.super }}
+        <li>
+
+    {% endblock header %}
+
+    {% block content %}
+
+    <div class = "league_profile">
+        <h2><strong>{{current_league.name}}</strong></h2>
+
+            <ul>
+                <li><img src = "{% static 'league/' %}{{ current_league.marquee }}g"></li>
+                <li><strong>Buy-in: </strong>{{current_league.buy_in}}</li>
+                <li><strong>Commissioner: </strong><a href = "{% url 'interface:profile' current_league.commissioner %}">{{ current_league.commissioner }}</a></li>
+            </ul>
+
+            {% if current_league.commissioner == active_user %}
+                <form form enctype="multipart/form-data" name="league_form" action="{% url 'interface:league_view' current_league.slug %}" method="POST">
+
+                {% csrf_token %}
+                {{ league_form.as_p}}
+
+                <input type = "submit" value= "submit">
+            {% endif %}
+
+            </form>
+    </div>
+            <div class = "team_list">
+
+                <h3><strong>League Teams:</strong></h3>
+                    <p><a href = "{% url 'interface:create_team' current_league.slug %}">Join League</a></p>
+
+                    <ul>
+
+                        {% for team in league_teams %}
+
+                            <li><a href = "{% url 'interface:team_view' league_slug=current_league.slug team_slug=team.slug %}">{{ team.name }}</a></li>
+
+                        {% endfor %}
+
+                    </ul>
+            </div>
+
+
+    {% endblock content %}
