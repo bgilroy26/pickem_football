@@ -21,37 +21,44 @@
             {{ form.non_field_errors }}
 
                 <div id="user_profile">
-        			<h1 class = "this-profiled_user"><strong>{{ active_user_dict.username }} </strong></h1><br />
+        			<h1 class = "this-profiled_user"><strong>{{ profiled_user.username }} </strong></h1><br />
 
 
                             <ul class = "profile">
-                                <!-- <li><img src = "{% static 'users/'  %}{{viewed_user_profile.picture }} "><li> -->
-                                <li>
-                                    <ul class = "user_info">
-                                        <li><strong>Name: </strong> {{ active_user_dict.first_name }} {{ active_user_dict.last_name }}</li>
-                                        <li><strong>Email: </strong> {{ active_user_dict.email }} </li>                                        <li><strong>About me: </strong> {{ active_user_dict.about }}</li>
-                                        <li><strong>Member Since: </strong> {{ active_user_dict.date_joined }}</li>
-                                    </ul>
-                                </li>
+                                <li><img src = "{% static 'users/' %}{{ viewed_user_profile.picture }}"></li>
+                                    <li>
+                            </ul>
+                                        <ul class = "user_info">
+                                            <li><strong>Name: </strong> {{ profiled_user.first_name }} {{ profiled_user.last_name }}</li>
+                                            <li><strong>Email: </strong> {{ profiled_user.email }} </li>
+                                            <li><strong>About me: </strong> {{ viewed_user_profile.about }}</li>
+                                            <li><strong>Member Since: </strong> {{ profiled_user.date_joined }}</li>
+                                            <li><strong>Last Login: </strong> {{ profiled_user.last_login }}</li>
+                                    </li>
                             </ul>
 
                         <br/>
                         <br/>
                         <br/>
                         <br/>
-
-                            <form enctype="multipart/form-data" name="profile_form" action="/users/my_page/{{active_user_dict.username}}" method="POST">
-                    				{% csrf_token %}
-                    				<p>First Name   &nbsp   <input type = "text" value = "first_name"></p>
-                    				<p>Last Name    &nbsp  <input type = "text" value = "last_name"></p>
-                    				<p>Email     &nbsp  <input type = "text" value = "email"></p>
-                    				<p>About me    &nbsp  <input type = "text" value = "about"></p>
-                    				<p>Profile Pic  &nbsp   <input type = "upload" value = "picture"></p>
-                    			<input type="submit" value="Update">
-                			</form>
+                            {% if active_user == profiled_user %}
+                                <form enctype="multipart/form-data" name="profile_form" action="{% url 'interface:profile'  profiled_user.username %}" method="POST">
+                        				{% csrf_token %}
+                                        {{ user_profile_form.as_p}}
+                                        {{ extended_profile_form.as_p}}
+        			             <input type="submit" value="Update">
+                    			</form>
+                            {% endif %}
                 </div>
 
-                <div class = user_post_list>
+                <div class = "user_team_list">
+                    <h2>{{ profiled_user.username }}'s Teams</h2>
+                        <ul>
+                            {% for team in user_teams %}
+                                <li><a href = "{% url 'interface:team_view' team.league.slug team.slug %}"> {{ team.name }} </a></li>
+                            {% endfor %}
+                        </ul>
+
 
 
         		</div>

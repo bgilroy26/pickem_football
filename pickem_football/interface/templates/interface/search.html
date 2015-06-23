@@ -19,7 +19,7 @@
 
         <div class = "search_form">
 
-            <form name = "hash-search_form" id = "search" action = "/users/search" method = "POST">
+            <form name = "hash-search_form" id = "search" action = "/interface/search/" method = "POST">
 
                 {% csrf_token %}
 
@@ -39,7 +39,7 @@
 
                             <li><strong>{{result.title}}</strong></li>
                             <li id = "target_content">{{result.content}}</li>
-                            <li id = "target_user"><a href = "/users/{{result.user.username}}"> {{result.user.username}}</a> on {{post.created_at}}</li>
+                            <li id = "target_user"><a href = "/interface/{{ result.user.username }}/"> {{result.user.username}}</a> on {{post.created_at}}</li>
                             </br>
 
                 {% endfor %}

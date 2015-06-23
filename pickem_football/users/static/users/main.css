@@ -28,3 +28,7 @@ img {
 	height:7em;
 	width: 7em;
 }
+
+#user_profile {
+	display: inline;
+}

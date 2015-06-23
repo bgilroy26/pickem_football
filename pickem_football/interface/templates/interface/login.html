@@ -18,7 +18,7 @@
 
                 <h2>Login</h2>
 
-                    <form name="login-form" action="/interface/login/" method="POST">
+                    <form name="login_form" action="{% url 'interface:login' %}" method="POST">
 
                         {% csrf_token %}
                         {{ user_form.as_p}}
