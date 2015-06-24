@@ -42,11 +42,12 @@
                         <br/>
                         <br/>
                             {% if active_user == profiled_user %}
+
                                 <form enctype="multipart/form-data" name="profile_form" action="{% url 'interface:profile'  profiled_user.username %}" method="POST">
                         				{% csrf_token %}
                                         {{ user_profile_form.as_p}}
                                         {{ extended_profile_form.as_p}}
-        			             <input type="submit" value="Update">
+        			             <input class = "btn-primary" type="submit" value="Update">
                     			</form>
                             {% endif %}
                 </div>
