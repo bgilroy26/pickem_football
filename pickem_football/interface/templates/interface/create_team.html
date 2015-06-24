@@ -20,7 +20,7 @@
             <form form enctype="multipart/form-data" name="team_form" action="{% url 'interface:create_team' current_league.slug %}" method="POST">
 
                 {% csrf_token %}
-                {{ team_form.as_p}}
+                {{ team_form.as_li }}
 
                 <input class = "btn-primary" type = "submit" value= "submit">
 
