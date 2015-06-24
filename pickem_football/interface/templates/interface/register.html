@@ -20,7 +20,7 @@
                     <form name="register-form" action="{% url 'interface:register' %}" method="POST">
 
                             {% csrf_token %}
-                            {{ register_form.as_p}}
+                            {{ register_form.as_li}}
                             <input class = "btn-danger" type = "submit" value= "submit">
 
                     </form>
