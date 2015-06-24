@@ -21,7 +21,7 @@
                     <form name="login_form" action="{% url 'interface:login' %}" method="POST">
 
                         {% csrf_token %}
-                        {{ user_form.as_li}}
+                        {{ user_form.as_ul}}
                         <input class = "btn-primary" type = "submit" value= "submit">
                     </form>
 
