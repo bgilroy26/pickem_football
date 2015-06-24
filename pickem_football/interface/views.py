@@ -207,19 +207,14 @@ class CreateTeamView(View):
         return redirect('interface:login')
 
     def post(self, request, league_slug):
-        print('hellloooo')
         if not request.user.is_anonymous():
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
             current_league = League.objects.filter(slug=league_slug)[0]
-            print('howyza')
             name = request.POST['name']
-            print('howdy')
             if not Team.objects.filter(manager=active_user, league=current_league):
-                print('hi')
 
                 if not Team.objects.filter(name=name, league=current_league):
-                    print('hey')
 
                     new_league_team = Team(name = name, manager = active_user, league = current_league)
 
@@ -269,16 +264,19 @@ class TeamView(View):
                 mascot = team_form.files.get('mascot')
                 name = team_form.data.get('name')
 
+                if mascot is not None:
+                    current_team.mascot = mascot
+
                 if name != current_team.name:
 
                     if not Team.objects.filter(name=name, league=current_league):
 
-                        current_team.name = name
-                        current_team.slug = slugify(current_team.name)
+                        if not name:
+                            current_team.save()
+                            return redirect('interface:team_view', league_slug = league_slug, team_slug = team_slug)
 
-                if mascot is not None:
-                    current_team.mascot = mascot
-
+                current_team.name = name
+                current_team.slug = slugify(current_team.name)
                 current_team.save()
 
                 return redirect('interface:team_view', league_slug = league_slug, team_slug = team_slug)
@@ -293,21 +291,18 @@ class MatchupView(View):
             active_user = User.objects.filter(id=active_user_id)[0]
 
             current_league = League.objects.filter(slug = league_slug)[0]
-            print(week_slug)
             current_team = Team.objects.filter(slug = team_slug, league = current_league)[0]
             week = week_slug.strip('week-')
             r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
+
+            print(r.content)
             matchup_list = r.json()['week_{}_schedule'.format(week)]
+
             print('matchup_list')
             print(matchup_list)
 
             current_picks = TeamPick.objects.filter(team=current_team, nfl_week=int(week))
             current_picks_dict_list = [pick.to_json() for pick in current_picks]
-
-            #for pick in current_picks_dict_list:
-                # pick["updated_at"] = pick['updated_at'].isoformat()
-                # pick["created_at"] = pick['created_at'].isoformat()
-
             json_data = {'picks': current_picks_dict_list}
 
             matchup_id = -1

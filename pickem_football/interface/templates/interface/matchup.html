@@ -16,21 +16,24 @@
 
     {% block content %}
 
-        <div class = "matchup_list">
-                <h2>Week {{week}} Match-ups:</h2>
-                    <!-- <form name = "pick_em_week" action = "{%url 'interface:make_picks' current_league.slug current_team.slug week_slug%}"> -->
-                    <ul>
-                        {% for matchup in matchup_list %}
-                            <li>
-                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name= "{{ matchup.id }}" value="{{ matchup.away }}">&nbsp{{ matchup.away }}
-                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<strong>@&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</strong>
-                                    &nbsp{{ matchup.home }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name= "{{ matchup.id }}" value="{{ matchup.home }}">
-                            </li>
-                        {% endfor %}
-                    </ul>
+        <div class = "matchup">
 
-                <span id = "update_pick_button"><input type = "submit" value = "Update Picks"></span>
-            </form>
+            <!-- <form name = "pick_em_week" action = "{%url 'interface:make_picks' league_slug=current_league.slug team_slug=current_team.slug week_slug=week_slug%}"> -->
+                <h2>Week {{week}} Match-ups:</h2>
+                    {% for matchup in matchup_list %}
+                        <ul class = "matchups">
+                            <li><input type="radio" name= "{{ matchup.id }}" value="{{ matchup.away }}"></li>
+                            <li><img src = "{% static 'logos/' %}{{matchup.away|safe}}.jpg"></li>
+                            <li><h4>{{ matchup.away }}</h4></li>
+                            <li><h1>@</h1></li>
+                            <li><h4>{{ matchup.home }}</h4></li>
+                            <li><img src = "{% static 'logos/' %}{{matchup.home|safe}}.jpg"></li>
+                            <li><input type="radio" name= "{{ matchup.id }}" value="{{matchup.home}}"></li>
+                        </ul>
+                    {% endfor %}
+
+                <span id = "update_pick_button"><input class = "btn-warning" type = "submit" value = "Update Picks"></span>
+            <!-- </form> -->
         </div>
 
         <script type="text/javascript">

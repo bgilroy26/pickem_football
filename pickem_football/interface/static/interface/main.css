@@ -24,17 +24,21 @@ li {
 	position: static;
 	border-top: .1em solid black;
 }
-img {
-	height:15em;
-	width: 15em;
+.profile img {
+	width: 30%;
+	height:inherit;
+}
+.team_profile img {
+    width: 30%;
+    height: inherit;
 }
 #user_profile {
-	margin:
+	margin: auto;
 	display: inline;
 }
 
 #user_profile ul{
-	margin: 1em;
+	margin: .5em;
 }
 
 .profile {
@@ -42,7 +46,7 @@ img {
 	float:left;
 }
 .user_info li{
-	margin: 2em;
+	margin: .5em;
 }
 
 .user_list {
@@ -71,17 +75,22 @@ img {
 
 }
 .team_list p {
-	margin-left:4em;
+	margin-left:1em;
 }
 .week_list {
 	float:right;
 	margin-right:40em;
 	clear:left;
 }
-.matchup_list {
-	margin-top:5em;
-	margin-left:3em;
+
+.matchups: {
+    margin-top:5em;
 }
-.matchup_list li{
-	margin:2em;
+.matchup img{
+	width: 45%;
+	height: inherit;
+}
+.matchup ul li {
+	margin:.15em;
+	display:inline-block;
 }
