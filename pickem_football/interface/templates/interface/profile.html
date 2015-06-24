@@ -45,8 +45,8 @@
 
                                 <form enctype="multipart/form-data" name="profile_form" action="{% url 'interface:profile'  profiled_user.username %}" method="POST">
                         				{% csrf_token %}
-                                        {{ user_profile_form.as_p}}
-                                        {{ extended_profile_form.as_p}}
+                                        {{ user_profile_form.as_li}}
+                                        {{ extended_profile_form.as_li }}
         			             <input class = "btn-primary" type="submit" value="Update">
                     			</form>
                             {% endif %}

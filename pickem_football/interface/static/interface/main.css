@@ -1,14 +1,49 @@
-header .main_page_link{
-    border-bottom: .1em solid black;
+#navbar {
+	background-image: url("http://www.manchestereagles.org/images/football_banner.jpg");
+	background-size:100%;
+	border-bottom: .25em solid white;
 }
 
-.root_menu li {
-    display:inline-block;
-    list-style-type: none;
-    margin-left:1em;
-    margin-right:1em;
-    float:right;
+html {
+  position: relative;
+}
+
+html:after {
+  margin-top:5em;
+  content : "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url("http://www.slate.com/content/dam/slate/blogs/the_slatest/2014/11/23/odell_beckham_jr_watch_the_giants_wide_receiver_make_the_greatest_catch/459482410-odell-beckham-of-the-new-york-giants-scores-a-touchdown.jpg/_jcr_content/renditions/cq5dam.web.1280.1280.jpeg");
+  background-size: 100% 100%;
+  width: 100%;
+  height: 100%;
+  opacity : 0.35;
+  z-index: -1;
+}
+
+header h1 {
+	margin-top:.5em;
+	margin-bottom:.5em;
+	font-weight:bold;
+	font-size: 2em;
+}
+header h1 a {
+	color:black;
+}
+
+.active_user_menu li {
+    display:inline;
+    width:100%;
+    margin: 0 5em 0 5em;
     font-size:1.5em;
+}
+
+.passive_user_menu li{
+	display: inline;
+	width: 100%;
+	margin: 0 12em 0 12em;
 }
 
 a {
@@ -19,7 +54,63 @@ li {
     list-style-type:none;
 }
 
-.footer{
+#users_heading {
+	margin-top:1em;
+	margin-bottom:.15em;
+	font-size:3em;
+}
+
+#league_heading {
+	margin-top:1em;
+	margin-bottom:.15em;
+	font-size:3em;
+}
+
+#league_heading ul li{
+	font-size:1em;
+}
+
+.leagues_links {
+	font-size:1.5em;
+	margin:.5em;
+}
+
+.users_links {
+	font-size:1.5em;
+	margin:.5em;
+}
+
+#leagues_div {
+	color:black;
+	padding-bottom:2em;
+	margin-top:5em;
+	border: .3em solid white;
+	border-radius: 10%;
+	float:right;
+	margin-right:10em;
+	background-color:white;
+	opacity:.7;
+
+}
+#users_div {
+	color:black;
+	padding-bottom:2em;
+	margin-top:5em;
+	border: .3em solid white;
+	border-radius: 10%;
+	float:left;
+	margin-left:10em;
+	background-color:white;
+	opacity:.7;
+}
+
+#users_div a{
+	color:blue;
+}
+#leagues_div a{
+	color:blue;
+}
+/*.footer{
 	margin:auto;
 	position: static;
 	border-top: .1em solid black;
@@ -83,14 +174,16 @@ li {
 	clear:left;
 }
 
-.matchups: {
-    margin-top:5em;
+.matchup {
+	margin-top: 7em;
+	margin-left:5em;
 }
 .matchup img{
-	width: 45%;
+	width: 30%;
 	height: inherit;
 }
 .matchup ul li {
-	margin:.15em;
+	margin-top:2.5em;
+	margin-left:1.5em;
 	display:inline-block;
-}
+}*/

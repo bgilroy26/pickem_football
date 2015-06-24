@@ -14,36 +14,26 @@
 
     {% endblock header %}
 
-
     {% block content %}
 
         {% if active_user %}
 
-            <div class = "user_list">
-                <h1><strong>Users:</strong></h1>
+            <div id = "leagues_div" class = "col-xs-1 col-md-5 text-center">
+                <h1 id = "league_heading">Leagues:</h1>
 
                     <ul>
-
-                        {% for user in all_users %}
-
-                            <li><a href = "{% url 'interface:profile' user.username %}">{{ user.username }}</a></li>
-
+                        {% for league in all_leagues %}
+                            <li class = "leagues_links"><a href = "{% url 'interface:league_view' league.slug %}">{{ league.name }}</a></li>
                         {% endfor %}
-
                     </ul>
             </div>
 
-            <div class = "league_list">
-                <h1><strong>Leagues:</strong></h1>
-
+            <div id = "users_div" class = "col-xs-1 col-md-3 text-center">
+                <h1 id = "users_heading">Users:</h1>
                     <ul>
-
-                        {% for league in all_leagues %}
-
-                            <li><a href = "{% url 'interface:league_view' league.slug %}">{{ league.name }}</a></li>
-
+                        {% for user in all_users %}
+                            <li class = "users_links"><a href = "{% url 'interface:profile' user.username %}">{{ user.username }}</a></li>
                         {% endfor %}
-
                     </ul>
             </div>
 
