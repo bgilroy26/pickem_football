@@ -120,8 +120,7 @@ class ProfileView(View):
                         profiled_user.email = updated_form.cleaned_data.get('email')
                         profiled_user.save()
                         viewed_user_profile.about = updated_extended_form.cleaned_data.get('about')
-                        viewed_user_profile.picture = updated_extended_form.cleaned_data.get('picture')
-                        if viewed_user_profile.picture is not None:
+                        if updated_extended_form.cleaned_data.get('picture') is not None:
                             viewed_user_profile.picture = updated_extended_form.cleaned_data.get('picture')
                         viewed_user_profile.save()
                         return redirect('interface:profile', username = profiled_user.username)
