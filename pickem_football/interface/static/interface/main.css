@@ -1,5 +1,5 @@
 #navbar {
-	background-image: url("http://www.manchestereagles.org/images/football_banner.jpg");
+	background-image: url('../images/banner.jpg');
 	background-size:100%;
 	width:100%;
 }
@@ -22,7 +22,7 @@ html:after {
 	position: absolute;
 	top: 0;
 	left: 0;
-	background-image: url("http://www.slate.com/content/dam/slate/blogs/the_slatest/2014/11/23/odell_beckham_jr_watch_the_giants_wide_receiver_make_the_greatest_catch/459482410-odell-beckham-of-the-new-york-giants-scores-a-touchdown.jpg/_jcr_content/renditions/cq5dam.web.1280.1280.jpeg");
+	background-image: url('../images/obj.jpg');
 	background-size: 100% inherit%;
 	width: 100%;
 	height: 100%;
@@ -169,22 +169,7 @@ li {
 #logout_button {
 	margin:2em;
 }
-#user_div {
-	float:left;
-	background-color: rgba(255, 255, 255, .6);
-	border-radius: 2em;
 
-}
-#user_div img{
-	padding: 1em;
-	width:50%;
-	height: inherit;
-	float:left;
-}
-#user_div h1 {
-	font-size: 2em;
-	margin:.5em;
-}
 #user_div {
 	float:left;
 	background-color: rgba(255, 255, 255, .6);
@@ -230,6 +215,57 @@ li {
 #user_team_list li a {
 	color: blue;
 }
+#league_div {
+	float:left;
+	background-color: rgba(255, 255, 255, .6);
+	margin-left:1em;
+	border-radius: 2em;
+
+}
+#league_div img{
+	padding: 1em;
+	width:50%;
+	height: inherit;
+	float:left;
+}
+#league_div h1 {
+	font-size: 2em;
+	margin:.5em;
+}
+#league_team_list {
+	background-color: rgba(255, 255, 255, .6);
+	float:right;
+	margin-right:1em;
+	font-size:2em;
+	border-radius: 2em;
+	padding:.5em;
+}
+
+#league_div ul li {
+	font-size: 1.25em;
+	margin-top:.75em;
+	margin-bottom: 5em;
+}
+#league_div img {
+	width:40%;
+	height:inherit;
+}
+#league_update_form {
+	float:left;
+	padding:1em;
+	margin: 1em 0 0 1em ;
+	background-color: rgba(255, 255, 255, .6);
+	border-radius: 2em;
+	clear:both;
+}
+#league_team_list li a {
+	color: blue;
+}
+#league_team_list li  {
+	margin-bottom:1em;
+	padding:1em;
+}
+
 .labels {
 	font-weight:bold;
 }
