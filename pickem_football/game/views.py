@@ -12,76 +12,73 @@ import os
 
 class ActiveTeamsView(View):
 
-	def get(self,request,username):
-		player_teams = Team.objects.filter(user__username=username,league__nfl_year=2014)
-		return JsonResponse({'active_player_teams':player_teams})
+    def get(self,request,username):
+        player_teams = Team.objects.filter(user__username=username,league__nfl_year=2014)
+        return JsonResponse({'active_player_teams':player_teams})
 
 class PastTeamsView(View):
 
-	def get(self,request,username):
-		player_teams = Team.objects.filter(user__username=username,league__nfl_year=year).exclude(league__nfl_year=2014)
-		return JsonResponse({'past_player_teams':player_teams})
+    def get(self,request,username):
+        player_teams = Team.objects.filter(user__username=username,league__nfl_year=year).exclude(league__nfl_year=2014)
+        return JsonResponse({'past_player_teams':player_teams})
 
 class InvitesView(View):
 
-	def get(self,request,username):
-		pending_leagues = Team.objects.filter(user__username=username,name=None)
-		return JsonResponse({'pending_leagues':pending_leagues})
+    def get(self,request,username):
+        pending_leagues = Team.objects.filter(user__username=username,name=None)
+        return JsonResponse({'pending_leagues':pending_leagues})
 
 class WeeklyMatchupsView(View):
 
-	def get(self,request,year,week):
-		r = requests.get(os.environ.get('fballAPI') + year + '/' + week + '/matchups/')
-		string_dict = r.content.decode("utf-8")
-		matchup_dict = json.loads(string_dict)
-		return JsonResponse({'matchup_dict':matchup_dict})
+    def get(self,request,year,week):
+        r = requests.get(os.environ.get('fballAPI') + year + '/' + week + '/matchups/')
+        string_dict = r.content.decode("utf-8")
+        matchup_dict = json.loads(string_dict)
+        return JsonResponse({'matchup_dict':matchup_dict})
 
 class WeeklyScoresView(View):
 
-	def get(self, request, year, week):
-		r = requests.get(os.environ.get('fballAPI') + year + '/' + week + '/scores/')
-		string_dict = r.content.decode("utf-8")
-		scores_dict = json.loads(string_dict)
-		return JsonResponse({'scores_dict':scores_dict})
+    def get(self, request, year, week):
+        r = requests.get(os.environ.get('fballAPI') + year + '/' + week + '/scores/')
+        string_dict = r.content.decode("utf-8")
+        scores_dict = json.loads(string_dict)
+        return JsonResponse({'scores_dict':scores_dict})
 
 class TeamPickView(View):
 
-	def get(self, request, year, week, team_slug):
-		if request.session.get('_auth_user_id'):
+    def get(self, request, year, week, team_slug):
+        if request.session.get('_auth_user_id'):
             print("inside func")
-			active_user_id = int(request.session.get('_auth_user_id'))
-			active_user = User.objects.filter(id=active_user_id)[0]
+            active_user_id = int(request.session.get('_auth_user_id'))
+            active_user = User.objects.filter(id=active_user_id)[0]
             print("have user id" + active_user.__str__)
 
-			week_int = int(week.strip('week-'))
+            week_int = int(week.strip('week-'))
 
-			r = requests.get(os.environ.get('fballAPI') + week + '/matchups/')
+            r = requests.get(os.environ.get('fballAPI') + week + '/matchups/')
 
-            print("no way we have the request")
-            print(r)
+            string_dict = r.content.decode("utf-8")
+            matchups_dict = json.loads(string_dict)
 
-			string_dict = r.content.decode("utf-8")
-			matchups_dict = json.loads(string_dict)
+            current_team = Team.objects.filter(slug=team_slug)[0]
+            team_dict = current_team.to_json()
+            team_picks = TeamPick.objects.filter(team = current_team, nfl_week = week_int)
 
-			current_team = Team.objects.filter(slug=team_slug)[0]
-			team_dict = current_team.to_json()
-			team_picks = TeamPick.objects.filter(team = current_team, nfl_week = week_int)
+            pick_dict = {'{}\'s_{}_picks'.format(current_team.name, week):[pick.to_json() for pick in team_picks]}
 
-			pick_dict = {'{}\'s_{}_picks'.format(current_team.name, week):[pick.to_json() for pick in team_picks]}
+            return JsonResponse({'team_dict':team_dict, 'matchups_dict':matchups_dict, 'weekly_picks':pick_dict})
 
-			return JsonResponse({'team_dict':team_dict, 'matchups_dict':matchups_dict, 'weekly_picks':pick_dict})
+    def post(self, request, year, week, team_slug):
 
-	def post(self, request, year, week, team_slug):
+            choice_list = request.POST['choice']
+            week_int = int(week.strip('week-'))
 
-			choice_list = request.POST['choice']
-			week_int = int(week.strip('week-'))
+            current_team = Team.objects.filter(slug=team_slug)[0]
+            team_dict = current_team.to_json()
+            new_pick = TeamPick.objects.update_or_create(choice = choice, team = current_team, nfl_week=week_int)[0]
+            new_pick_dict = new_pick.to_json()
 
-			current_team = Team.objects.filter(slug=team_slug)[0]
-			team_dict = current_team.to_json()
-			new_pick = TeamPick.objects.update_or_create(choice = choice, team = current_team, nfl_week=week_int)[0]
-			new_pick_dict = new_pick.to_json()
-
-			return redirect('/game/{}/{}/{}/enter_pick/'.format(year,week,team_slug))
+            return redirect('/game/{}/{}/{}/enter_pick/'.format(year,week,team_slug))
 
 class AjaxPicks(View):
     def get(self, request, year, week, team_slug):
@@ -105,130 +102,130 @@ class AjaxPicks(View):
 
 class WeeklyTeamResultsView(View):
 
-	def get(self, request, year, week, team_slug):
+    def get(self, request, year, week, team_slug):
 
-		if request.session.get('_auth_user_id'):
+        if request.session.get('_auth_user_id'):
 
 
-			active_user_id = int(request.session.get('_auth_user_id'))
-			active_user = User.objects.filter(id=active_user_id)[0]
-			week_int = int(week.strip('week-'))
+            active_user_id = int(request.session.get('_auth_user_id'))
+            active_user = User.objects.filter(id=active_user_id)[0]
+            week_int = int(week.strip('week-'))
 
-			r = requests.get(os.environ.get('fballAPI') + year + '/' + week + '/winners/')
-			print(r)
+            r = requests.get(os.environ.get('fballAPI') + year + '/' + week + '/winners/')
+            print(r)
 
-			string_dict = r.content.decode("utf-8")
-			winners_dict = json.loads(string_dict)
+            string_dict = r.content.decode("utf-8")
+            winners_dict = json.loads(string_dict)
 
-			current_team = Team.objects.filter(slug=team_slug)[0]
-			team_dict = current_team.to_json()
+            current_team = Team.objects.filter(slug=team_slug)[0]
+            team_dict = current_team.to_json()
 
-			current_team_weekly_record_dict = get_weekly_record(week_int,current_team)
+            current_team_weekly_record_dict = get_weekly_record(week_int,current_team)
 
-			pick_list_dict = tally_weekly_results(week_int, current_team, winners_dict)
+            pick_list_dict = tally_weekly_results(week_int, current_team, winners_dict)
 
-			return JsonResponse({'current_team_weekly_record_dict':current_team_weekly_record_dict, 'team_dict':team_dict, 'winners_dict': winners_dict,'pick_list_dict':pick_list_dict})
+            return JsonResponse({'current_team_weekly_record_dict':current_team_weekly_record_dict, 'team_dict':team_dict, 'winners_dict': winners_dict,'pick_list_dict':pick_list_dict})
 
 class CreateLeagueView(View):
 
-	def post(self, request, year):
-		if request.session.get('_auth_user_id'):
+    def post(self, request, year):
+        if request.session.get('_auth_user_id'):
 
-			active_user_id = int(request.session.get('_auth_user_id'))
-			active_user = User.objects.filter(id=active_user_id)[0]
+            active_user_id = int(request.session.get('_auth_user_id'))
+            active_user = User.objects.filter(id=active_user_id)[0]
 
-			buy_in = request.POST['buy_in']
-			name = request.POST['name']
+            buy_in = request.POST['buy_in']
+            name = request.POST['name']
 
-			new_league = League(name=name, buy_in = buy_in, commissioner = active_user, nfl_year=year)
+            new_league = League(name=name, buy_in = buy_in, commissioner = active_user, nfl_year=year)
 
-			new_league.slug = slugify(new_league.name)
-			new_league.save()
-			new_league_dict = new_league.to_json()
+            new_league.slug = slugify(new_league.name)
+            new_league.save()
+            new_league_dict = new_league.to_json()
 
-			if new_league:
-				return JsonResponse({'Success':True, 'new_league_dict':new_league_dict})
+            if new_league:
+                return JsonResponse({'Success':True, 'new_league_dict':new_league_dict})
 
-			return JsonResponse({'Success':False})
+            return JsonResponse({'Success':False})
 
 class UpdateLeagueView(View):
 
-	def post(self, request, league_slug):
-		if request.session.get('_auth_user_id'):
+    def post(self, request, league_slug):
+        if request.session.get('_auth_user_id'):
 
-			active_user_id = int(request.session.get('_auth_user_id'))
-			active_user = User.objects.filter(id=active_user_id)[0]
+            active_user_id = int(request.session.get('_auth_user_id'))
+            active_user = User.objects.filter(id=active_user_id)[0]
 
-			current_league = League.objects.filter(slug=league_slug)[0]
+            current_league = League.objects.filter(slug=league_slug)[0]
 
-			if active_user == current_league.commissioner:
+            if active_user == current_league.commissioner:
 
-				name = request.POST['name']
-				marquee = request.POST['marquee']
+                name = request.POST['name']
+                marquee = request.POST['marquee']
 
-				current_league.name = name
-				current_league.marquee = marquee
-				current_league.slug = slugify(current_league.name)
-				current_league.save()
-				updated_league_dict = current_league.to_json()
+                current_league.name = name
+                current_league.marquee = marquee
+                current_league.slug = slugify(current_league.name)
+                current_league.save()
+                updated_league_dict = current_league.to_json()
 
-				return JsonResponse({'Success':True, 'updated_league_dict':updated_league_dict})
-			return JsonResponse({'Success':False})
+                return JsonResponse({'Success':True, 'updated_league_dict':updated_league_dict})
+            return JsonResponse({'Success':False})
 
 class CreateTeamView(View):
 
-	def post(self, request, league_slug):
-		if request.session.get('_auth_user_id'):
+    def post(self, request, league_slug):
+        if request.session.get('_auth_user_id'):
 
-			active_user_id = int(request.session.get('_auth_user_id'))
-			active_user = User.objects.filter(id=active_user_id)[0]
+            active_user_id = int(request.session.get('_auth_user_id'))
+            active_user = User.objects.filter(id=active_user_id)[0]
 
-			current_league = League.objects.filter(slug=league_slug)[0]
+            current_league = League.objects.filter(slug=league_slug)[0]
 
-			name = request.POST['name']
+            name = request.POST['name']
 
-			if not Team.objects.filter(manager=active_user, league=current_league):
+            if not Team.objects.filter(manager=active_user, league=current_league):
 
-				if not Team.objects.filter(name=name, league=current_league):
+                if not Team.objects.filter(name=name, league=current_league):
 
-					new_league_team = Team(name = name, manager = active_user, league = current_league)
+                    new_league_team = Team(name = name, manager = active_user, league = current_league)
 
-					new_league_team.slug = slugify(new_league_team.name)
-					new_league_team.save()
+                    new_league_team.slug = slugify(new_league_team.name)
+                    new_league_team.save()
 
-					new_league_team_dict = new_league_team.to_json()
+                    new_league_team_dict = new_league_team.to_json()
 
-					return JsonResponse({'Success':True, 'new_league_team_dict': new_league_team_dict})
-				return JsonResponse({'Success':False, 'Error':'Team name already taken in this league.'})
-			return JsonResponse({'Success':False, 'Error':'Limit one team per manager per league.'})
+                    return JsonResponse({'Success':True, 'new_league_team_dict': new_league_team_dict})
+                return JsonResponse({'Success':False, 'Error':'Team name already taken in this league.'})
+            return JsonResponse({'Success':False, 'Error':'Limit one team per manager per league.'})
 
 class UpdateTeamView(View):
 
-	def post(self, request, league_slug, team_slug):
-		if request.session.get('_auth_user_id'):
-			print(request.session.get('_auth_user_id'))
-			active_user_id = int(request.session.get('_auth_user_id'))
-			active_user = User.objects.filter(id=active_user_id)[0]
+    def post(self, request, league_slug, team_slug):
+        if request.session.get('_auth_user_id'):
+            print(request.session.get('_auth_user_id'))
+            active_user_id = int(request.session.get('_auth_user_id'))
+            active_user = User.objects.filter(id=active_user_id)[0]
 
-			current_league = League.objects.filter(slug = league_slug)[0]
+            current_league = League.objects.filter(slug = league_slug)[0]
 
-			print(current_league)
+            print(current_league)
 
-			current_team = Team.objects.filter(slug = team_slug, league = current_league)[0]
-			print(current_team)
+            current_team = Team.objects.filter(slug = team_slug, league = current_league)[0]
+            print(current_team)
 
-			if active_user == current_team.manager:
+            if active_user == current_team.manager:
 
-				name = request.POST['name']
-				mascot = request.POST['mascot']
+                name = request.POST['name']
+                mascot = request.POST['mascot']
 
-				if not Team.objects.filter(name=name, league=current_league):
+                if not Team.objects.filter(name=name, league=current_league):
 
-					current_team.name = name
-					current_team.mascot = mascot
-					current_team.slug = slugify(current_team.name)
-					current_team.save()
-					updated_team_dict = current_team.to_json()
+                    current_team.name = name
+                    current_team.mascot = mascot
+                    current_team.slug = slugify(current_team.name)
+                    current_team.save()
+                    updated_team_dict = current_team.to_json()
 
-					return JsonResponse({'Success':True, 'updated_team_dict':updated_team_dict})
-				return JsonResponse({'Success':False, 'Error':'Team name already taken in this league'})
+                    return JsonResponse({'Success':True, 'updated_team_dict':updated_team_dict})
+                return JsonResponse({'Success':False, 'Error':'Team name already taken in this league'})
