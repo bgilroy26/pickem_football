@@ -48,11 +48,17 @@ class TeamPickView(View):
 
 	def get(self, request, year, week, team_slug):
 		if request.session.get('_auth_user_id'):
+            print("inside func")
 			active_user_id = int(request.session.get('_auth_user_id'))
 			active_user = User.objects.filter(id=active_user_id)[0]
+            print("have user id" + active_user.__str__)
+
 			week_int = int(week.strip('week-'))
 
-			r = requests.get(os.environ.get('fballAPI') + year + '/' + week + '/matchups/')
+			r = requests.get(os.environ.get('fballAPI') + week + '/matchups/')
+
+            print("no way we have the request")
+            print(r)
 
 			string_dict = r.content.decode("utf-8")
 			matchups_dict = json.loads(string_dict)
@@ -81,7 +87,7 @@ class AjaxPicks(View):
     def get(self, request, year, week, team_slug):
         pass
 
-	def post(self, request, year, week, team_slug):
+    def post(self, request, year, week, team_slug):
 
         choice_list = request.POST['choices']
         week_int = int(week.strip('week-'))

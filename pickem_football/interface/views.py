@@ -79,9 +79,11 @@ class LogoutView(View):
             return render(request,self.template,{'active_user':active_user})
         return redirect('interface:index')
 
+'''
     def post(self,request):
         logout(request)
         return redirect('interface:index')
+        '''
 
 class ProfileView(View):
     template = 'interface/profile.html'
