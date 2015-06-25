@@ -18,26 +18,31 @@
 
     <div id="container" >
         <div id = "matchup" class = "col-xs-12 col-md-12 text-center">
-            <h2>Week {{week}} Match-ups:</h2>
+            <h2 data-teamname = "{{ current_team.slug }}" data-week = "{{ week_slug }}">{{ current_team.name }}'s Week {{week}} Match-ups:</h2>
                 <table class="table">
                         <tbody>
                             {% for matchup in matchup_list %}
-                            <tr>
-                                <td class = "away-logo-cell">
-                                    <span class = "choice-button"><input type="radio" name= "{{ matchup.id }}" value="{{ matchup.away }}"></span>
-                                    <img src = "{% static 'logos/' %}{{matchup.away|safe}}.jpg">
-                                </td>
-                                <span id = "matchup_marquee" class = "text-center">
-                                    <td>{{ matchup.away }}</td>
-                                    <td>@</td>
-                                    <td>{{ matchup.home }}</td>
-                                </span>
-                                </td>
-                                <td class = "home-logo-cell">
-                                    <img src = "{% static 'logos/' %}{{matchup.home|safe}}.jpg">
-                                    <span class = "choice-button"><input type="radio" name= "{{ matchup.id }}" value="{{matchup.home}}"></span>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td rowspan= "2", class = "away-logo-cell">
+                                        <span class = "choice-button"><input type="radio" name= "{{ matchup.id }}" value="{{ matchup.away }}"></span>
+                                        <img src = "{% static 'logos/' %}{{matchup.away|safe}}.jpg">
+                                    </td>
+
+                                    <span id = "matchup_marquee" class = "text-center">
+                                        <td>{{ matchup.away }}</td>
+                                        <td>@</td>
+                                        <td>{{ matchup.home }}</td>
+                                    </span>
+
+                                    <td rowspan = "2", class = "home-logo-cell">
+                                        <img src = "{% static 'logos/' %}{{matchup.home|safe}}.jpg">
+                                        <span class = "choice-button"><input type="radio" name= "{{ matchup.id }}" value="{{matchup.home}}"></span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td id = "gameday-info" colspan = "3">{{ matchup.weekday }} {{ matchup.month }} {{ matchup.day }}, {{ matchup.time }}pm</td>
+                                </tr>
                             {% endfor %}
                         </tbody>
                     </table>
