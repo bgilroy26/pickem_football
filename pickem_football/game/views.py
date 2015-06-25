@@ -48,11 +48,17 @@ class TeamPickView(View):
 
 	def get(self, request, year, week, team_slug):
 		if request.session.get('_auth_user_id'):
+            print("inside func")
 			active_user_id = int(request.session.get('_auth_user_id'))
 			active_user = User.objects.filter(id=active_user_id)[0]
+            print("have user id" + active_user.__str__)
+
 			week_int = int(week.strip('week-'))
 
-			r = requests.get(os.environ.get('fballAPI') + year + '/' + week + '/matchups/')
+			r = requests.get(os.environ.get('fballAPI') + week + '/matchups/')
+
+            print("no way we have the request")
+            print(r)
 
 			string_dict = r.content.decode("utf-8")
 			matchups_dict = json.loads(string_dict)
@@ -67,7 +73,7 @@ class TeamPickView(View):
 
 	def post(self, request, year, week, team_slug):
 
-			choice = request.POST['choice']
+			choice_list = request.POST['choice']
 			week_int = int(week.strip('week-'))
 
 			current_team = Team.objects.filter(slug=team_slug)[0]
@@ -76,6 +82,26 @@ class TeamPickView(View):
 			new_pick_dict = new_pick.to_json()
 
 			return redirect('/game/{}/{}/{}/enter_pick/'.format(year,week,team_slug))
+
+class AjaxPicks(View):
+    def get(self, request, year, week, team_slug):
+        pass
+
+    def post(self, request, year, week, team_slug):
+
+        choice_list = request.POST['choices']
+        week_int = int(week.strip('week-'))
+
+        current_team = Team.objects.filter(slug=team_slug)[0]
+        team_dict = current_team.to_json()
+
+        for pick in choices:
+            new_pick = TeamPick.objects.get_or_create(choice = choice, team = current_team, nfl_week=week_int)[0]
+            new_pick.save()
+
+        new_pick_dict = new_pick.to_json()
+
+        return JsonResponse({})
 
 class WeeklyTeamResultsView(View):
 
