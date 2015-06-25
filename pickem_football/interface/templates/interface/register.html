@@ -13,18 +13,17 @@
         <h2>Error: {{error}}</h2>
     {% endif %}
 
-            <div class = "registration_form">
+    <div class = "register_form">
 
-                <h2>Sign up!</h2>
+        <h2>Enter a Username and Password to join</h2>
 
-                    <form name="register-form" action="{% url 'interface:register' %}" method="POST">
+            <form role="form" name="register_form" action="{% url 'interface:register' %}" method="POST">
+                    {% csrf_token %}
+                    {{ user_form.as_p}}
+                <input id="register_button" class = "btn-primary col-md-1 text-center" type = "submit" value= "Sign Up">
+            </form>
 
-                            {% csrf_token %}
-                            {{ register_form.as_li}}
-                            <input class = "btn-danger" type = "submit" value= "submit">
+    </div>
 
-                    </form>
 
-            </div>
-
-    {% endblock %}
+    {% endblock content %}

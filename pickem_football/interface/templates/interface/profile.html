@@ -10,58 +10,44 @@
 
     {% endblock header %}
 
-    		{% block content %}
-
+            {% block content %}
 
             {% if error %}
                 <h2>Error: {{error}}</h2>
             {% endif %}
-
-            {{ form.errors }}
-            {{ form.non_field_errors }}
-
-                <div id="user_profile">
-        			<h1 class = "this-profiled_user"><strong>{{ profiled_user.username }} </strong></h1><br />
-
-
-                            <ul class = "profile">
-                                <li><img src = "{% static 'users/' %}{{ viewed_user_profile.picture }}"></li>
-                                    <li>
-                            </ul>
-                                        <ul class = "user_info">
-                                            <li><strong>Name: </strong> {{ profiled_user.first_name }} {{ profiled_user.last_name }}</li>
-                                            <li><strong>Email: </strong> {{ profiled_user.email }} </li>
-                                            <li><strong>About me: </strong> {{ viewed_user_profile.about }}</li>
-                                            <li><strong>Member Since: </strong> {{ profiled_user.date_joined }}</li>
-                                            <li><strong>Last Login: </strong> {{ profiled_user.last_login }}</li>
-                                    </li>
-                            </ul>
-
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                            {% if active_user == profiled_user %}
-
-                                <form enctype="multipart/form-data" name="profile_form" action="{% url 'interface:profile'  profiled_user.username %}" method="POST">
-                        				{% csrf_token %}
-                                        {{ user_profile_form.as_li}}
-                                        {{ extended_profile_form.as_li }}
-        			             <input class = "btn-primary" type="submit" value="Update">
-                    			</form>
-                            {% endif %}
-                </div>
-
-                <div class = "user_team_list">
+                <div id = "user_team_list" class = "col-xs-5 col-md-5 text-center">
                     <h2>{{ profiled_user.username }}'s Teams</h2>
                         <ul>
                             {% for team in user_teams %}
                                 <li><a href = "{% url 'interface:team_view' team.league.slug team.slug %}"> {{ team.name }} </a></li>
                             {% endfor %}
                         </ul>
+            </div>
+            {{ form.errors }}
+            {{ form.non_field_errors }}
+                <div id= "user_div" class = "col-xs-6 col-md-6 ">
+                    <h1 id = "profile_header" class = "this-profiled_user">{{ profiled_user.username }}</h1>
+                        <img src = "{% static 'users/' %}{{ viewed_user_profile.picture }}">
 
+                            <ul id = "user_info" class = "col-xs-6 col-md-6 ">
+                                <li><span class = "labels">Name:</span>  {{ profiled_user.first_name }} {{ profiled_user.last_name }}</li>
+                                <li><span class = "labels">Email:</span>  {{ profiled_user.email }} </li>
+                                <li><span class = "labels">About me:</span>  {{ viewed_user_profile.about }}</li>
+                                <li><span class = "labels">Member Since:</span>  {{ profiled_user.date_joined }}</li>
+                                <li><span class = "labels">Last Login:</span>  {{ profiled_user.last_login }}</li>
+                            </ul>
+                </div>
+                {% if active_user == profiled_user %}
 
+                <div id = "profile_update_form" class = "login_form col-xs-5 col-md-5">
+                    <form role="form" enctype="multipart/form-data" name="profile_form" action="{% url 'interface:profile'  profiled_user.username %}" method="POST">
+                            {% csrf_token %}
+                            {{ user_profile_form.as_ul}}
+                            {{ extended_profile_form.as_ul }}
+                    <input id="login_button" class = "btn-primary col-xs-4 col-md-4" type="submit" value="Update Profile">
+                    </form>
+                 </div>
 
-        		</div>
+                {% endif %}
 
-    		{% endblock content %}
+                {% endblock content %}
