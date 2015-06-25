@@ -53,8 +53,8 @@ class RegisterView(View):
     def get(self,request):
         if not request.user.is_anonymous():
             active_user = User.objects.filter(id = request.user.id)[0]
-            return render(request,self.template,{'register_form':self.register_form,'active_user':active_user})
-        return render(request,self.template,{'register_form':self.register_form})
+            return render(request,self.template,{'user_form':self.register_form,'active_user':active_user})
+        return render(request,self.template,{'user_form':self.register_form})
 
     def post(self,request):
         submitted_form = UserForm(request.POST)
