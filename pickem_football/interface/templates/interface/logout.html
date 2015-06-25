@@ -11,18 +11,15 @@
             <h2>Error: {{error}}</h2>
         {% endif %}
 
-            <p>Click Button below to confirm logout</p>
 
-            <div class = "logout_form">
+        <div class = "logout_form">
 
-                    <form name="logout-form" action="{% url 'interface:logout' %}" method="POST">
+            <h2>Click Button below to confirm logout</h2>
 
+                <form role="form" name="logout_form" action="{% url 'interface:logout' %}" method="POST">
                         {% csrf_token %}
+                    <input id="logout_button" class = "btn-danger col-md-1 text-center" type = "submit" value= "Log Out">
+                </form>
 
-                        <input class = "btn-danger" type="submit" value="Log Out">
-
-                    </form>
-
-            </div>
-
+        </div>
         {% endblock %}
