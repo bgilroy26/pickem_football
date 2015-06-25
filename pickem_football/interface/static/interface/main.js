@@ -16,7 +16,6 @@ $(document).ready(function(){
 
     var re = /^\/interface\/league\/[a-z-]+\/team\/[a-z-]+\/week-[1-9][0-7]?\//;
     console.log(window.location.pathname);
-
     if (window.location.pathname.match(re)){
         var title= document.querySelector('h2');
 
