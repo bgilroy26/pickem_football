@@ -16,15 +16,14 @@
 
             <div class = "login_form">
 
-                <h2>Login</h2>
+                <h2>Enter your Username and Password to get started!</h2>
 
-                    <form name="login_form" action="{% url 'interface:login' %}" method="POST">
-
-                        {% csrf_token %}
-                        {{ user_form.as_ul}}
-                        <input class = "btn-primary" type = "submit" value= "submit">
+                    <form role="form" name="login_form" action="{% url 'interface:login' %}" method="POST">
+                            {% csrf_token %}
+                            {{ user_form.as_p}}
+                        <input id="login_button" class = "btn-primary col-md-1 text-center" type = "submit" value= "Sign in">
                     </form>
 
             </div>
 
-{% endblock %}
+    {% endblock content %}
