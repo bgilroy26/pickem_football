@@ -297,7 +297,7 @@ class MatchupView(View):
             r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
 
             matchup_list = r.json()['week_{}_schedule'.format(week)]
-
+            print(matchup_list)
             current_picks = TeamPick.objects.filter(team=current_team, nfl_week=int(week))
             current_picks_dict_list = [pick.to_json() for pick in current_picks]
             json_data = {'picks': current_picks_dict_list}
