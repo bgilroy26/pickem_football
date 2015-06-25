@@ -169,81 +169,68 @@ li {
 #logout_button {
 	margin:2em;
 }
+#user_div {
+	float:left;
+	background-color: rgba(255, 255, 255, .6);
+/* 	border: .2em solid white; */
+	border-radius: 2em;
 
-/*.footer{
-	margin:auto;
-	position: static;
-	border-top: .1em solid black;
 }
-.profile img {
-	width: 30%;
+#user_div img{
+	padding: 1em;
+	width:50%;
+	height: inherit;
+	float:left;
+}
+#user_div h1 {
+	font-size: 2em;
+	margin:.5em;
+}
+#user_div {
+	float:left;
+	background-color: rgba(255, 255, 255, .6);
+/* 	border: .2em solid white; */
+	border-radius: 2em;
+
+}
+#user_div img{
+	padding: 1em;
+	width:50%;
+	height: inherit;
+	float:left;
+}
+#user_div h1 {
+	font-size: 2em;
+	margin:.5em;
+}
+#user_team_list {
+	background-color: rgba(255, 255, 255, .6);
+	float:right;
+	margin-right:1em;
+	font-size:2em;
+	border-radius: 2em;
+	padding: .5em;
+}
+
+#user_div ul li {
+	font-size: 1.25em;
+	margin-bottom: 1em;
+}
+#user_div img {
+	width:25%;
 	height:inherit;
 }
-.team_profile img {
-    width: 30%;
-    height: inherit;
-}
-#user_profile {
-	margin: auto;
-	display: inline;
-}
-
-#user_profile ul{
-	margin: .5em;
-}
-
-.profile {
-	display: inline-block;
+#profile_update_form {
 	float:left;
-}
-.user_info li{
-	margin: .5em;
-}
+	padding:1em;
+	margin: 1em 0 0 0 ;
+	background-color: rgba(255, 255, 255, .6);
+/* 	border: .2em solid white; */
+	border-radius: 2em;
+	clear:both;
 
-.user_list {
-	margin-top:.69em;
-	float:left;
-}
-
-.league_list {
-	margin-top:1em;
-	float:right;
-}
-.league_profile {
-    float:left;
-    margin-top:2em;
-}
-.user_team_list {
-	float:right;
-}
-.team_list h3{
-	float:right;
-	margin-top: 3em;
 
 }
-.team_list {
-	float:right;
-
+#user_team_list li a {
+	color: blue;
 }
-.team_list p {
-	margin-left:1em;
-}
-.week_list {
-	float:right;
-	margin-right:40em;
-	clear:left;
-}
-
-.matchup {
-	margin-top: 7em;
-	margin-left:5em;
-}
-.matchup img{
-	width: 30%;
-	height: inherit;
-}
-.matchup ul li {
-	margin-top:2.5em;
-	margin-left:1.5em;
-	display:inline-block;
-}*/
