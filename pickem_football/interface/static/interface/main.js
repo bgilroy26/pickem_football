@@ -14,7 +14,7 @@ $(document).ready(function(){
 //         });
 //     });
 
-    if (window.location.pathname === '/game/2014/
+    if (window.location.pathname === '/game/2014/'
     var current_picks_data = $.get('http://127.0.0.1:8000/game/2014/week-1/the-fighting-bavarians/enter_pick/', function(data) {
         var current_picks_list = data['weekly_picks'];
     var initial_choices = [];
