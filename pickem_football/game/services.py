@@ -10,7 +10,7 @@ def get_weekly_record(week,team):
     return team_weekly_record_dict
 
 
-def tally_weekly_results(week, team, winners_dict):
+def tally_weekly_results(week, team, winners_list):
 
     team_picks_list = TeamPick.objects.filter(team=team,nfl_week=week)
 
@@ -18,22 +18,29 @@ def tally_weekly_results(week, team, winners_dict):
 
     pick_list_dict = {'weekly_picks': [pick.choice for pick in team_picks_list]}
 
-    winning_teams_list = winners_dict['winning_teams']
-
     print([x.choice for x in team_picks_list])
-
-    for nfl_team_pick in team_picks_list:
-        print(nfl_team_pick.choice)
-        if TeamPick.objects.filter(team=team, nfl_week= week, choice = nfl_team_pick.choice, was_counted=False):
-            if nfl_team_pick.choice in winning_teams_list:
-                nfl_team_pick.correct = True
-                team.wins += 1
-            else:
+    if team_picks_list:
+        for nfl_team_pick in team_picks_list:
+            print(nfl_team_pick.choice)
+            if nfl_team_pick.was_counted==False:
+                if nfl_team_pick.choice in winners_list:
+                    nfl_team_pick.correct = True
+                    team.wins += 1
+                else:
+                    team.losses += 1
+            elif nfl_team_pick.choice is '' and nfl_team_pick.was_counted == False:
                 team.losses += 1
+        nfl_team_pick.was_counted = True
+        nfl_team_pick.save()
+        team.save()
 
-            team.save()
-            nfl_team_pick.was_counted = True
-            nfl_team_pick.save()
-            team.save()
+    else:
+        for game in range(len(winners_list)):
+            TeamPick.objects.create(team=team, nfl_week=week, choice='', was_counted=True,game_id=game)
+            for nfl_team_pick in TeamPick.objects.filter(team=team, nfl_week=week, choice='', was_counted=True,game_id=game):
+                team.losses += 1
+                nfl_team_pick.was_counted = True
+                nfl_team_pick.save()
+                team.save()
 
     return pick_list_dict

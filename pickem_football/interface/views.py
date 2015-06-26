@@ -7,6 +7,7 @@ from game.models import Team, League, TeamPick
 from game.forms import LeagueForm, TeamForm
 from django.utils.text import slugify
 from django import forms
+from game.services import get_weekly_record, tally_weekly_results
 import os
 import requests
 import json
@@ -16,19 +17,24 @@ class IndexView(View):
     template = 'interface/index.html'
 
     def get(self, request):
-
+        all_users = User.objects.all()
+        all_leagues = League.objects.all()
         if not request.user.is_anonymous():
             active_user = User.objects.filter(id=request.user.id)[0]
-            all_users = User.objects.all()
-            all_leagues = League.objects.all()
             return render(request, self.template,{'active_user':active_user,'all_users':all_users,'all_leagues':all_leagues})
+            if request.user.is_superuser:
+                return render(request, self.template,{'superuser':superuser,'all_users':all_users,'all_leagues':all_leagues})
         return render(request, self.template)
+
 
 class LoginView(View):
     template = 'interface/login.html'
     login_form = UserForm()
 
     def get(self,request):
+        if request.user.is_superuser:
+            superuser = User.objects.filter(id=request.user.id)[0]
+            return render(request, self.template,{'superuser':superuser,'user_form':self.login_form,})
         if not request.user.is_anonymous():
             active_user = User.objects.filter(id = request.user.id)[0]
             return render(request,self.template,{'user_form':self.login_form,'active_user':active_user})
@@ -51,6 +57,9 @@ class RegisterView(View):
     register_form = UserForm()
 
     def get(self,request):
+        if request.user.is_superuser:
+            superuser = User.objects.filter(id=request.user.id)[0]
+            return render(request,self.template,{'superuser':superuser,'user_form':self.register_form,'active_user':active_user})
         if not request.user.is_anonymous():
             active_user = User.objects.filter(id = request.user.id)[0]
             return render(request,self.template,{'user_form':self.register_form,'active_user':active_user})
@@ -74,6 +83,9 @@ class LogoutView(View):
     template = 'interface/logout.html'
 
     def get(self,request):
+        if request.user.is_superuser:
+            superuser = User.objects.filter(id=request.user.id)[0]
+            return render(request,self.template,{'superuser':superuser})
         if not request.user.is_anonymous():
             active_user = User.objects.filter(id = request.user.id)[0]
             return render(request,self.template,{'active_user':active_user})
@@ -100,8 +112,13 @@ class ProfileView(View):
                 if active_user == profiled_user:
                     user_profile_form = UserProfileForm(initial={'first_name':profiled_user.first_name, 'last_name':profiled_user.last_name,'email':profiled_user.email})
                     extended_profile_form = UserExtendedProfileForm(initial={'about':viewed_user_profile.about,'picture':viewed_user_profile.picture})
+                    if request.user.is_superuser:
+                        superuser = active_user
+                        return render(request,self.template,{'active_usser':active_user,'superuser':superuser, 'user_profile_form': user_profile_form,
+                    'extended_profile_form':extended_profile_form,'profiled_user':profiled_user,'viewed_user_profile':viewed_user_profile,'user_teams':user_teams})
                     return render(request,self.template,{'active_user':active_user, 'user_profile_form': user_profile_form,
                     'extended_profile_form':extended_profile_form,'profiled_user':profiled_user,'viewed_user_profile':viewed_user_profile,'user_teams':user_teams})
+
                 return render(request, self.template,{'active_user':active_user,'profiled_user':profiled_user,'viewed_user_profile':viewed_user_profile,'user_teams':user_teams})
             return redirect('interface:index')
         return redirect('interface:index')
@@ -134,6 +151,9 @@ class CreateLeagueView(View):
     league_form = LeagueForm()
 
     def get(self, request):
+        if request.user.is_superuser:
+            superuser = User.objects.filter(id=request.user.id)[0]
+            return render(request, self.template, {'superuser':superuser, 'league_form':self.league_form})
         if not request.user.is_anonymous():
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
@@ -296,6 +316,7 @@ class MatchupView(View):
     template = 'interface/matchup.html'
 
     def get(self, request, league_slug, team_slug, week_slug):
+
         if not request.user.is_anonymous():
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
@@ -325,3 +346,42 @@ class MatchupView(View):
 class MakePicksView(View):
     def post(self, request, league_slug, team_slug, week_slug):
         pass
+
+class AdminMenuView(View):
+    template = 'interface/admin.html'
+
+    def get(self, request):
+        if request.user.is_superuser:
+            superuser = User.objects.filter(id=request.user.id)[0]
+            return render(request, self.template,{'superuser':superuser})
+        return redirect('interface:index')
+
+    def post(self, request):
+        week_to_complete = request.POST.get('week')
+        week_slug = 'week-{}'.format(week_to_complete)
+        r = requests.get(os.environ.get('fballAPI') + "week-" + week_to_complete + '/winners/')
+        winners_list = r.json().get('winning_teams')
+        all_teams = Team.objects.all()
+        for team in all_teams:
+            get_weekly_record(int(week_to_complete), team)
+            pick_list_dict = tally_weekly_results(int(week_to_complete), team, winners_list)
+        return redirect('interface:results',week_slug=week_slug)
+
+class WeeklyResultsView(View):
+    template = 'interface/results.html'
+
+    def get(self, request, week_slug):
+        if not request.user.is_anonymous():
+            week = int(week_slug.strip('week-'))
+            active_user_id = request.user.id
+            active_user = User.objects.filter(id=active_user_id)[0]
+            r = requests.get(os.environ.get('fballAPI') + week_slug + '/winners/')
+            all_teams = Team.objects.all()
+            winners_list = r.json().get('winning_teams')
+            game_count = len(winners_list)
+            team_weekly_record_list = []
+            for team in all_teams:
+                team_win_count = len(TeamPick.objects.filter(team=team, nfl_week=week, correct=True))
+                team_weekly_record_list.append((team.name, str(team_win_count) + ' - ' + str(game_count - team_win_count)))
+            return render(request,self.template, {'active_user':active_user, 'team_weekly_record_list':team_weekly_record_list,'week':week})
+        return redirect('interface:index')

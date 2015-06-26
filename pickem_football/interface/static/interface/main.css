@@ -232,14 +232,6 @@ li {
 	font-size: 2em;
 	margin:.5em;
 }
-#league_team_list {
-	background-color: rgba(255, 255, 255, .6);
-	float:right;
-	margin-right:1em;
-	font-size:2em;
-	border-radius: 2em;
-	padding:.5em;
-}
 
 #league_div ul li {
 	font-size: 1.25em;
@@ -257,6 +249,14 @@ li {
 	background-color: rgba(255, 255, 255, .6);
 	border-radius: 2em;
 	clear:both;
+}
+#league_team_list {
+	background-color: rgba(255, 255, 255, .6);
+	float:right;
+	margin-right:1em;
+	font-size:2em;
+	border-radius: 2em;
+	padding:.5em;
 }
 #league_team_list li a {
 	color: blue;
@@ -372,5 +372,29 @@ li {
 }
 
 td#gameday-info {
-	border-style:None;
+	border-style:none;
+}
+
+#results_list {
+	margin-left:6em;
+	text-align:center;
+	clear:both;
+
+}
+
+#results_list li a {
+	color: blue;
+}
+#results_list li  {
+	margin-bottom:.5em;
+}
+
+#results_list {
+	background-color: rgba(255, 255, 255, .6);
+	font-size:2em;
+	border-radius: 2em;
+	padding:.5em;
+}
+#results_list h2 {
+	margin-bottom:1em;
 }
