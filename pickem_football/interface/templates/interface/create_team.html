@@ -15,15 +15,12 @@
 
     {% block content %}
 
-        <h2>New Team</h2>
-
-            <form form enctype="multipart/form-data" name="team_form" action="{% url 'interface:create_team' current_league.slug %}" method="POST">
-
-                {% csrf_token %}
-                {{ team_form.as_ul }}
-
-                <input class = "btn-primary" type = "submit" value= "submit">
-
-            </form>
-
+            <div id = "team_update_form" class = "col-xs-6 col-md-6">
+                <h2>Join {{ current_league.name }} by creating a team below</h2>
+                    <form role="form" enctype="multipart/form-data" name="team_form" action="{% url 'interface:create_team' current_league.slug %}" method="POST">
+                        {% csrf_token %}
+                        {{ team_form.as_p}}
+                    <input id="team_update_button" class = "btn-primary" type="submit" value="Create Team">
+                </form>
+             </div>
     {% endblock content %}

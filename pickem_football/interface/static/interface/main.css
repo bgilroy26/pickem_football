@@ -266,10 +266,9 @@ li {
 	padding:1em;
 }
 #team_div {
-	float:left;
 	background-color: rgba(255, 255, 255, .6);
-	margin-left:1em;
 	border-radius: 2em;
+	margin-left:6em;
 
 }
 #team_div img{
@@ -280,15 +279,7 @@ li {
 }
 #team_div h1 {
 	font-size: 2em;
-	margin:.5em;
-}
-#week_list {
-	background-color: rgba(255, 255, 255, .6);
-	float:right;
-	margin-right:1em;
-	font-size:2em;
-	border-radius: 2em;
-	padding:.5em;
+	margin:.5em 0 0 0;
 }
 
 #team_div ul li {
@@ -301,22 +292,28 @@ li {
 	height:inherit;
 }
 #team_update_form {
-	float:left;
 	padding:1em;
-	margin: 1em 0 0 1em ;
+	margin: .5em 0 0 6em ;
 	background-color: rgba(255, 255, 255, .6);
 	border-radius: 2em;
-	clear:both;
+}
+#week_list {
+	background-color: rgb(0, 0, 0);
+	font-size:1.5em;
+	margin: -1em 0 1em;
 }
 #week_list li a {
 	color: blue;
 }
 #week_list li  {
-	margin-bottom:.35em;
+	color:white;
+	display: inline-block;
+	margin: .25em .5em .1em .5em;
 	text-align:center;
 }
 #week_list h2  {
-	margin-bottom:1em;
+	color:white;
+	font-size:1.5em;
 	text-align:center;
 }
 

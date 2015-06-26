@@ -15,15 +15,12 @@
 
     {% block content %}
 
-        <h2>New League</h2>
-
-            <form form enctype="multipart/form-data" name="team_form" action="{% url 'interface:create_league' %}" method="POST">
-
+        <div id = "league_update_form" class = "login_form col-xs-6 col-md-6">
+            <h2>Create a New League</h2>
+            <form role="form" enctype="multipart/form-data" name="league_form" action="{% url 'interface:create_league' %}" method="POST">
                 {% csrf_token %}
-                {{ league_form.as_ul}}
-
-                <input class = "btn-primary" type = "submit" value= "submit">
-
+                {{ league_form.as_p}}
+                <input id="league_update_button" class = "btn-primary" type="submit" value="Update League">
             </form>
-
+         </div>
     {% endblock content %}
