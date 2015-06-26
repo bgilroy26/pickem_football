@@ -1,0 +1,24 @@
+{% extends 'interface/base.html' %}
+    {% load staticfiles %}
+
+    {% block head %}
+        {{ block.super }}
+
+    {% endblock head %}
+
+    {% block header %}
+
+        {{ block.super }}
+
+    {% endblock header %}
+
+    {% block content %}
+
+        <div id = "admin_form" class = "col-xs-10 col-md-10">
+            <form role="form" name="complete_week_form" action="{% url 'interface:admin_menu' %}" method="POST">
+                {% csrf_token %}
+                <input type = "text" name= "week" placeholder= "Enter a week to complete results for">
+                <input id="week_complete_button" class = "btn-danger" type="submit" value="Complete Week">
+            </form>
+        </div>
+    {% endblock content %}

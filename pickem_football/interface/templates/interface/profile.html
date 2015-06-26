@@ -37,7 +37,7 @@
                                 <li><span class = "labels">Last Login:</span>  {{ profiled_user.last_login }}</li>
                             </ul>
                 </div>
-                {% if active_user == profiled_user %}
+                {% if active_user or superuser == profiled_user %}
 
                 <div id = "profile_update_form" class = "login_form col-xs-5 col-md-5">
                     <form role="form" enctype="multipart/form-data" name="profile_form" action="{% url 'interface:profile'  profiled_user.username %}" method="POST">

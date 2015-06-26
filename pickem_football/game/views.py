@@ -62,7 +62,6 @@ class TeamPickView(View):
             return JsonResponse({'team_dict':team_dict, 'matchups_dict':matchups_dict, 'weekly_picks':pick_dict})
 
     def post(self, request, year, week, team_slug):
-
         choice_list = request.POST['choices']
         week_int = int(week.strip('week-'))
 

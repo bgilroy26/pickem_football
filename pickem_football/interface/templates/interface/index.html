@@ -14,7 +14,7 @@
 
     {% block content %}
 
-        {% if active_user %}
+        {% if active_user or superuser %}
 
             <div id = "leagues_div" class = "col-xs-5 col-md-5 text-center">
                 <h1 id = "league_heading">Leagues:</h1>
