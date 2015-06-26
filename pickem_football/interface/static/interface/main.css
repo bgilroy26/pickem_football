@@ -23,7 +23,7 @@ html:after {
 	top: 0;
 	left: 0;
 	background-image: url('../images/obj.jpg');
-	background-size: 100% inherit%;
+	background-size: 100% inherit;
 	width: 100%;
 	height: 100%;
 	opacity : 0.30;
@@ -31,7 +31,6 @@ html:after {
 }
 
 #header-box {
-	color:;
 	background-color: black;
 	border: .1em black;
 	border-radius:50%;
