@@ -1,43 +1,43 @@
 $(document).ready(function(){
-//     $(".team_list_link").on("click", function(event) {
-//         event.preventDefault();
-//         var userName = $('#target_user').children('a').text();
-//         var content = $('#target_content').text();
-//
-//         $.ajax({
-//             method: 'GET',
-//             url: '/users/repost',
-//             data: {
-//                     'userName': userName,
-//                     'content': content,
-//                 }
-//         });
-//     });
+    var re = /^\/interface\/league\/[a-z-]+\/team\/[a-z-]+\/week-[1-9][0-7]?\//;
+    console.log(window.location.pathname);
 
-    if (window.location.pathname === '/game/2014/'
-    var current_picks_data = $.get('http://127.0.0.1:8000/game/2014/week-1/the-fighting-bavarians/enter_pick/', function(data) {
-        var current_picks_list = data['weekly_picks'];
-    var initial_choices = [];
+    if (window.location.pathname.match(re)){
+        var title= document.querySelector('h2');
 
+        var week = title.dataset.week;
+        var teamSlug = title.dataset.teamslug;
+        var teamName = title.dataset.teamname;
+        var currentPicksKey = teamSlug + "_" + week + "_picks";
 
-    for (var i = 0; i < current_picks_list.length; i++) {
-        initial_choices.push(JSON.parse(current_picks_list[i])['choice']);
+        var currentPicksList;
+        var testVar;
+        
+        $.get(
+                'http://127.0.0.1:8000/game/2014/' + week + '/' + teamSlug + '/enter_pick/', 
+                function(data) {
+
+                   
+                    currentPicksList = data['weekly_picks'][currentPicksKey];
+                
+                initialChoices = [];
+
+                for (var i = 0; i < currentPicksList.length; i++) {
+                    initialChoices.push(JSON.parse(currentPicksList[i])['choice']);
+                }
+
+                
+                inputArr = $('input');
+                $.each(inputArr, function(idx, inputEl){
+
+                    if (initialChoices.indexOf(inputEl.value) > -1) {
+                        inputEl.checked = true;
+                        $('input[value="' + inputEl.value + '"]').prop('checked', true);
+                    };
+                });
+
+                }
+
+        );
     }
-
-    for (var i = 0; i < initial_choices.length; i++) {
-        console.log(initial_choices[i]);
-    }
-
-
-    inputArr = $('input');
-    $.each(inputArr, function(idx, inputEl){
-
-        if (initial_choices.indexOf(inputEl.value) > -1) {
-            inputEl.checked = true;
-            $('input[value="' + inputEl.value + '"]').prop('checked', true);
-        };
-    });
-    console.log("after func");
-
-
 });
