@@ -114,7 +114,7 @@ class ProfileView(View):
                     extended_profile_form = UserExtendedProfileForm(initial={'about':viewed_user_profile.about,'picture':viewed_user_profile.picture})
                     if request.user.is_superuser:
                         superuser = active_user
-                        return render(request,self.template,{'active_usser':active_user,'superuser':superuser, 'user_profile_form': user_profile_form,
+                        return render(request,self.template,{'active_user':active_user,'superuser':superuser, 'user_profile_form': user_profile_form,
                     'extended_profile_form':extended_profile_form,'profiled_user':profiled_user,'viewed_user_profile':viewed_user_profile,'user_teams':user_teams})
                     return render(request,self.template,{'active_user':active_user, 'user_profile_form': user_profile_form,
                     'extended_profile_form':extended_profile_form,'profiled_user':profiled_user,'viewed_user_profile':viewed_user_profile,'user_teams':user_teams})
@@ -187,14 +187,29 @@ class LeagueView(View):
             active_user = User.objects.filter(id=active_user_id)[0]
             current_league = League.objects.filter(slug=league_slug)[0]
             league_teams = Team.objects.filter(league=current_league).order_by('-wins')
+
             if active_user == current_league.commissioner:
                 league_form = LeagueForm(initial={'name':current_league.name, 'buy_in':current_league.buy_in, 'marquee':current_league.marquee})
                 league_form.fields['buy_in'].widget=forms.HiddenInput()
-
                 current_league.marquee = current_league.marquee.name.strip('/game/static/league/')
                 current_league.save()
-                return render(request, self.template, {'active_user':active_user, 'current_league':current_league, 'league_teams':league_teams, 'league_form':league_form})
-            return render(request, self.template, {'active_user':active_user, 'current_league':current_league, 'league_teams':league_teams})
+
+                if league_teams:
+                    for team in league_teams:
+                        if Team.objects.filter(name=team.name,manager=active_user):
+                            active_user_team_in_league = Team.objects.filter(name=team.name,manager=active_user)[0]
+                            return render(request, self.template, {'active_user_team_in_league':active_user_team_in_league,'active_user':active_user, 'current_league':current_league, 'league_teams':league_teams, 'league_form':league_form})
+                        return render(request, self.template, {'active_user':active_user, 'current_league':current_league, 'league_teams':league_teams, 'league_form':league_form})
+                return render(request, self.template, {'active_user':active_user, 'current_league':current_league})
+
+            else:
+                if league_teams:
+                    for team in league_teams:
+                        if Team.objects.filter(name=team.name,manager=active_user):
+                            active_user_team_in_league = Team.objects.filter(name=team.name,manager=active_user)[0]
+                            return render(request, self.template, {'active_user_team_in_league':active_user_team_in_league,'active_user':active_user, 'current_league':current_league, 'league_teams':league_teams})
+                        return render(request, self.template, {'active_user':active_user, 'current_league':current_league, 'league_teams':league_teams})
+                return render(request, self.template, {'active_user':active_user, 'current_league':current_league})
         return redirect('interface:login')
 
     def post(self,request,league_slug):

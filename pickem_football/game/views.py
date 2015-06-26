@@ -81,7 +81,7 @@ class TeamPickView(View):
         s.replace("'",'"')
         print(json.loads(s))
         return HttpResponse()
-       
+
         choice_list = []
         week_int = int(week.strip('week-'))
         current_team = Team.objects.filter(slug=team_slug)[0]
@@ -90,7 +90,7 @@ class TeamPickView(View):
         print(choice_dict)
         choice_length = len(choice_dict.keys())
         #I'm so sorry, Greg
-        picks_count = choice_length // 2 
+        picks_count = choice_length // 2
         print(picks_count)
         keys_to_pull_by = sorted(choice_dict.keys())
         print(keys_to_pull_by)

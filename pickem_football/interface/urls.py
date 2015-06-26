@@ -22,14 +22,14 @@ urlpatterns = patterns('',
 
     url(r'^league/create_league/$', CreateLeagueView.as_view(), name ='create_league'),
 
-    url(r'^league/(?P<league_slug>[a-z-]+)/$', LeagueView.as_view(), name = 'league_view'),
+    url(r'^league/(?P<league_slug>[a-z0-9-]+)/$', LeagueView.as_view(), name = 'league_view'),
 
-    url(r'^league/(?P<league_slug>[a-z-]+)/team/create_team/$', CreateTeamView.as_view(), name = 'create_team'),
+    url(r'^league/(?P<league_slug>[a-z0-9-]+)/team/create_team/$', CreateTeamView.as_view(), name = 'create_team'),
 
-    url(r'^league/(?P<league_slug>[a-z-]+)/team/(?P<team_slug>[a-z-]+)/$', TeamView.as_view(), name = 'team_view'),
+    url(r'^league/(?P<league_slug>[a-z0-9-]+)/team/(?P<team_slug>[a-z-]+)/$', TeamView.as_view(), name = 'team_view'),
 
-    url(r'^league/(?P<league_slug>[a-z-]+)/team/(?P<team_slug>[a-z-]+)/(?P<week_slug>week-[1-9][0-7]?)/$', MatchupView.as_view(), name = 'matchups'),
+    url(r'^league/(?P<league_slug>[a-z0-9-]+)/team/(?P<team_slug>[a-z-]+)/(?P<week_slug>week-[1-9][0-7]?)/$', MatchupView.as_view(), name = 'matchups'),
 
-    url(r'^league/(?P<league_slug>[a-z-]+)/team/(?P<team_slug>[a-z-]+)/(?P<week_slug>week-[1-9][0-7]?)/make_picks/$', MakePicksView.as_view(), name = 'make_picks'),
+    url(r'^league/(?P<league_slug>[a-z0-9-]+)/team/(?P<team_slug>[a-z-]+)/(?P<week_slug>week-[1-9][0-7]?)/make_picks/$', MakePicksView.as_view(), name = 'make_picks'),
 
 )

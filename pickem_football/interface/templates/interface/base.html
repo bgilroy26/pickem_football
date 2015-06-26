@@ -29,9 +29,11 @@
 
                                     <ul>
 
-                                        <li><a href = "{% url 'interface:create_league' %}"><input class = "btn-primary col-xs-4 col-md-4" type = "submit" value= "Create New League"></a></li>
-                                        <li><a href = "{% url 'interface:profile' superuser.username %}"><input class = "btn-primary col-xs-4  col-md-4" type = "submit" value= "{{ superuser.username }}'s War Room"></a></li>
-                                        <li><a href = "{% url 'interface:logout' %}"><input class = "btn-primary col-xs-4 col-md-4" type = "submit" value= "Log Out"></a></li>
+                                        <li><a href = "{% url 'interface:create_league' %}"><input class = "btn-primary col-xs-3 col-md-3" type = "submit" value= "Create New League"></a></li>
+                                        <li><a href = "{% url 'interface:profile' superuser.username %}"><input class = "btn-primary col-xs-3  col-md-3" type = "submit" value= "{{ superuser.username }}'s War Room"></a></li>
+                                        <li><a href = "{% url 'interface:logout' %}"><input class = "btn-primary col-xs-3 col-md-3" type = "submit" value= "Log Out"></a></li>
+                                        <li><a href = "{% url 'interface:admin_menu' %}"><input class = "btn-danger col-xs-3 col-md-3" type = "submit" value= "Admin"></a></li>
+
                                     </ul>
 
                                 </div>
@@ -42,10 +44,10 @@
 
                                 <ul>
 
-                                    <li><a href = "{% url 'interface:create_league' %}"><input class = "btn-primary col-xs-3 col-md-3" type = "submit" value= "Create New League"></a></li>
-                                    <li><a href = "{% url 'interface:profile' active_user.username %}"><input class = "btn-primary col-xs-3  col-md-3" type = "submit" value= "{{ active_user.username }}'s War Room"></a></li>
-                                    <li><a href = "{% url 'interface:logout' %}"><input class = "btn-primary col-xs-3 col-md-3" type = "submit" value= "Log Out"></a></li>
-                                    <li><a href = "{% url 'interface:admin_menu' %}"><input class = "btn-danger col-xs-3 col-md-3" type = "submit" value= "Admin"></a></li>
+                                    <li><a href = "{% url 'interface:create_league' %}"><input class = "btn-primary col-xs-4 col-md-4" type = "submit" value= "Create New League"></a></li>
+                                    <li><a href = "{% url 'interface:profile' active_user.username %}"><input class = "btn-primary col-xs-4  col-md-4" type = "submit" value= "{{ active_user.username }}'s War Room"></a></li>
+                                    <li><a href = "{% url 'interface:logout' %}"><input class = "btn-primary col-xs-4 col-md-4" type = "submit" value= "Log Out"></a></li>
+
                                 </ul>
 
                             </div>
