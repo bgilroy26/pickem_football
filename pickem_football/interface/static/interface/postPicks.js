@@ -11,8 +11,8 @@ $(document).ready(function(){
             inputArr = $('.choice-button > input');
             $.each(inputArr, function(idx, inputEl){
 
-                if (inputEl.checked = true) {
-                    choicesList.push(inputEl.value);
+                if (inputEl.checked === true) {
+                    choicesList.push({team:inputEl.value, num:inputEl.name});
                 };
             });
 
@@ -22,6 +22,7 @@ $(document).ready(function(){
                         choices:choicesList
                     },
                     function(data, status) {
+                        console.log("inside post");
                     }
                   );
 
