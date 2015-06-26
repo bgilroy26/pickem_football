@@ -5,8 +5,8 @@ $(document).ready(function(){
         var teamName = title.dataset.teamname;
         var choicesList = [];
 
-        
-        $('input[value="Update Picks"]').click(function() { 
+
+        $('input[value="Update Picks"]').click(function() {
 
             inputArr = $('.choice-button > input');
             $.each(inputArr, function(idx, inputEl){
@@ -17,12 +17,12 @@ $(document).ready(function(){
             });
 
             $.post(
-                    'http://127.0.0.1:8000/game/2014/' + week + '/' + teamSlug + '/enter_pick/', 
+                    'http://127.0.0.1:8000/game/2014/' + week + '/' + teamSlug + '/enter_pick/',
                     {
                         choices:choicesList
                     },
                     function(data, status) {
-                       alert("Picks submitted 🎉");
+                       alert("Picks submitted!! 🎉");
                     }
                   );
 
