@@ -402,7 +402,9 @@ class WeekView(View):
             game_count = len(winners_list)
             team_weekly_record_list = []
             for team in all_teams:
+                # picks_by_team_by_week = TeamPick.objects.filter(nfl_week=week, team=team, correct=True)
                 team_win_count = len(TeamPick.objects.filter(team=team, nfl_week=week, correct=True))
                 team_weekly_record_list.append((team, str(team_win_count) + ' - ' + str(game_count - team_win_count)))
+                # team_weekly_record_list = team_weekly_record_list
             return render(request,self.template, {'week_slug':week_slug,'active_user':active_user, 'team_weekly_record_list':team_weekly_record_list,'week':week})
         return redirect('interface:index')
