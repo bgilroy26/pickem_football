@@ -265,6 +265,60 @@ li {
 	margin-bottom:1em;
 	padding:1em;
 }
+#team_div {
+	float:left;
+	background-color: rgba(255, 255, 255, .6);
+	margin-left:1em;
+	border-radius: 2em;
+
+}
+#team_div img{
+	padding: 1em;
+	width:50%;
+	height: inherit;
+	float:left;
+}
+#team_div h1 {
+	font-size: 2em;
+	margin:.5em;
+}
+#week_list {
+	background-color: rgba(255, 255, 255, .6);
+	float:right;
+	margin-right:1em;
+	font-size:2em;
+	border-radius: 2em;
+	padding:.5em;
+}
+
+#team_div ul li {
+	font-size: 1.25em;
+	margin-top:.75em;
+	margin-bottom: 5em;
+}
+#team_div img {
+	width:40%;
+	height:inherit;
+}
+#team_update_form {
+	float:left;
+	padding:1em;
+	margin: 1em 0 0 1em ;
+	background-color: rgba(255, 255, 255, .6);
+	border-radius: 2em;
+	clear:both;
+}
+#week_list li a {
+	color: blue;
+}
+#week_list li  {
+	margin-bottom:.35em;
+	text-align:center;
+}
+#week_list h2  {
+	margin-bottom:1em;
+	text-align:center;
+}
 
 .labels {
 	font-weight:bold;

@@ -20,7 +20,7 @@
             <form role="form" name="register_form" action="{% url 'interface:register' %}" method="POST">
                     {% csrf_token %}
                     {{ user_form.as_p}}
-                <input id="register_button" class = "btn-primary col-md-1 text-center" type = "submit" value= "Sign Up">
+                <input id="register_button" class = "btn-primary" type = "submit" value= "Sign Up">
             </form>
 
     </div>
