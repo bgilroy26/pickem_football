@@ -18,10 +18,9 @@
 
             <div id = "week_list" class =  "col-xs-12 col-md-12 text-center ">
                 <ul><h2>2014 Season</h2>
-                        <li><span class = "labels">Week: </span></li>
-                    {% for week in week_list%}
+                    {% for week_slug in week_slug_list %}
                         <li class = "week_pick_link">
-                                <input id="week_button" class = "btn-danger" type="submit" value="{{week.week}}">
+                        <a href = "{% url 'interface:week_view' week_slug=week_slug %}"><input id="week_button" class = "btn-primary" type="submit" value= "{{ week_slug }}"></a>
                     {% endfor %}
                 </ul>
             </div>

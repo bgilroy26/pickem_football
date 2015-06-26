@@ -328,7 +328,8 @@ li {
 	border-radius: 2em;
 }
 #week_list {
-	background-color: rgb(0, 0, 0);
+	background-color: #184f65;
+	padding: .25em;
 	font-size:1.5em;
 	margin: -1em 0 1em;
 }
@@ -440,4 +441,13 @@ td#gameday-info {
 }
 .table>tbody>tr>td {
 	border:none;
+}
+
+.btn-primary {
+    background: #651829;
+    color: #ffffff;
+}
+.btn-primary:hover {
+    background: #ffffff;
+    color: #651829;
 }

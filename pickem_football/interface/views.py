@@ -21,12 +21,13 @@ class IndexView(View):
         all_leagues = League.objects.all()
         all_teams = Team.objects.all().order_by('-wins')
         week_list = []
+        week_slug_list = []
         for x in range(1,18):
             week_list.append({'slug':"week-"+str(x),'week':x})
-
+            week_slug_list.append("week-"+str(x))
         if not request.user.is_anonymous():
             active_user = User.objects.filter(id=request.user.id)[0]
-            return render(request, self.template,{'active_user':active_user,'all_users':all_users,'all_leagues':all_leagues,'all_teams':all_teams, 'week_list':week_list})
+            return render(request, self.template,{'active_user':active_user,'all_users':all_users,'all_leagues':all_leagues,'all_teams':all_teams, 'week_list':week_list,'week_slug_list':week_slug_list})
             if request.user.is_superuser:
                 return render(request, self.template,{'superuser':superuser,'all_users':all_users,'all_leagues':all_leagues,'week_list':week_list})
         return render(request, self.template)
@@ -387,7 +388,7 @@ class AdminMenuView(View):
             pick_list_dict = tally_weekly_results(int(week_to_complete), team, winners_list)
         return redirect('interface:results',week_slug=week_slug)
 
-class WeeklyResultsView(View):
+class WeekView(View):
     template = 'interface/results.html'
 
     def get(self, request, week_slug):
@@ -403,5 +404,5 @@ class WeeklyResultsView(View):
             for team in all_teams:
                 team_win_count = len(TeamPick.objects.filter(team=team, nfl_week=week, correct=True))
                 team_weekly_record_list.append((team, str(team_win_count) + ' - ' + str(game_count - team_win_count)))
-            return render(request,self.template, {'active_user':active_user, 'team_weekly_record_list':team_weekly_record_list,'week':week})
+            return render(request,self.template, {'week_slug':week_slug,'active_user':active_user, 'team_weekly_record_list':team_weekly_record_list,'week':week})
         return redirect('interface:index')
