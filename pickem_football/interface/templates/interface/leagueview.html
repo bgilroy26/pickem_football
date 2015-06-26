@@ -18,11 +18,17 @@
 
             <div id = "league_team_list" class = "col-xs-5 col-md-5 text-center">
                     <h2>Teams:</h2>
-                        <a href = "{% url 'interface:create_team' current_league.slug %}"><input id="team_create_button" class = "btn-primary" type="submit" value="Join League"></a>
+
+                    {% if not active_user_team_in_league %}
+
+                            <a href = "{% url 'interface:create_team' current_league.slug %}"><input id="team_create_button" class = "btn-primary" type="submit" value="Join League"></a>
+
+                    {% endif %}
+
                     <ul>
-                        {% for team in league_teams %}
-                            <li><a href = "{% url 'interface:team_view' team.league.slug team.slug %}">{{ team.name }}</a></li>
-                        {% endfor %}
+                    {% for team in league_teams %}
+                        <li><a href = "{% url 'interface:team_view' team.league.slug team.slug %}">{{ team.name }}</a></li>
+                    {% endfor %}
                     </ul>
                 </form>
             </div>
@@ -31,7 +37,7 @@
                 <h1 id = "league_header">{{ current_league.name }}</h1>
                     <img src = "{% static 'league/' %}{{ current_league.marquee }}g">
                         <ul id = "league_info" class = "col-xs-6 col-md-6 ">
-                            <li><span class = "labels">Buy-in: </span> {{current_league.buy_in}}</li>
+                            <li><span class = "labels">Buy-in: </span> ${{current_league.buy_in}}</li>
                             <li><span class = "labels">Commissioner: </span><a href = "{% url 'interface:profile' current_league.commissioner %}"> {{ current_league.commissioner }}</a></li>
                         </ul>
             </div>

@@ -83,7 +83,7 @@ class TeamPickView(View):
         choice_dict = request.POST.dict()
         choice_length = len(choice_dict.keys())
         #I'm so sorry, Greg
-        picks_count = choice_length // 2 
+        picks_count = choice_length // 2
         keys_to_pull_by = sorted(choice_dict.keys())
 
         for i in range(picks_count):
