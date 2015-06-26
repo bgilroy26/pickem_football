@@ -22,7 +22,7 @@ $(document).ready(function(){
                         choices:choicesList
                     },
                     function(data, status) {
-                        console.log("inside post");
+                       alert("Picks submitted 🎉");
                     }
                   );
 
