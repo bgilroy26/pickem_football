@@ -38,7 +38,7 @@ class Team(models.Model):
 class TeamPick(models.Model):
     nfl_week = models.IntegerField()
     game_id = models.IntegerField()
-    choice = models.CharField(max_length=70)
+    choice = models.CharField(max_length=70,blank=True)
     correct = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now = True)

@@ -12,21 +12,21 @@ $(document).ready(function(){
 
         var currentPicksList;
         var testVar;
-        
+
         $.get(
-                'http://127.0.0.1:8000/game/2014/' + week + '/' + teamSlug + '/enter_pick/', 
+                'http://127.0.0.1:8000/game/2014/' + week + '/' + teamSlug + '/enter_pick/',
                 function(data) {
 
-                   
+
                     currentPicksList = data['weekly_picks'][currentPicksKey];
-                
+
                 initialChoices = [];
 
                 for (var i = 0; i < currentPicksList.length; i++) {
                     initialChoices.push(JSON.parse(currentPicksList[i])['choice']);
                 }
 
-                
+
                 inputArr = $('input');
                 $.each(inputArr, function(idx, inputEl){
 

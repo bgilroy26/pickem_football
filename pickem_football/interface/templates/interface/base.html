@@ -24,20 +24,32 @@
                             <h1 class="text-center"><span id = "header-box"><a href = "{% url 'interface:index' %}">Welcome to Final Fantasy Football!</a></span></h1>
 
 
-                                {% if active_user %}
+                            {% if  superuser  %}
                                 <div class = "active_user_menu">
 
                                     <ul>
 
                                         <li><a href = "{% url 'interface:create_league' %}"><input class = "btn-primary col-xs-4 col-md-4" type = "submit" value= "Create New League"></a></li>
-                                        <li><a href = "{% url 'interface:profile' active_user.username %}"><input class = "btn-primary col-xs-4  col-md-4" type = "submit" value= "{{ active_user.username }}'s War Room"></a></li>
+                                        <li><a href = "{% url 'interface:profile' superuser.username %}"><input class = "btn-primary col-xs-4  col-md-4" type = "submit" value= "{{ superuser.username }}'s War Room"></a></li>
                                         <li><a href = "{% url 'interface:logout' %}"><input class = "btn-primary col-xs-4 col-md-4" type = "submit" value= "Log Out"></a></li>
                                     </ul>
 
                                 </div>
 
-                            {% else %}
+                            {% elif active_user %}
 
+                            <div class = "active_user_menu">
+
+                                <ul>
+
+                                    <li><a href = "{% url 'interface:create_league' %}"><input class = "btn-primary col-xs-3 col-md-3" type = "submit" value= "Create New League"></a></li>
+                                    <li><a href = "{% url 'interface:profile' active_user.username %}"><input class = "btn-primary col-xs-3  col-md-3" type = "submit" value= "{{ active_user.username }}'s War Room"></a></li>
+                                    <li><a href = "{% url 'interface:logout' %}"><input class = "btn-primary col-xs-3 col-md-3" type = "submit" value= "Log Out"></a></li>
+                                    <li><a href = "{% url 'interface:admin_menu' %}"><input class = "btn-danger col-xs-3 col-md-3" type = "submit" value= "Admin"></a></li>
+                                </ul>
+
+                            </div>
+                            {% else %}
                                 <div class = "passive_user_menu">
                                     <ul>
                                         <li><a href = "{% url 'interface:login' %}"><input class = "btn-warning col-xs-6 col-md-6" type = "submit" value="Log in"></a></li>
