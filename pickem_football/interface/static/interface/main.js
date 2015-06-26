@@ -8,6 +8,16 @@ $(document).ready(function(){
         var week = title.dataset.week;
         var teamSlug = title.dataset.teamslug;
         var teamName = title.dataset.teamname;
+        console.log('hello');
+
+        $('.away-logo-cell').click(function() {
+            $(this).find('input[type="radio"]').prop("checked", true);
+        });
+
+        $('.home-logo-cell').click(function() {
+            $(this).find('input[type="radio"]').prop("checked", true);
+        });
+
         var currentPicksKey = teamSlug + "_" + week + "_picks";
 
         var currentPicksList;
@@ -20,21 +30,21 @@ $(document).ready(function(){
 
                     currentPicksList = data['weekly_picks'][currentPicksKey];
 
-                initialChoices = [];
+                    initialChoices = [];
 
-                for (var i = 0; i < currentPicksList.length; i++) {
-                    initialChoices.push(JSON.parse(currentPicksList[i])['choice']);
-                }
+                    for (var i = 0; i < currentPicksList.length; i++) {
+                        initialChoices.push(JSON.parse(currentPicksList[i])['choice']);
+                    }
 
 
-                inputArr = $('input');
-                $.each(inputArr, function(idx, inputEl){
+                    inputArr = $('input');
+                    $.each(inputArr, function(idx, inputEl){
 
-                    if (initialChoices.indexOf(inputEl.value) > -1) {
-                        inputEl.checked = true;
-                        $('input[value="' + inputEl.value + '"]').prop('checked', true);
-                    };
-                });
+                        if (initialChoices.indexOf(inputEl.value) > -1) {
+                            inputEl.checked = true;
+                            $('input[value="' + inputEl.value + '"]').prop('checked', true);
+                        };
+                    });
 
                 }
 
