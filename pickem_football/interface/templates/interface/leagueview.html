@@ -42,7 +42,7 @@
                         </ul>
             </div>
 
-            {% if current_league.commissioner == active_user %}
+            {% if superuser or current_league.commissioner == active_user %}
 
             {{ form.errors }}
             {{ form.non_field_errors }}

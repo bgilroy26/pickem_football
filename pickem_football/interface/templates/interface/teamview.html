@@ -20,7 +20,7 @@
                     <li><span class = "labels">Week: </span></li>
                 {% for week in week_list%}
                     <li class = "week_pick_link">
-                        <a href = "{% url 'interface:matchups' league_slug=current_league.slug team_slug=current_team.slug week_slug=week.slug %}"><input id="week_button" class = "btn-danger" type="submit" value="{{week.week}}"></a>
+                        <a href = "{% url 'interface:matchups' league_slug=current_league.slug team_slug=current_team.slug week_slug=week.slug %}"><input id="week_button" class = "btn-primary" type="submit" value="{{week.week}}"></a>
                 {% endfor %}
             </ul>
         </div>

@@ -1,14 +1,14 @@
 from django.conf.urls import patterns,include, url
 from django.contrib import admin
 from django.views.generic import View
-from interface.views import IndexView, LoginView, RegisterView, LogoutView, ProfileView, TeamView, CreateLeagueView, LeagueView, CreateTeamView, TeamView, MatchupView, MakePicksView,AdminMenuView, WeeklyResultsView
+from interface.views import IndexView, LoginView, RegisterView, LogoutView, ProfileView, TeamView, CreateLeagueView, LeagueView, CreateTeamView, TeamView, MatchupView, MakePicksView,AdminMenuView, WeekView
 
 
 urlpatterns = patterns('',
 
     url(r'^admin_menu/$', AdminMenuView.as_view(), name = 'admin_menu'),
 
-    url(r'^(?P<week_slug>week-[1-9][0-7]?)/results/$', WeeklyResultsView.as_view(), name = 'results'),
+    url(r'^(?P<week_slug>week-[1-9][0-7]?)/results/$', WeekView.as_view(), name = 'week_view'),
 
     url(r'^index/$', IndexView.as_view(), name = 'index'),
 
