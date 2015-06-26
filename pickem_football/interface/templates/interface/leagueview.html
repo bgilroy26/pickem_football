@@ -18,8 +18,7 @@
 
             <div id = "league_team_list" class = "col-xs-5 col-md-5 text-center">
                     <h2>Teams:</h2>
-                        <form role="form" enctype="multipart/form-data" name="league_form" action="{% url 'interface:create_team' current_league.slug %}" method="POST">
-                        <input id="team_create_button" class = "btn-primary" type="submit" value="Join League">
+                        <a href = "{% url 'interface:create_team' current_league.slug %}"><input id="team_create_button" class = "btn-primary" type="submit" value="Join League"></a>
                     <ul>
                         {% for team in league_teams %}
                             <li><a href = "{% url 'interface:team_view' team.league.slug team.slug %}">{{ team.name }}</a></li>

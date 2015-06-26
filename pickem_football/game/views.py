@@ -51,7 +51,6 @@ class TeamPickView(View):
             print("inside func")
             active_user_id = int(request.session.get('_auth_user_id'))
             active_user = User.objects.filter(id=active_user_id)[0]
-            print("have user id" + active_user.__str__)
 
             week_int = int(week.strip('week-'))
 
@@ -64,7 +63,7 @@ class TeamPickView(View):
             team_dict = current_team.to_json()
             team_picks = TeamPick.objects.filter(team = current_team, nfl_week = week_int)
 
-            pick_dict = {'{}\'s_{}_picks'.format(current_team.name, week):[pick.to_json() for pick in team_picks]}
+            pick_dict = {'{}_{}_picks'.format(current_team.slug, week):[pick.to_json() for pick in team_picks]}
 
             return JsonResponse({'team_dict':team_dict, 'matchups_dict':matchups_dict, 'weekly_picks':pick_dict})
 
