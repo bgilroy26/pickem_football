@@ -19,11 +19,16 @@ class IndexView(View):
     def get(self, request):
         all_users = User.objects.all()
         all_leagues = League.objects.all()
+        all_teams = Team.objects.all().order_by('-wins')
+        week_list = []
+        for x in range(1,18):
+            week_list.append({'slug':"week-"+str(x),'week':x})
+
         if not request.user.is_anonymous():
             active_user = User.objects.filter(id=request.user.id)[0]
-            return render(request, self.template,{'active_user':active_user,'all_users':all_users,'all_leagues':all_leagues})
+            return render(request, self.template,{'active_user':active_user,'all_users':all_users,'all_leagues':all_leagues,'all_teams':all_teams, 'week_list':week_list})
             if request.user.is_superuser:
-                return render(request, self.template,{'superuser':superuser,'all_users':all_users,'all_leagues':all_leagues})
+                return render(request, self.template,{'superuser':superuser,'all_users':all_users,'all_leagues':all_leagues,'week_list':week_list})
         return render(request, self.template)
 
 
@@ -397,6 +402,6 @@ class WeeklyResultsView(View):
             team_weekly_record_list = []
             for team in all_teams:
                 team_win_count = len(TeamPick.objects.filter(team=team, nfl_week=week, correct=True))
-                team_weekly_record_list.append((team.name, str(team_win_count) + ' - ' + str(game_count - team_win_count)))
+                team_weekly_record_list.append((team, str(team_win_count) + ' - ' + str(game_count - team_win_count)))
             return render(request,self.template, {'active_user':active_user, 'team_weekly_record_list':team_weekly_record_list,'week':week})
         return redirect('interface:index')

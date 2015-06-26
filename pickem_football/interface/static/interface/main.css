@@ -106,7 +106,7 @@ li {
 	border: .3em solid white;
 	border-radius: 10%;
 	float:right;
-	margin-right:10em;
+	margin-right:2em;
 	background-color:white;
 	opacity:.7;
 
@@ -118,11 +118,42 @@ li {
 	border: .3em solid white;
 	border-radius: 10%;
 	float:left;
-	margin-left:10em;
+	margin-left:2em;
 	background-color:white;
 	opacity:.7;
 }
+#leaderboard_div {
+	color:black;
+	padding-bottom:2em;
+	margin-top:5em;
+	border: .3em solid white;
+	border-radius: 10%;
+	float:left;
+	margin-left:5em;
+	background-color:white;
+	opacity:.7;
+}
+#leaderboard_heading {
+	margin-top:1em;
+	margin-bottom:.15em;
+	font-size:3em;
+}
 
+.leaderboard_links {
+	margin-bottom:1em;
+}
+#leaderboard_heading ul li{
+	font-size:1em;
+}
+
+.leaderboard_links a{
+	font-size:1.5em;
+	margin:.5em;
+	color: blue;
+}
+.leaderboard_links li a{
+	margin-bottom:1em;
+}
 #users_div a{
 	color:blue;
 }

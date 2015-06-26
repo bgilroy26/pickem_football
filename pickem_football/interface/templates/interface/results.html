@@ -14,17 +14,17 @@
 
     {% block content %}
 
-    <div id = "results_list" class = "col-xs-8 col-md-8 text-center">
-        <ul>
-            <h2>Week {{week}} Leaderboard: </h2>
+        <div id = "results_list" class = "col-xs-8 col-md-8 text-center">
+            <ul>
+                <h2>Week {{week}} Leaderboard: </h2>
 
-    {% for result in team_weekly_record_list  %}
+        {% for result in team_weekly_record_list  %}
 
-            <li><a href = "{url 'interface:profile' result.0.slug % }">{{ result.0 }}</a> {{ result.1 }}</li>
+                <li><a href = "{% url 'interface:profile' result.0.slug %}">{{ result.0.name }}</a>:  &nbsp{{ result.1 }}</li>
 
-    {% endfor %}
-        </ul>
-    </div>
+        {% endfor %}
+            </ul>
+        </div>
 
 
 

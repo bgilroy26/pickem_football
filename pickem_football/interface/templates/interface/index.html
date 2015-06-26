@@ -16,7 +16,17 @@
 
         {% if active_user or superuser %}
 
-            <div id = "leagues_div" class = "col-xs-5 col-md-5 text-center">
+            <div id = "week_list" class =  "col-xs-12 col-md-12 text-center ">
+                <ul><h2>2014 Season</h2>
+                        <li><span class = "labels">Week: </span></li>
+                    {% for week in week_list%}
+                        <li class = "week_pick_link">
+                                <input id="week_button" class = "btn-danger" type="submit" value="{{week.week}}">
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div id = "leagues_div" class = "col-xs-3 col-md-3 text-center">
                 <h1 id = "league_heading">Leagues:</h1>
 
                     <ul>
@@ -31,6 +41,15 @@
                     <ul>
                         {% for user in all_users %}
                             <li class = "users_links"><a href = "{% url 'interface:profile' user.username %}">{{ user.username }}</a></li>
+                        {% endfor %}
+                    </ul>
+            </div>
+
+            <div id = "leaderboard_div" class = "col-xs-4 col-md-4 text-center">
+                <h1 id = "leaderboard_heading">Leaderboard:</h1>
+                    <ul>
+                        {% for team in all_teams %}
+                            <li class = "leaderboard_links"><a href = "{% url 'interface:team_view' league_slug=team.league.slug team_slug=team.slug %}">{{ team.name }}</a>:  {{ team.wins }} - {{ team.losses }}</li>
                         {% endfor %}
                     </ul>
             </div>
