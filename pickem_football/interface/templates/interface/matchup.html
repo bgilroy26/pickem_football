@@ -2,7 +2,7 @@
     {% load staticfiles %}
 
     {% block head %}
-
+        <script src="{% static "interface/postPicks.js" %}"></script>
         {{ block.super }}
 
     {% endblock head %}
@@ -46,7 +46,9 @@
                             {% endfor %}
                         </tbody>
                     </table>
+                {% if active_user == current_team.manager %}
                 <span id = "update_pick_button"><input class = "btn-warning" type = "submit" value = "Update Picks"></span>
+                {% endif %}
             <!-- <form name = "pick_em_week" action = "{%url 'interface:make_picks' league_slug=current_league.slug team_slug=current_team.slug week_slug=week_slug%}"> -->
                     <!-- {% for matchup in matchup_list %}
                         <ul class = "matchups">
@@ -63,11 +65,12 @@
             <!-- </form> -->
         </div>
     </div>
+    {% if current_user == current_team.manager %}
         <script type="text/javascript">
             current_picks_data = {{ json_data| safe }};
             for( i in current_picks_data.picks){
-                console.log(i)
-            }
+                console.log(i);
         </script>
+    {% endif %}
 
     {% endblock content %}

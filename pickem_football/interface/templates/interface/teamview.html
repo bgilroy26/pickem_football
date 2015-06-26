@@ -15,35 +15,34 @@
 
     {% block content %}
 
-        <div id = "week_list" class =  "col-xs-5 col-md-5 ">
-            <ul><h2>{{ current_team.name }}'s 2014 Season</h2>
+        <div id = "week_list" class =  "col-xs-12 col-md-12 text-center ">
+            <ul><h2>2014 Season</h2>
+                    <li><span class = "labels">Week: </span></li>
                 {% for week in week_list%}
-                    <li class = "week_pick_link"><a href = "{% url 'interface:matchups' league_slug=current_league.slug team_slug=current_team.slug week_slug=week.slug %}">Week {{ week.week }}</a></li>
+                    <li class = "week_pick_link">
+                        <a href = "{% url 'interface:matchups' league_slug=current_league.slug team_slug=current_team.slug week_slug=week.slug %}"><input id="week_button" class = "btn-danger" type="submit" value="{{week.week}}"></a>
                 {% endfor %}
             </ul>
         </div>
 
-        <div id= "team_div" class = "col-xs-6 col-md-6 ">
+        <div id= "team_div" class = "col-xs-10 col-md-10">
             <h1 id = "team_header">{{ current_team.name }}</h1>
-                <img src = "{% static 'league/' %}{{ current_league.marquee }}g">
-                    <ul id = "league_info" class = "col-xs-6 col-md-6 ">
+                <img src = "{% static 'team/' %}{{ current_team.mascot }}g">
+                    <ul id = "team_info" class = "col-xs-6 col-md-6 ">
                         <li><span class = "labels">League: </span><a href ="{% url 'interface:league_view' current_league.slug %}">{{ current_league.name }}</a></li>
                         <li><span class = "labels">Manager: </span><a href = "{% url 'interface:profile' current_team.manager %}">{{ current_team.manager }}</a></li>
                         <li><span class = "labels">Record: </span>{{ current_team.wins }} - {{current_team.losses }}</li>
                     </ul>
         </div>
 
-        {% if current_team.commissioner == active_user %}
+        {% if current_team.manager == active_user %}
 
-        {{ form.errors }}
-        {{ form.non_field_errors }}
-
-        <div id = "team_update_form" class = "col-xs-5 col-md-5">
-            <form role="form" enctype="multipart/form-data" name="team_form" action="{% url 'interface:league_view' current_league.slug %}" method="POST">
+        <div id = "team_update_form" class = "col-xs-10 col-md-10">
+                <form role="form" enctype="multipart/form-data" name="team_form" action="{% url 'interface:team_view' league_slug=current_league.slug team_slug=current_team.slug %}" method="POST">
                 {% csrf_token %}
-                {{ team_form.as_ul}}
+                {{ team_form.as_p }}
                 <input id="team_update_button" class = "btn-primary" type="submit" value="Update Team">
-            </form>
+                </form>
          </div>
 
         {% endif %}

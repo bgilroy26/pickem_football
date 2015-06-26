@@ -48,7 +48,6 @@ class TeamPickView(View):
 
     def get(self, request, year, week, team_slug):
         if request.session.get('_auth_user_id'):
-
             week_int = int(week.strip('week-'))
             r = requests.get(os.environ.get('fballAPI') + week + '/matchups/')
 
