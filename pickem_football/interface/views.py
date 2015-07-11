@@ -386,7 +386,7 @@ class AdminMenuView(View):
         for team in all_teams:
             get_weekly_record(int(week_to_complete), team)
             pick_list_dict = tally_weekly_results(int(week_to_complete), team, winners_list)
-        return redirect('interface:results',week_slug=week_slug)
+        return redirect('interface:week_view', week_slug=week_slug)
 
 class WeekView(View):
     template = 'interface/results.html'
