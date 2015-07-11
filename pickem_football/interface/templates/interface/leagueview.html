@@ -16,8 +16,19 @@
 
     {% block content %}
 
+            <div id = "week_list" class =  "col-xs-12 col-md-12 text-center ">
+                <ul><h2>2014 Season</h2>
+                        <li><span class = "labels">Week: </span></li>
+                    {% for week in week_list %}
+                        <li class = "week_pick_link">
+                            <a href = "{% url 'interface:league_week_view' league_slug=current_league.slug week_slug=week.slug %}"><input id="week_button" class = "btn-primary" type="submit" value="{{week.week}}"></a>
+                    {% endfor %}
+                </ul>
+            </div>
+
+
             <div id = "league_team_list" class = "col-xs-5 col-md-5 text-center">
-                    <h2>Teams:</h2>
+                    <h2>Leaderboard:</h2>
 
                     {% if not active_user_team_in_league %}
 
@@ -27,7 +38,7 @@
 
                     <ul>
                     {% for team in league_teams %}
-                        <li><a href = "{% url 'interface:team_view' team.league.slug team.slug %}">{{ team.name }}</a></li>
+                        <li><a href = "{% url 'interface:team_view' team.league.slug team.slug %}">{{ team.name }} </a>: {{ team.wins }} - {{ team.losses }}</li>
                     {% endfor %}
                     </ul>
                 </form>

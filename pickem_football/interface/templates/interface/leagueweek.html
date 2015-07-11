@@ -1,0 +1,31 @@
+{% extends 'interface/base.html' %}
+    {% load staticfiles %}
+
+    {% block head %}
+        {{ block.super }}
+
+    {% endblock head %}
+
+    {% block header %}
+
+        {{ block.super }}
+
+    {% endblock header %}
+
+    {% block content %}
+
+        <div id = "results_list" class = "col-xs-8 col-md-8 text-center">
+            <ul>
+                <h2>{{ current_league.name }} week {{week}} Leaderboard : </h2>
+
+        {% for result in team_weekly_record_list  %}
+
+                <li><a href = "{% url 'interface:team_view' league_slug=current_league.slug team_slug=result.0.slug %}">{{ result.0.name }}</a>:  &nbsp{{ result.1 }}</li>
+
+        {% endfor %}
+            </ul>
+        </div>
+
+
+
+    {% endblock content %}
