@@ -172,12 +172,15 @@ class CreateLeagueView(View):
             active_user_id = request.user.id
             league_form = LeagueForm(request.POST,request.FILES)
             if league_form.is_valid():
-                marquee = league_form.files.get('marquee')
                 name = league_form.data.get('name')
                 buy_in = league_form.data.get('buy_in')
                 active_user = User.objects.filter(id=active_user_id)[0]
-
-                new_league = League(name=name, buy_in = buy_in, commissioner = active_user)
+                if league_form.files.get('marquee'):
+                    marquee = league_form.files.get('marquee')
+                    print(marquee)
+                    new_league = League(name=name, buy_in = buy_in, commissioner = active_user, marquee=marquee)
+                else:
+                    new_league = League(name=name, buy_in = buy_in, commissioner = active_use)
                 new_league.slug = slugify(new_league.name)
                 new_league.save()
                 if new_league:
@@ -235,7 +238,7 @@ class LeagueView(View):
                 submitted_form = LeagueForm(request.POST,request.FILES)
                 name = submitted_form.data.get('name')
                 marquee = submitted_form.files.get('marquee')
-                print(name)
+
                 if marquee is not None:
                     current_league.marquee = marquee
 
@@ -267,13 +270,16 @@ class CreateTeamView(View):
             submitted_form = TeamForm(request.POST)
             if submitted_form.is_valid:
                 name = submitted_form.data.get('name')
-                marquee = submitted_form.files.get('marquee')
 
                 if not Team.objects.filter(manager=active_user, league=current_league):
 
                     if not Team.objects.filter(name=name, league=current_league):
 
-                        new_league_team = Team(name = name, manager = active_user, league = current_league)
+                        if submitted_form.files.get('mascot'):
+                            mascot = submitted_form.files.get('mascot')
+                            new_league_team = Team(name = name, manager = active_user, league = current_league, mascot=mascot)
+                        else:
+                            new_league_team = Team(name = name, manager = active_user, league = current_league)
 
                         new_league_team.slug = slugify(new_league_team.name)
                         new_league_team.save()
