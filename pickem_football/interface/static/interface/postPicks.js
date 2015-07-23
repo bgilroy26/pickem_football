@@ -17,7 +17,7 @@ $(document).ready(function(){
             });
 
             $.post(
-                    'http://127.0.0.1:8000/game/2014/' + week + '/' + teamSlug + '/enter_pick/',
+                    'http://127.0.0.1:8001/game/2014/' + week + '/' + teamSlug + '/enter_pick/',
                     {
                         choices:choicesList
                     },
