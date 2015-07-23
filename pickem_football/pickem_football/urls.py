@@ -9,7 +9,6 @@ url(r'^interface/', include('interface.urls', namespace = 'interface', app_name 
 
 url(r'^game/', include('game.urls', namespace = 'game', app_name = 'game')),
 
-
 url(r'^admin/', include(admin.site.urls)),
 
 )
