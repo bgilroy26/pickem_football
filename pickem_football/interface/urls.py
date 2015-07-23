@@ -6,6 +6,8 @@ from interface.views import IndexView, LoginView, RegisterView, LogoutView, Prof
 
 urlpatterns = patterns('',
 
+    url(r'^$', IndexView.as_view(), name = 'index'),
+
     url(r'^admin_menu/$', AdminMenuView.as_view(), name = 'admin_menu'),
 
     url(r'^(?P<week_slug>week-[1-9][0-7]?)/results/$', WeekView.as_view(), name = 'week_view'),
