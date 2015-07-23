@@ -139,22 +139,17 @@ li {
 	font-size:3em;
 }
 
-.leaderboard_links {
-	margin-bottom:1em;
-}
 #leaderboard_heading ul li{
 	font-size:1em;
 }
 
-.leaderboard_links a{
+#leaderboard_links {
 	font-size:1.5em;
-	margin:.5em;
+	margin-bottom:.5em;
+}
+#leaderboard_links a{
 	color: blue;
-}
-.leaderboard_links li a{
-	margin-bottom:1em;
-}
-#users_div a{
+}#users_div a{
 	color:blue;
 }
 #leagues_div a{

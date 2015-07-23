@@ -47,8 +47,10 @@
             <div id = "leaderboard_div" class = "col-xs-4 col-md-4 text-center">
                 <h1 id = "leaderboard_heading">Leaderboard:</h1>
                     <ul>
-                        {% for team in all_teams %}
-                            <li class = "leaderboard_links"><a href = "{% url 'interface:team_view' league_slug=team.league.slug team_slug=team.slug %}">{{ team.name }}</a>:  {{ team.wins }} - {{ team.losses }}</li>
+                        {% for result in team_record_list  %}
+
+                                <li id = "leaderboard_links"><a href = "{% url 'interface:profile' result.0.slug %}">{{ result.0.name }}</a>:  &nbsp{{ result.1 }}</li>
+
                         {% endfor %}
                     </ul>
             </div>
