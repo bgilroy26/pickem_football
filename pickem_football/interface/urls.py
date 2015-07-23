@@ -1,12 +1,12 @@
 from django.conf.urls import patterns,include, url
 from django.contrib import admin
 from django.views.generic import View
-from interface.views import IndexView, LoginView, RegisterView, LogoutView, ProfileView, TeamView, CreateLeagueView, LeagueView, CreateTeamView, TeamView, MatchupView, MakePicksView,AdminMenuView, WeekView, LeagueWeekView,BaseView
+from interface.views import IndexView, LoginView, RegisterView, LogoutView, ProfileView, TeamView, CreateLeagueView, LeagueView, CreateTeamView, TeamView, MatchupView, MakePicksView,AdminMenuView, WeekView, LeagueWeekView
 
 
 urlpatterns = patterns('',
 
-    url(r'^$', BaseView.as_view(), name = 'base'),
+    # url(r'^$', BaseView.as_view(), name = 'base'),
 
     url(r'^admin_menu/$', AdminMenuView.as_view(), name = 'admin_menu'),
 
