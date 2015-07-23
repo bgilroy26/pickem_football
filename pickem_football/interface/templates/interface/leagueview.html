@@ -46,7 +46,7 @@
 
             <div id= "league_div" class = "col-xs-6 col-md-6 ">
                 <h1 id = "league_header">{{ current_league.name }}</h1>
-                    <img src = "{% static 'league/' %}{{ current_league.marquee }}g">
+                    <img src = "{% static_root 'league/' %}{{ current_league.marquee }}g">
                         <ul id = "league_info" class = "col-xs-6 col-md-6 ">
                             <li><span class = "labels">Buy-in: </span> ${{current_league.buy_in}}</li>
                             <li><span class = "labels">Commissioner: </span><a href = "{% url 'interface:profile' current_league.commissioner %}"> {{ current_league.commissioner }}</a></li>

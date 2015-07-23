@@ -27,7 +27,7 @@
 
         <div id= "team_div" class = "col-xs-10 col-md-10">
             <h1 id = "team_header">{{ current_team.name }}</h1>
-                <img src = "{% static 'team/' %}{{ current_team.mascot }}g">
+                <img src = "{% static_root 'team/' %}{{ current_team.mascot }}g">
                     <ul id = "team_info" class = "col-xs-6 col-md-6 ">
                         <li><span class = "labels">League: </span><a href ="{% url 'interface:league_view' current_league.slug %}">{{ current_league.name }}</a></li>
                         <li><span class = "labels">Manager: </span><a href = "{% url 'interface:profile' current_team.manager %}">{{ current_team.manager }}</a></li>
