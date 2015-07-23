@@ -3,11 +3,12 @@ from django.contrib import admin
 
 urlpatterns = patterns('',
 
+url(r'^$', include('interface.urls', namespace = 'interface', app_name = 'interface')),
+
 url(r'^interface/', include('interface.urls', namespace = 'interface', app_name = 'interface')),
 
 url(r'^game/', include('game.urls', namespace = 'game', app_name = 'game')),
 
-# url(r'^users/', include('users.urls')),
 
 url(r'^admin/', include(admin.site.urls)),
 
