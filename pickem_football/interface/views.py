@@ -22,12 +22,16 @@ class IndexView(View):
         all_teams = Team.objects.all().order_by('-wins')
         week_list = []
         week_slug_list = []
+        team_record_list = []
+        for team in all_teams:
+            team_win_count = len(TeamPick.objects.filter(team=team, correct=True))
+            team_record_list.append((team, str(team_win_count) + ' - ' + str(team.losses)))
         for x in range(1,18):
             week_list.append({'slug':"week-"+str(x),'week':x})
             week_slug_list.append("week-"+str(x))
         if request.user.is_superuser:
             superuser = User.objects.filter(id=request.user.id)[0]
-            return render(request, self.template,{'superuser':superuser,'all_users':all_users,'all_leagues':all_leagues,'week_list':week_list,'week_slug_list':week_slug_list})
+            return render(request, self.template,{'team_record_list':team_record_list,'superuser':superuser,'all_users':all_users,'all_leagues':all_leagues,'week_list':week_list,'week_slug_list':week_slug_list})
         if not request.user.is_anonymous():
             active_user = User.objects.filter(id=request.user.id)[0]
             return render(request, self.template,{'active_user':active_user,'all_users':all_users,'all_leagues':all_leagues,'all_teams':all_teams, 'week_list':week_list,'week_slug_list':week_slug_list})
@@ -177,7 +181,6 @@ class CreateLeagueView(View):
                 active_user = User.objects.filter(id=active_user_id)[0]
                 if league_form.files.get('marquee'):
                     marquee = league_form.files.get('marquee')
-                    print(marquee)
                     new_league = League(name=name, buy_in = buy_in, commissioner = active_user, marquee=marquee)
                 else:
                     new_league = League(name=name, buy_in = buy_in, commissioner = active_use)
