@@ -12,9 +12,9 @@ import os
 import requests
 import json
 
-class BaseView(View):
-    def get(self, request):
-        return redirect('interface:index')
+# class BaseView(View):
+#     def get(self, request):
+#         return redirect('interface:index')
 
 class IndexView(View):
     template = 'interface/index.html'
