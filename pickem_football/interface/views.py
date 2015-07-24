@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
-from django.views.generic import View
+from django.views.generic import View, RedirectView
 from users.forms import UserForm,UserProfileForm,UserExtendedProfileForm
 from users.models import User, UserProfile
 from game.models import Team, League, TeamPick
@@ -15,6 +15,11 @@ import json
 # class BaseView(View):
 #     def get(self, request):
 #         return redirect('interface:index')
+
+class BaseRedirectView(RedirectView):
+    def get(self, request, *args, **kwargs):
+        self.url = '/index/'
+        return super().get(request, *args, **kwargs)
 
 class IndexView(View):
     template = 'interface/index.html'
