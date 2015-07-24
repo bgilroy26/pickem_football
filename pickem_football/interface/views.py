@@ -120,7 +120,7 @@ class ProfileView(View):
             if User.objects.filter(username=username):
                 profiled_user = User.objects.filter(username=username)[0]
                 viewed_user_profile = UserProfile.objects.filter(user=profiled_user)[0]
-                viewed_user_profile.picture = viewed_user_profile.picture.name.strip('users/static/users/')
+                viewed_user_profile.picture = viewed_user_profile.picture.name.strip('static/users/')
                 viewed_user_profile.save()
                 user_teams = Team.objects.filter(manager = profiled_user)
                 if active_user == profiled_user:
@@ -212,7 +212,7 @@ class LeagueView(View):
             if active_user == current_league.commissioner:
                 league_form = LeagueForm(initial={'name':current_league.name, 'buy_in':current_league.buy_in, 'marquee':current_league.marquee})
                 league_form.fields['buy_in'].widget=forms.HiddenInput()
-                current_league.marquee = current_league.marquee.name.strip('/game/static/league/')
+                current_league.marquee = current_league.marquee.name.strip('static/league/')
                 current_league.save()
 
                 if league_teams:
@@ -311,7 +311,7 @@ class TeamView(View):
             if active_user == current_team.manager:
                 team_form = TeamForm(initial={'name':current_team.name, 'mascot':current_team.mascot})
                 current_team.name = current_team.name
-                current_team.mascot = current_team.mascot.name.strip('game/static/team/')
+                current_team.mascot = current_team.mascot.name.strip('static/team/')
                 current_team.slug = slugify(current_team.name)
                 current_team.save()
                 return render(request, self.template, {'active_user':active_user, 'current_team':current_team, 'team_form':team_form, 'current_league':current_league, 'week_list':week_list})
