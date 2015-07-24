@@ -186,7 +186,7 @@ class CreateLeagueView(View):
                     marquee = league_form.files.get('marquee')
                     new_league = League(name=name, buy_in = buy_in, commissioner = active_user, marquee=marquee)
                 else:
-                    new_league = League(name=name, buy_in = buy_in, commissioner = active_use)
+                    new_league = League(name=name, buy_in = buy_in, commissioner = active_user)
                 new_league.slug = slugify(new_league.name)
                 new_league.save()
                 if new_league:
