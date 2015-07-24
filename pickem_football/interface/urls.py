@@ -1,7 +1,7 @@
 from django.conf.urls import patterns,include, url
 from django.contrib import admin
 from django.views.generic import View
-from interface.views import IndexView, LoginView, RegisterView, LogoutView, ProfileView, TeamView, CreateLeagueView, LeagueView, CreateTeamView, TeamView, MatchupView, MakePicksView,AdminMenuView, WeekView, LeagueWeekView
+from interface.views import IndexView, LoginView, RegisterView, LogoutView, ProfileView, TeamView, CreateLeagueView, LeagueView, CreateTeamView, TeamView, MatchupView, MakePicksView,AdminMenuView, WeekView, LeagueWeekView, BaseRedirectView
 
 
 urlpatterns = patterns('',
@@ -35,5 +35,9 @@ urlpatterns = patterns('',
     url(r'^league/(?P<league_slug>[a-z0-9-]+)/team/(?P<team_slug>[a-z-]+)/(?P<week_slug>week-[1-9][0-7]?)/$', MatchupView.as_view(), name = 'matchups'),
 
     url(r'^league/(?P<league_slug>[a-z0-9-]+)/team/(?P<team_slug>[a-z-]+)/(?P<week_slug>week-[1-9][0-7]?)/make_picks/$', MakePicksView.as_view(), name = 'make_picks'),
+
+    url(r'^$', BaseRedirectView.as_view()),
+
+    url(r'^interface/index/$', BaseRedirectView.as_view()),
 
 )
