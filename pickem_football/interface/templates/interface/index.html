@@ -17,7 +17,7 @@
         {% if active_user or superuser %}
 
             <div id = "week_list" class =  "col-xs-12 col-md-12 text-center ">
-                <ul><h2>2014 Season</h2>
+                <ul><h2>2015 Season</h2>
                     {% for week_slug in week_slug_list %}
                         <li class = "week_pick_link">
                         <a href = "{% url 'interface:week_view' week_slug=week_slug %}"><input id="week_button" class = "btn-primary" type="submit" value= "{{ week_slug }}"></a>
