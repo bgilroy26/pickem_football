@@ -8,7 +8,7 @@ class League(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now = True)
     commissioner = models.ForeignKey(User)
-    nfl_year = models.IntegerField(default=2014)
+    nfl_year = models.IntegerField(default=2015)
     marquee = models.ImageField(blank=True, default='rose-bowl.jpg', upload_to = 'static/league')
     slug = models.SlugField()
 
