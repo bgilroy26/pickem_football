@@ -367,10 +367,9 @@ class MatchupView(View):
 
             current_league = League.objects.filter(slug = league_slug)[0]
             current_team = Team.objects.filter(slug = team_slug, league = current_league)[0]
-            week = week_slug.strip('week-')
-
+            week = int(week_slug.strip('week-'))
+            print(type(week))
             r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
-
             matchup_list = r.json()['week_{}_schedule'.format(week)]
             if active_user == current_team.manager:
                 current_picks = TeamPick.objects.filter(team=current_team, nfl_week=int(week))
@@ -403,7 +402,8 @@ class AdminMenuView(View):
     def post(self, request):
         week_to_complete = request.POST.get('week')
         week_slug = 'week-{}'.format(week_to_complete)
-        r = requests.get(os.environ.get('fballAPI') + "week-" + week_to_complete + '/winners/')
+        week = int(week_slug.strip('week-'))
+        r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
         winners_list = r.json().get('winning_teams')
         all_teams = Team.objects.all()
         for team in all_teams:
@@ -419,7 +419,7 @@ class WeekView(View):
             week = int(week_slug.strip('week-'))
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
-            r = requests.get(os.environ.get('fballAPI') + week_slug + '/winners/')
+            r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
             all_teams = Team.objects.all()
             winners_list = r.json().get('winning_teams')
             game_count = len(winners_list)
@@ -441,7 +441,7 @@ class LeagueWeekView(View):
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
             current_league = League.objects.filter(slug=league_slug)[0]
-            r = requests.get(os.environ.get('fballAPI') + week_slug + '/winners/')
+            r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
             league_teams = Team.objects.filter(league=current_league)
             winners_list = r.json().get('winning_teams')
             game_count = len(winners_list)
