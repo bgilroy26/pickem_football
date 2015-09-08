@@ -1,2 +1,4 @@
 nfl_official_app_rules.txt
 settings.py
+*pyc
+restart_gunicorn.sh
