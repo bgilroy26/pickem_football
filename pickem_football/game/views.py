@@ -19,13 +19,13 @@ class Selection():
 class ActiveTeamsView(View):
 
     def get(self,request,username):
-        player_teams = Team.objects.filter(user__username=username,league__nfl_year=2014)
+        player_teams = Team.objects.filter(user__username=username,league__nfl_year=2015)
         return JsonResponse({'active_player_teams':player_teams})
 
 class PastTeamsView(View):
 
     def get(self,request,username):
-        player_teams = Team.objects.filter(user__username=username,league__nfl_year=year).exclude(league__nfl_year=2014)
+        player_teams = Team.objects.filter(user__username=username,league__nfl_year=year).exclude(league__nfl_year=2015)
         return JsonResponse({'past_player_teams':player_teams})
 
 class InvitesView(View):
