@@ -21,11 +21,11 @@
                 <div id = "matchup" class = "col-xs-12 col-md-12 text-center">
                     <h2 data-teamname = "{{ current_team.name }}" data-teamSlug="{{current_team.slug }}" data-week = "{{ week_slug }}">{{ current_team.name }}'s Week {{week}} Match-ups:</h2>
 
-                                <h3>Thursday Night Football</h3>
+                                <div class = "gameday">
                                     {% for matchup in matchup_list %}
                                         {% if matchup.weekday == "Thursday" %}
+                                            <h3>Thursday Night Football</h3>
 
-                                        <div class = "gameday">
                                                 <table class="table">
                                                     <tbody>
                                                         <tr>
@@ -47,18 +47,16 @@
                                                         </tr>
                                                         <tr>
 
-                                                            <td id = "gameday-info" colspan = "3">{{ matchup.weekday }} {{ matchup.month }} {{ matchup.day }}, {{ matchup.time }}pm, {{matchup.year}}</td>
+                                                            <td id = "gameday-info" colspan = "3">{{ matchup.weekday }} {{ matchup.month }} {{ matchup.day }}, {{ matchup.time }}pm, {{ matchup.year }}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                         {% endif %}
                                     {% endfor %}
-                                </div>
 
-                                <h3>Early Sunday Games</h3>
-                                    {% for matchup in matchup_list %}
-                                        {% if matchup.weekday == "Sunday" and matchup.time == "1:00" %}
-                                        <div class = "gameday">
+                                        <h3>Early Sunday Games</h3>
+                                            {% for matchup in matchup_list %}
+                                                {% if matchup.weekday == "Sunday" and matchup.time == "1:00" %}
                                                 <table class="table">
                                                     <tbody>
                                                         <tr>
@@ -80,52 +78,17 @@
                                                         </tr>
                                                         <tr>
 
-                                                            <td id = "gameday-info" colspan = "3">{{ matchup.weekday }} {{ matchup.month }} {{ matchup.day }}, {{ matchup.time }}pm, {{matchup.year}}</td>
+                                                            <td id = "gameday-info" colspan = "3">{{ matchup.weekday }} {{ matchup.month }} {{ matchup.day }}, {{ matchup.time }}pm, {{matchup.year  }}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                         {% endif %}
                                     {% endfor %}
-                                </div>
 
-                                <h3>Sunday Afternoon Games</h3>
-                                    {% for matchup in matchup_list %}
-                                        {% if matchup.weekday == "Sunday" and matchup.time == "4:25" or matchup.time == "4:05" %}
-                                        <div class = "gameday">
-
-                                                <table class="table">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td rowspan= "2", class = "away-logo-cell">
-                                                                <span class = "choice-button"><input type="radio" name= "{{ matchup.id }}" value="{{ matchup.away }}"></span>
-                                                                <img src = "{% static 'logos/' %}{{matchup.away|safe}}.jpg">
-                                                            </td>
-
-                                                            <span id = "matchup_marquee" class = "text-center">
-                                                                <td>{{ matchup.away }}</td>
-                                                                <td>@</td>
-                                                                <td>{{ matchup.home }}</td>
-                                                            </span>
-
-                                                            <td rowspan = "3", class = "home-logo-cell">
-                                                                <img src = "{% static 'logos/' %}{{matchup.home|safe}}.jpg">
-                                                                <span class = "choice-button"><input type="radio" name= "{{ matchup.id }}" value="{{matchup.home}}"></span>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-
-                                                            <td id = "gameday-info" colspan = "3">{{ matchup.weekday }} {{ matchup.month }} {{ matchup.day }}, {{ matchup.time }}pm, {{matchup.year}}</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-
-                                    <h3>Sunday Night Football</h3>
+                                    <h3>Sunday Afternoon Games</h3>
                                         {% for matchup in matchup_list %}
-                                            {% if matchup.time == "8:30" and matchup.weekday == "Sunday"  %}
-                                                <div class = "gameday">
+                                            {% if matchup.weekday == "Sunday" and matchup.time == "4:25" or matchup.time == "4:05" %}
+
                                                 <table class="table">
                                                     <tbody>
                                                         <tr>
@@ -146,18 +109,47 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td id = "gameday-info" colspan = "3">{{ matchup.weekday }} {{ matchup.month }} {{ matchup.day }}, {{ matchup.time }}pm, {{matchup.year}}</td>
+
+                                                            <td id = "gameday-info" colspan = "3">{{ matchup.weekday }} {{ matchup.month }} {{ matchup.day }}, {{ matchup.time }}pm, {{ matchup.year }}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                         {% endif %}
                                     {% endfor %}
-                                </div>
 
-                                <h3>Monday Night Football</h3>
                                     {% for matchup in matchup_list %}
-                                        {% if matchup.weekday == "Monday" %}
-                                        <div class = "gameday">
+                                        {% if matchup.time == "8:30" and matchup.weekday == "Sunday"  %}
+                                            <h3>Sunday Night Football</h3>
+                                                <table class="table">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td rowspan= "2", class = "away-logo-cell">
+                                                                <span class = "choice-button"><input type="radio" name= "{{ matchup.id }}" value="{{ matchup.away }}"></span>
+                                                                <img src = "{% static 'logos/' %}{{matchup.away|safe}}.jpg">
+                                                            </td>
+
+                                                            <span id = "matchup_marquee" class = "text-center">
+                                                                <td>{{ matchup.away }}</td>
+                                                                <td>@</td>
+                                                                <td>{{ matchup.home }}</td>
+                                                            </span>
+
+                                                            <td rowspan = "3", class = "home-logo-cell">
+                                                                <img src = "{% static 'logos/' %}{{matchup.home|safe}}.jpg">
+                                                                <span class = "choice-button"><input type="radio" name= "{{ matchup.id }}" value="{{matchup.home}}"></span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td id = "gameday-info" colspan = "3">{{ matchup.weekday }} {{ matchup.month }} {{ matchup.day }}, {{ matchup.time }}pm, {{ matchup.year }}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                {% for matchup in matchup_list %}
+                                    {% if matchup.weekday == "Monday" %}
+                                        <h3>Monday Night Football</h3>
 
                                                 <table class="table">
                                                     <tbody>
@@ -179,7 +171,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td id = "gameday-info" colspan = "3">{{ matchup.weekday }} {{ matchup.month }} {{ matchup.day }}, {{ matchup.time }}pm, {{matchup.year}}</td>
+                                                            <td id = "gameday-info" colspan = "3">{{ matchup.weekday }} {{ matchup.month }} {{ matchup.day }}, {{ matchup.time }}pm, {{ matchup.year }}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
