@@ -366,11 +366,11 @@ class MatchupView(View):
             current_league = League.objects.filter(slug = league_slug)[0]
             current_team = Team.objects.filter(slug = team_slug, league = current_league)[0]
             week = int(week_slug.strip('week-'))
+
             r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
             matchup_list = r.json()['week_{}_schedule'.format(week)]
-            print(matchup_list)
             if active_user == current_team.manager:
-                current_picks = TeamPick.objects.filter(team=current_team, nfl_week=int(week))
+                current_picks = TeamPick.objects.filter(team=current_team, nfl_week=week)
                 current_picks_dict_list = [pick.to_json() for pick in current_picks]
                 json_data = {'picks': current_picks_dict_list}
 
