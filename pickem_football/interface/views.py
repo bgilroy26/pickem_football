@@ -360,17 +360,15 @@ class MatchupView(View):
     template = 'interface/matchup.html'
 
     def get(self, request, league_slug, team_slug, week_slug):
-
         if not request.user.is_anonymous():
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
-
             current_league = League.objects.filter(slug = league_slug)[0]
             current_team = Team.objects.filter(slug = team_slug, league = current_league)[0]
             week = int(week_slug.strip('week-'))
-            print(type(week))
             r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
             matchup_list = r.json()['week_{}_schedule'.format(week)]
+            print(matchup_list)
             if active_user == current_team.manager:
                 current_picks = TeamPick.objects.filter(team=current_team, nfl_week=int(week))
                 current_picks_dict_list = [pick.to_json() for pick in current_picks]
@@ -383,7 +381,7 @@ class MatchupView(View):
                     game['id'] = matchup_id
 
                 return render(request, self.template, {'current_league':current_league, 'current_team':current_team, 'matchup_list':matchup_list, 'active_user':active_user,'json_data':json_data, 'week':week, 'week_slug':week_slug})
-            return render(request, self.template, {'current_league':current_league, 'current_team':current_team, 'matchup_list':matchup_list, 'active_user':active_user,'week_slug':week_slug})
+            return render(request, self.template, {'current_league':current_league, 'current_team':current_team, 'matchup_list':matchup_list, 'active_user':active_user,'week_slug':week_slug, 'week':week, 'json_data':json_data})
         return redirect('interface:login')
 
 class MakePicksView(View):
