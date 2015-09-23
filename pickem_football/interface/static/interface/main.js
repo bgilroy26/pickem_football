@@ -6,7 +6,7 @@ $(document).ready(function(){
         var title= document.querySelector('h2');
 
         var week = title.dataset.week;
-        var teamSlug = title.dataset.teamslug;
+        var teamSlug = title.dataset.teamSlug;
         var teamName = title.dataset.teamname;
         console.log('hello');
 
@@ -24,7 +24,7 @@ $(document).ready(function(){
         var testVar;
 
         $.get(
-                'http://finalfantasyfootball/game/2015/' + week + '/' + teamSlug + '/enter_pick/',
+                'http://finalfantasyfootball.us/game/2015/week-' + week + '/' + teamSlug + '/enter_pick/',
                 function(data) {
 
 
