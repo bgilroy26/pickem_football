@@ -17,7 +17,7 @@ $(document).ready(function(){
             });
 
             $.post(
-                    'http://finalfantasyfootball.us/game/2014/' + week + '/' + teamSlug + '/enter_pick/',
+                    'http://finalfantasyfootball.us/game/2015/' + week + '/' + teamSlug + '/enter_pick/',
                     {
                         choices:choicesList
                     },
