@@ -309,8 +309,7 @@ li {
 
 #team_div ul li {
 	font-size: 1.25em;
-	margin-top:.75em;
-	margin-bottom: 8.2em;
+    padding:1em;
 }
 #team_div img {
 	width:40%;

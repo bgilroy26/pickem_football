@@ -19,6 +19,7 @@ import json
 class BaseRedirectView(RedirectView):
     def get(self, request, *args, **kwargs):
         self.url = '/index/'
+        self.permanent = True
         return super().get(request, *args, **kwargs)
 
 class IndexView(View):
@@ -368,7 +369,6 @@ class MatchupView(View):
             week = int(week_slug.strip('week-'))
             r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
             matchup_list = r.json()['week_{}_schedule'.format(week)]
-            print(matchup_list)
             if active_user == current_team.manager:
                 current_picks = TeamPick.objects.filter(team=current_team, nfl_week=int(week))
                 current_picks_dict_list = [pick.to_json() for pick in current_picks]
