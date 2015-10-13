@@ -62,3 +62,6 @@ pickem_football/game/static/league
 pickem_football/game/static/team
 pickem_football/users/static/users/*.jpg
 users/static/users/*.jpg
+*pyc
+restart_gunicorn.sh
+

@@ -19,6 +19,7 @@ import json
 class BaseRedirectView(RedirectView):
     def get(self, request, *args, **kwargs):
         self.url = '/index/'
+        self.permanent = True
         return super().get(request, *args, **kwargs)
 
 class IndexView(View):
