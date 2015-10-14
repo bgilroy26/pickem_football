@@ -368,7 +368,6 @@ class MatchupView(View):
                 matchup_id = -1
                 for game in matchup_list:
                     matchup_id += 1
-
                     game['id'] = matchup_id
 
                 return render(request, self.template, {'current_league':current_league, 'current_team':current_team, 'matchup_list':matchup_list, 'active_user':active_user,'json_data':json_data, 'week':week, 'week_slug':week_slug})
