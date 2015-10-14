@@ -9,7 +9,7 @@ __pycache__/
 .Python
 venv/
 temp/
-env/
+venv/
 build/
 develop-eggs/
 dist/
@@ -44,6 +44,7 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *,cover
+.cache
 
 # Translations
 *.mo
@@ -57,7 +58,14 @@ docs/_build/
 
 # PyBuilder
 target/
-
-*jpg
-*png
 settings.py
+.DS_Store
+nfl_official_app_rules.txt
+settings.py
+venv/
+pickem_football/game/static/league
+pickem_football/game/static/team
+pickem_football/users/static/users/*.jpg
+users/static/users/*.jpg
+*pyc
+restart_gunicorn.sh

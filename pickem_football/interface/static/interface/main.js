@@ -24,8 +24,7 @@ $(document).ready(function(){
 
         $.get(
                 'http://finalfantasyfootball.us/game/2015/' + week + '/' + teamSlug + '/enter_pick/',
-                function(data) {
-
+               function(data) {
 
                     currentPicksList = data['weekly_picks'][currentPicksKey];
 
