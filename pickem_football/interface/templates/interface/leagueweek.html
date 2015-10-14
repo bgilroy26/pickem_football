@@ -18,9 +18,9 @@
             <ul>
                 <h2>{{ current_league.name }} week {{week}} Leaderboard : </h2>
 
-        {% for result in team_weekly_record_list  %}
+        {% for team in team_weekly_record_list  %}
 
-                <li><a href = "{% url 'interface:team_view' league_slug=current_league.slug team_slug=result.0.slug %}">{{ result.0.name }}</a>:  &nbsp{{ result.1 }}</li>
+                <a href = "{% url 'interface:team_view' league_slug=team.0.league.slug team_slug=team.0.slug %}">{{ team.0.name }}</a>:  &nbsp{{ team.1 }}</li>
 
         {% endfor %}
             </ul>
