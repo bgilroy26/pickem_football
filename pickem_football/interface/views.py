@@ -24,7 +24,6 @@ class BaseRedirectView(RedirectView):
 
 class IndexView(View):
     template = 'interface/index.html'
-<<<<<<< HEAD
 
     def get(self, request):
         all_users = User.objects.all()
