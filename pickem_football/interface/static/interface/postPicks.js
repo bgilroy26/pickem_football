@@ -1,10 +1,9 @@
 $(document).ready(function(){
         var title= document.querySelector('h2');
         var week = title.dataset.week;
-        var teamSlug = title.dataset.teamSlug;
-        var teamName = title.dataset.teamName;
+        var teamSlug = title.dataset.teamslug;
+        var teamName = title.dataset.teamname;
         var choicesList = [];
-
 
         $('input[value="Update Picks"]').click(function() {
 
@@ -17,7 +16,7 @@ $(document).ready(function(){
             });
 
             $.post(
-                    'http://finalfantasyfootball.us/game/2015/' + week + '/' + teamSlug + '/enter_pick/',
+                    'http://127.0.0.1:8000/game/2015/' + week + '/' + teamSlug + '/enter_pick/',
                     {
                         choices:choicesList
                     },

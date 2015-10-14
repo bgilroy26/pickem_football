@@ -16,8 +16,6 @@ def tally_weekly_results(week, team, winners_list):
 
     pick_list_dict = {'weekly_picks': [pick.choice for pick in team_picks_list]}
 
-    print(pick_list_dict)
-
     if team_picks_list:
         for nfl_team_pick in team_picks_list:
             if nfl_team_pick.was_counted == False:
