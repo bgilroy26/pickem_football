@@ -38,6 +38,7 @@ class IndexView(View):
         for x in range(1,18):
             week_list.append({'slug':"week-"+str(x),'week':x})
             week_slug_list.append("week-"+str(x))
+
         if request.user.is_superuser:
             superuser = User.objects.filter(id=request.user.id)[0]
             return render(request, self.template,{'team_record_list':team_record_list,'superuser':superuser,'all_users':all_users,'all_leagues':all_leagues,'week_list':week_list,'week_slug_list':week_slug_list})
