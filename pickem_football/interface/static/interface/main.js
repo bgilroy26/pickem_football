@@ -8,7 +8,6 @@ $(document).ready(function(){
         var week = title.dataset.week;
         var teamSlug = title.dataset.teamSlug;
         var teamName = title.dataset.teamname;
-        console.log('hello');
 
         $('.away-logo-cell').click(function() {
             $(this).find('input[type="radio"]').prop("checked", true);

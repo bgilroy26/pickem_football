@@ -19,7 +19,7 @@
 
             <div id="container" >
                 <div id = "matchup" class = "col-xs-12 col-md-12 text-center">
-                    <h2 data-teamname = "{{ current_team.name }}" data-teamSlug="{{current_team.slug }}" data-week = "{{ week_slug }}">{{ current_team.name }}'s Week {{week}} Match-ups:</h2>
+                    <h2 data-teamname = "{{ current_team.name }}" data-teamSlug="{{ current_team.slug }}" data-week = "{{ week_slug }}">{{ current_team.name }}'s Week {{week}} Match-ups:</h2>
 
                                 <div class = "gameday">
                                     {% for matchup in matchup_list %}
@@ -150,7 +150,6 @@
                                 {% for matchup in matchup_list %}
                                     {% if matchup.weekday == "Monday" %}
                                         <h3>Monday Night Football</h3>
-
                                                 <table class="table">
                                                     <tbody>
                                                         <tr>
@@ -187,7 +186,7 @@
         {% if current_user == current_team.manager %}
             <script type="text/javascript">
                 current_picks_data = {{ json_data| safe }};
-                for( i in current_picks_data.picks){
+                for(i in current_picks_data.picks){
                     console.log(i);
             </script>
         {% endif %}
