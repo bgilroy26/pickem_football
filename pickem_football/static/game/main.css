@@ -1,0 +1,56 @@
+header{
+	border-bottom: 2px solid black;
+}
+
+h2.title{
+	text-decoration: underline;
+}
+/*
+.footer{
+	margin:auto;
+	position: static;
+	border-top: .1em solid black;
+}*/
+
+.root_menu li {
+    display:inline-block;
+    list-style-type: none;
+    margin-left:1em;
+    margin-right:1em;
+    float:right;
+    font-size:1.5em;
+}
+
+a {
+    text-decoration:none;
+}
+
+li {
+    list-style-type:none;
+}
+
+img {
+	height:7em;
+	width: 7em;
+	float:left;
+	margin-right:4em;
+}
+
+/*.footer{
+	margin:auto;
+	position: static;
+	border-top: .1em solid black;
+}*/
+ul.profile {
+	clear:both;
+	display:inline-block;
+	width:100%;
+}
+
+ul.profile li{
+	margin:1.75em;
+}
+
+form {
+	margin-left:4em;
+}
