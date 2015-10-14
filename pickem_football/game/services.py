@@ -1,6 +1,5 @@
 from game.models import TeamPick,Team
 
-
 def get_weekly_record(week,team):
 
     wins = len(TeamPick.objects.filter(correct=True,nfl_week=week,team=team))
