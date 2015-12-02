@@ -18,8 +18,8 @@ import json
 
 class BaseRedirectView(RedirectView):
     def get(self, request, *args, **kwargs):
-        self.url = '/index/'
         self.permanent = True
+        self.url = '/index/'
         return super().get(request, *args, **kwargs)
 
 class IndexView(View):
@@ -419,9 +419,12 @@ class WeekView(View):
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
             r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
+
             all_teams = Team.objects.all()
             winners_list = r.json().get('winning_teams')
-            game_count = len(winners_list)
+
+            game_count = r.json().get('game_count')
+
             team_weekly_record_list = []
             for team in all_teams:
                 # picks_by_team_by_week = TeamPick.objects.filter(nfl_week=week, team=team, correct=True)
@@ -442,13 +445,18 @@ class LeagueWeekView(View):
             current_league = League.objects.filter(slug=league_slug)[0]
             r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
             league_teams = Team.objects.filter(league=current_league)
-            winners_list = r.json().get('winning_teams')
-            game_count = len(winners_list)
+            game_count = r.json().get('winning_teams')
+            print(game_count)
+            winners_list = r.json().get('game_count')
+            print(winners_list)
             team_weekly_record_list = []
             for team in league_teams:
                 # picks_by_team_by_week = TeamPick.objects.filter(nfl_week=week, team=team, correct=True)
                 team_win_count = len(TeamPick.objects.filter(team=team, nfl_week=week, correct=True))
-                team_weekly_record_list.append((team, str(team_win_count) + ' - ' + str(game_count - team_win_count)))
+                if not team_win_count == 0:
+                    team_weekly_record_list.append((team, str(team_win_count) + ' - ' + str(game_count - team_win_count)))
+                else:
+                    team_weekly_record_list.append((team,'0-'+str(game_count)))
                 # team_weekly_record_list = team_weekly_record_list
             return render(request,self.template, {'week_slug':week_slug,'active_user':active_user, 'team_weekly_record_list':team_weekly_record_list,'week':week, 'current_league':current_league})
         return redirect('interface:index')

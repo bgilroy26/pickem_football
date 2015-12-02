@@ -112,7 +112,6 @@ class WeeklyTeamResultsView(View):
             week_int = int(week.strip('week-'))
 
             r = requests.get(os.environ.get('fballAPI') + year + '/' + week + '/winners/')
-            print(r)
 
             string_dict = r.content.decode("utf-8")
             winners_dict = json.loads(string_dict)
