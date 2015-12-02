@@ -29,21 +29,18 @@ class IndexView(View):
         all_users = User.objects.all()
         all_leagues = League.objects.all()
         all_teams = Team.objects.all().order_by('-wins')
-        week_list = []
-        week_slug_list = []
+        week_list = [{'slug':"week-"+str(x),'week':x} for x in range(1,18)]
+        week_slug_list = ["week-"+str(x) for x in range(1,18)]
         team_record_list = []
         for team in all_teams:
             team_win_count = len(TeamPick.objects.filter(team=team, correct=True))
             team_record_list.append((team, str(team_win_count) + ' - ' + str(team.losses)))
-        for x in range(1,18):
-            week_list.append({'slug':"week-"+str(x),'week':x})
-            week_slug_list.append("week-"+str(x))
         if request.user.is_superuser:
             superuser = User.objects.filter(id=request.user.id)[0]
             return render(request, self.template,{'team_record_list':team_record_list,'superuser':superuser,'all_users':all_users,'all_leagues':all_leagues,'week_list':week_list,'week_slug_list':week_slug_list})
         if not request.user.is_anonymous():
             active_user = User.objects.filter(id=request.user.id)[0]
-            return render(request, self.template,{'active_user':active_user,'all_users':all_users,'all_leagues':all_leagues,'all_teams':all_teams, 'week_list':week_list,'week_slug_list':week_slug_list})
+            return render(request, self.template,{'team_record_list':team_record_list,'active_user':active_user,'all_users':all_users,'all_leagues':all_leagues,'all_teams':all_teams, 'week_list':week_list,'week_slug_list':week_slug_list})
         return render(request, self.template)
 
 
@@ -210,10 +207,7 @@ class LeagueView(View):
             current_league = League.objects.filter(slug=league_slug)[0]
             league_teams = Team.objects.filter(league=current_league).order_by('-wins')
 
-            week_list = []
-            for x in range(1,18):
-                week_list.append({'slug':"week-"+str(x),'week':x})
-
+            week_list = [{'slug':"week-"+str(x),'week':x} for x in range(1,18)]
 
             if active_user == current_league.commissioner:
                 league_form = LeagueForm(initial={'name':current_league.name, 'buy_in':current_league.buy_in, 'marquee':current_league.marquee})
@@ -310,9 +304,7 @@ class TeamView(View):
             active_user = User.objects.filter(id=active_user_id)[0]
             current_league = League.objects.filter(slug=league_slug)[0]
             current_team = Team.objects.filter(slug=team_slug)[0]
-            week_list = []
-            for x in range(1,18):
-                week_list.append({'slug':"week-"+str(x),'week':x})
+            week_list = [{'slug':"week-"+str(x),'week':x} for x in range(1,18)]
 
             if active_user == current_team.manager:
                 team_form = TeamForm(initial={'name':current_team.name, 'mascot':current_team.mascot})
@@ -373,15 +365,13 @@ class MatchupView(View):
                 current_picks = TeamPick.objects.filter(team=current_team, nfl_week=week)
                 current_picks_dict_list = [pick.to_json() for pick in current_picks]
                 json_data = {'picks': current_picks_dict_list}
-
                 matchup_id = -1
                 for game in matchup_list:
                     matchup_id += 1
-
                     game['id'] = matchup_id
 
                 return render(request, self.template, {'current_league':current_league, 'current_team':current_team, 'matchup_list':matchup_list, 'active_user':active_user,'json_data':json_data, 'week':week, 'week_slug':week_slug})
-            return render(request, self.template, {'current_league':current_league, 'current_team':current_team, 'matchup_list':matchup_list, 'active_user':active_user,'week_slug':week_slug, 'week':week, 'json_data':json_data})
+            return render(request, self.template, {'current_league':current_league, 'current_team':current_team, 'matchup_list':matchup_list, 'active_user':active_user,'week_slug':week_slug, 'week':week})
         return redirect('interface:login')
 
 class MakePicksView(View):
@@ -418,7 +408,10 @@ class WeekView(View):
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
             r = requests.get(os.environ.get('fballAPI') + week_slug + '/winners/')
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
             all_teams = Team.objects.all()
             winners_list = r.json().get('winning_teams')
             game_count = r.json().get('game_count')

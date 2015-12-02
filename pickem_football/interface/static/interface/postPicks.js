@@ -5,7 +5,6 @@ $(document).ready(function(){
         var teamName = title.dataset.teamname;
         var choicesList = [];
 
-
         $('input[value="Update Picks"]').click(function() {
 
             inputArr = $('.choice-button > input');

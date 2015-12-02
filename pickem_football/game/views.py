@@ -67,29 +67,14 @@ class TeamPickView(View):
         return JsonResponse({'team_dict':team_dict, 'matchups_dict':matchups_dict, 'weekly_picks':pick_dict})
 
     def post(self, request, year, week, team_slug):
-        '''
-        choice_list = request.POST.getlist('choices[]')
-        print("request.post is")
-        print(request.POST)
-        print("request.raw_post_data is")
-        print(request.body)
-        print("json.loads raw_post_data is")
-        print(json.loads(request.body.decode('utf-8')))
-        '''
-        choice_list = []
         week_int = int(week.strip('week-'))
         current_team = Team.objects.filter(slug=team_slug)[0]
 
         choice_dict = request.POST.dict()
         choice_length = len(choice_dict.keys())
-        #I'm so sorry, Greg
         picks_count = choice_length // 2
         keys_to_pull_by = sorted(choice_dict.keys())
-
-        for i in range(picks_count):
-            pick = Selection(choice_dict['choices[' + str(i) + '][num]'], choice_dict['choices[' + str(i) + '][team]'])
-            choice_list.append(pick)
-
+        choice_list = [Selection(choice_dict['choices[' + str(i) + '][num]'], choice_dict['choices[' + str(i) + '][team]']) for i in range(picks_count)]
 
         for selected in choice_list:
             new_pick, created = TeamPick.objects.get_or_create(game_id=selected.num, team=current_team, nfl_week=week_int)
@@ -112,7 +97,6 @@ class WeeklyTeamResultsView(View):
             week_int = int(week.strip('week-'))
 
             r = requests.get(os.environ.get('fballAPI') + year + '/' + week + '/winners/')
-
             string_dict = r.content.decode("utf-8")
             winners_dict = json.loads(string_dict)
 

@@ -3,6 +3,7 @@ $(document).ready(function(){
     console.log(window.location.pathname);
 
     if (window.location.pathname.match(re)){
+	console.log('pathname indicates user is on picks screen');
         var title= document.querySelector('h2');
 
         var week = title.dataset.week;
@@ -26,7 +27,8 @@ $(document).ready(function(){
 
         $.get(
                 'http://127.0.0.1:8000/game/2015/' + week + '/' + teamSlug + '/enter_pick/',
-               function(data) {
+                function(data) {
+
 
                     currentPicksList = data['weekly_picks'][currentPicksKey];
                     console.log(currentPicksList)
