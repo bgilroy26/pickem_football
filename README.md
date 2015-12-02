@@ -1,8 +1,10 @@
 # pickem_football
 http://finalfantasyfootball.us
 
->Guest login details (case sensitive):
+##Guest login details (case sensitive):
 
-username: Guest
+>username: 
+  >Guest
 
-password: guest
+>password: 
+  >guest
