@@ -31,7 +31,6 @@ $(document).ready(function(){
 
 
                     currentPicksList = data['weekly_picks'][currentPicksKey];
-                    console.log(currentPicksList)
 
                     initialChoices = [];
 
