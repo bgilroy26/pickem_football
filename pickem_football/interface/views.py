@@ -408,10 +408,6 @@ class WeekView(View):
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
             r = requests.get(os.environ.get('fballAPI') + week_slug + '/winners/')
-<<<<<<< HEAD
-
-=======
->>>>>>> refs/remotes/origin/master
             all_teams = Team.objects.all()
             winners_list = r.json().get('winning_teams')
             game_count = r.json().get('game_count')
