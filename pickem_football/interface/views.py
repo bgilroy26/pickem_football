@@ -367,7 +367,6 @@ class MatchupView(View):
             current_league = League.objects.filter(slug = league_slug)[0]
             current_team = Team.objects.filter(slug = team_slug, league = current_league)[0]
             week = int(week_slug.strip('week-'))
-
             r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
             matchup_list = r.json()['week_{}_schedule'.format(week)]
             if active_user == current_team.manager:
@@ -418,13 +417,11 @@ class WeekView(View):
             week = int(week_slug.strip('week-'))
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
-            r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
+            r = requests.get(os.environ.get('fballAPI') + week_slug + '/winners/')
 
             all_teams = Team.objects.all()
             winners_list = r.json().get('winning_teams')
-
             game_count = r.json().get('game_count')
-
             team_weekly_record_list = []
             for team in all_teams:
                 # picks_by_team_by_week = TeamPick.objects.filter(nfl_week=week, team=team, correct=True)
@@ -443,12 +440,10 @@ class LeagueWeekView(View):
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
             current_league = League.objects.filter(slug=league_slug)[0]
-            r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
+            r = requests.get(os.environ.get('fballAPI') + week_slug + '/winners/')
             league_teams = Team.objects.filter(league=current_league)
-            game_count = r.json().get('winning_teams')
-            print(game_count)
-            winners_list = r.json().get('game_count')
-            print(winners_list)
+            winners_list = r.json().get('winning_teams')
+            game_count = r.json().get('game_count')
             team_weekly_record_list = []
             for team in league_teams:
                 # picks_by_team_by_week = TeamPick.objects.filter(nfl_week=week, team=team, correct=True)
