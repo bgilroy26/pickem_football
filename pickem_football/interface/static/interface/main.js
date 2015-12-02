@@ -20,8 +20,9 @@ $(document).ready(function(){
         });
 
         var currentPicksKey = teamSlug + "_" + week + "_picks";
-
+        console.log(currentPicksKey)
         var currentPicksList;
+
         var testVar;
 
         $.get(
@@ -30,6 +31,7 @@ $(document).ready(function(){
 
 
                     currentPicksList = data['weekly_picks'][currentPicksKey];
+                    console.log(currentPicksList)
 
                     initialChoices = [];
 
@@ -43,7 +45,7 @@ $(document).ready(function(){
 
                         if (initialChoices.indexOf(inputEl.value) > -1) {
                             inputEl.checked = true;
-                            $('input[value="' + inputEl.value + '"]').prop('checked', true);
+                            $('input[value="' + inputEl.value + '"]').prop("checked", true);
                         };
                     });
 
