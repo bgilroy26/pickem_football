@@ -180,12 +180,15 @@
 
                     {% if active_user == current_team.manager %}
                         <span id = "update_pick_button"><input class = "btn-primary" type = "submit" value = "Update Picks"></span>
+                    {% endif %}
                 </div>
             </div>
+        {% if current_user == current_team.manager %}
             <script type="text/javascript">
                 current_picks_data = {{ json_data| safe }};
                 for(i in current_picks_data.picks){
                     console.log(i);
+                }
             </script>
         {% endif %}
 

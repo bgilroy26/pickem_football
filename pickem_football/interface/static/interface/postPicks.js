@@ -17,7 +17,7 @@ $(document).ready(function(){
             });
 
             $.post(
-                    'http://finalfantasyfootball.us/game/2015/' + week + '/' + teamSlug + '/enter_pick/',
+                    'http://127.0.0.1:8000/game/2015/' + week + '/' + teamSlug + '/enter_pick/',
                     {
                         choices:choicesList
                     },
