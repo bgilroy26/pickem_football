@@ -3,8 +3,8 @@ http://finalfantasyfootball.us
 
 ##Guest login details (case sensitive):
 
->username: 
+username: 
   >>Guest
 
->password: 
-  >guest
+password: 
+  >>guest
