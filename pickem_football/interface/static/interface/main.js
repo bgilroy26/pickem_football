@@ -24,7 +24,7 @@ $(document).ready(function(){
         var testVar;
 
         $.get(
-                'http://127.0.0.1:8000/game/2015/' + week + '/' + teamSlug + '/enter_pick/',
+                'http://finalfantasyfootball.us/game/2015/' + week + '/' + teamSlug + '/enter_pick/',
                 function(data) {
 
 
