@@ -53,10 +53,12 @@ class WeeklyScoresView(View):
 class TeamPickView(View):
 
     def get(self, request, year, week, team_slug):
+        print(type(year))
         week_int = int(week.strip('week-'))
-        r = requests.get(os.environ.get('fballAPI') + week + '/matchups/')
+        r = requests.get(os.environ.get('fballAPI') + year + '/' + week + '/matchups/')
 
         string_dict = r.content.decode("utf-8")
+        print(string_dict)
         matchups_dict = json.loads(string_dict)
         current_team = Team.objects.filter(slug=team_slug)[0]
         team_dict = current_team.to_json()
@@ -69,7 +71,6 @@ class TeamPickView(View):
     def post(self, request, year, week, team_slug):
         week_int = int(week.strip('week-'))
         current_team = Team.objects.filter(slug=team_slug)[0]
-
         choice_dict = request.POST.dict()
         choice_length = len(choice_dict.keys())
         picks_count = choice_length // 2

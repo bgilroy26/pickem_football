@@ -354,13 +354,14 @@ class MatchupView(View):
 
     def get(self, request, league_slug, team_slug, week_slug):
         if not request.user.is_anonymous():
+            year = '2015'
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
             current_league = League.objects.filter(slug = league_slug)[0]
             current_team = Team.objects.filter(slug = team_slug, league = current_league)[0]
             week = int(week_slug.strip('week-'))
-            r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
-            matchup_list = r.json()['week_{}_schedule'.format(week)]
+            r = requests.get(os.environ.get('fballAPI') + year + '/'+ week_slug + '/matchups/')
+            matchup_list = r.json().get('week_{}_schedule'.format(week))
             if active_user == current_team.manager:
                 current_picks = TeamPick.objects.filter(team=current_team, nfl_week=week)
                 current_picks_dict_list = [pick.to_json() for pick in current_picks]
@@ -391,7 +392,7 @@ class AdminMenuView(View):
         week_to_complete = request.POST.get('week')
         week_slug = 'week-{}'.format(week_to_complete)
         week = int(week_slug.strip('week-'))
-        r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
+        r = requests.get(os.environ.get('fballAPI') + year + '/' + week_slug + '/matchups/')
         winners_list = r.json().get('winning_teams')
         all_teams = Team.objects.all()
         for team in all_teams:
@@ -404,10 +405,11 @@ class WeekView(View):
 
     def get(self, request, week_slug):
         if not request.user.is_anonymous():
+            year = '2015'
             week = int(week_slug.strip('week-'))
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
-            r = requests.get(os.environ.get('fballAPI') + week_slug + '/winners/')
+            r = requests.get(os.environ.get('fballAPI') + year + '/' + week_slug + '/winners/')
             all_teams = Team.objects.all()
             winners_list = r.json().get('winning_teams')
             game_count = r.json().get('game_count')
@@ -425,11 +427,12 @@ class LeagueWeekView(View):
 
     def get(self, request, week_slug, league_slug):
         if not request.user.is_anonymous():
+            year = '2015'
             week = int(week_slug.strip('week-'))
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
             current_league = League.objects.filter(slug=league_slug)[0]
-            r = requests.get(os.environ.get('fballAPI') + week_slug + '/winners/')
+            r = requests.get(os.environ.get('fballAPI') + year + '/' + week_slug + '/winners/')
             league_teams = Team.objects.filter(league=current_league)
             winners_list = r.json().get('winning_teams')
             game_count = r.json().get('game_count')
