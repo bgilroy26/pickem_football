@@ -1,6 +1,5 @@
 from game.models import TeamPick,Team
 
-
 def get_weekly_record(week,team):
 
     wins = len(TeamPick.objects.filter(correct=True,nfl_week=week,team=team))
@@ -15,8 +14,6 @@ def tally_weekly_results(week, team, winners_list):
     team_picks_list = TeamPick.objects.filter(team=team,nfl_week=week)
 
     pick_list_dict = {'weekly_picks': [pick.choice for pick in team_picks_list]}
-
-    print(pick_list_dict)
 
     if team_picks_list:
         for nfl_team_pick in team_picks_list:

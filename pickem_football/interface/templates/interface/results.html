@@ -20,7 +20,7 @@
 
         {% for result in team_weekly_record_list  %}
 
-                <li><a href = "{% url 'interface:profile' result.0.slug %}">{{ result.0.name }}</a>:  &nbsp{{ result.1 }}</li>
+                <li><a href = "{% url 'interface:team_view' league_slug=result.0.league.slug team_slug=result.0.slug %}">{{ result.0.name }}</a>:  &nbsp{{ result.1 }}</li>
 
         {% endfor %}
             </ul>
