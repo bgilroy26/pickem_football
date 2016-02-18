@@ -3,7 +3,6 @@ $(document).ready(function(){
     console.log(window.location.pathname);
 
     if (window.location.pathname.match(re)){
-	console.log('pathname indicates user is on picks screen');
         var title= document.querySelector('h2');
 
         var week = title.dataset.week;
@@ -25,7 +24,7 @@ $(document).ready(function(){
         var testVar;
 
         $.get(
-                'http://127.0.0.1:8000/game/2015/' + week + '/' + teamSlug + '/enter_pick/',
+                'http://finalfantasyfootball.us/game/2015/' + week + '/' + teamSlug + '/enter_pick/',
                 function(data) {
 
 
@@ -44,7 +43,7 @@ $(document).ready(function(){
                         if (initialChoices.indexOf(inputEl.value) > -1) {
                             inputEl.checked = true;
                             $('input[value="' + inputEl.value + '"]').prop('checked', true);
-                        };
+                        }
                     });
 
                 }

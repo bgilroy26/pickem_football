@@ -1,0 +1,447 @@
+#navbar {
+	background-image: url('../images/banner.jpg');
+	background-size:100%;
+	width:100%;
+}
+
+html {
+	position: relative;
+	width:100%;
+
+}
+.header{
+	width:100%;
+}
+.container-fluid {
+	width:100%;
+}
+html:after {
+	margin-top:9em;
+	content : "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-image: url('../images/obj.jpg');
+	background-size: 100%;
+	width: 100%;
+	height: 100%;
+	opacity : 0.30;
+	z-index: -1;
+}
+
+#header-box {
+	background-color: black;
+	border: .1em black;
+	border-radius:50%;
+	opacity: .8;
+	margin-top:3em;
+	padding:.5em;
+}
+#header-box a{
+	margin:2em;
+	color:white;
+}
+header h1 {
+	margin-top:1em;
+	margin-bottom:1em;
+	font-weight:bold;
+	font-size: 2em;
+}
+header h1 a {
+	color:white;
+}
+
+.active_user_menu li {
+    display:inline;
+    font-size:2em;
+	width:100%;
+}
+
+.passive_user_menu li{
+	display: inline;
+	font-size:2em;
+	width:100%;
+
+}
+
+a {
+    text-decoration:none;
+}
+
+li {
+    list-style-type:none;
+}
+
+#users_heading {
+	margin-top:1em;
+	margin-bottom:.15em;
+	font-size:3em;
+}
+
+#league_heading {
+	margin-top:1em;
+	margin-bottom:.15em;
+	font-size:3em;
+}
+
+#league_heading ul li{
+	font-size:1em;
+}
+
+.leagues_links {
+	font-size:1.5em;
+	margin:.5em;
+}
+
+.users_links {
+	font-size:1.5em;
+	margin:.5em;
+}
+
+#leagues_div {
+	color:black;
+	padding-bottom:2em;
+	margin-top:5em;
+	border: .3em solid white;
+	border-radius: 10%;
+	float:right;
+	margin-right:2em;
+	background-color:white;
+	opacity:.7;
+
+}
+#users_div {
+	color:black;
+	padding-bottom:2em;
+	margin-top:5em;
+	border: .3em solid white;
+	border-radius: 10%;
+	float:left;
+	margin-left:2em;
+	background-color:white;
+	opacity:.7;
+}
+#leaderboard_div {
+	color:black;
+	padding-bottom:2em;
+	margin-top:5em;
+	border: .3em solid white;
+	border-radius: 10%;
+	float:left;
+	margin-left:5em;
+	background-color:white;
+	opacity:.7;
+}
+#leaderboard_heading {
+	margin-top:1em;
+	margin-bottom:.15em;
+	font-size:3em;
+}
+
+#leaderboard_heading ul li{
+	font-size:1em;
+}
+
+#leaderboard_links {
+	font-size:1.5em;
+	margin-bottom:.5em;
+}
+#leaderboard_links a{
+	color: blue;
+}#users_div a{
+	color:blue;
+}
+#leagues_div a{
+	color:blue;
+}
+.login_form h2{
+	font-size:1.5em;
+	font-weight:bold;
+}
+.login_form {
+	margin:2em;
+}
+.login_form p {
+	margin:2em;
+}
+#login_button {
+	margin:2em;
+}
+.register_form h2{
+	font-size:1.5em;
+	font-weight:bold;
+}
+.register_form {
+	margin:2em;
+}
+.register_form p {
+	margin:2em;
+}
+#register_button {
+	margin:2em;
+}
+.logout_form h2{
+	font-size:1.5em;
+	font-weight:bold;
+}
+.logout_form {
+	margin:2em;
+}
+.logout_form p {
+	margin:2em;
+}
+#logout_button {
+	margin:2em;
+}
+
+#user_div {
+	float:left;
+	background-color: rgba(255, 255, 255, .6);
+	margin-left:1em;
+	border-radius: 2em;
+
+}
+#user_div img{
+	padding: 1em;
+	width:50%;
+	height: inherit;
+	float:left;
+}
+#user_div h1 {
+	font-size: 2em;
+	margin:.5em;
+}
+#user_team_list {
+	background-color: rgba(255, 255, 255, .6);
+	float:right;
+	margin-right:1em;
+	font-size:2em;
+	border-radius: 2em;
+	padding: .5em;
+}
+
+#user_div ul li {
+	font-size: 1.25em;
+	margin-bottom: 1em;
+}
+#user_div img {
+	width:40%;
+	height:inherit;
+}
+#profile_update_form {
+	float:left;
+	padding:1em;
+	margin: 1em 0 0 1em ;
+	background-color: rgba(255, 255, 255, .6);
+	border-radius: 2em;
+	clear:both;
+}
+#user_team_list li a {
+	color: blue;
+}
+#league_div {
+	float:left;
+	background-color: rgba(255, 255, 255, .6);
+	margin-left:1em;
+	border-radius: 2em;
+
+}
+#league_div img{
+	padding: 1em;
+	width:50%;
+	height: inherit;
+	float:left;
+}
+#league_div h1 {
+	font-size: 2em;
+	margin:.5em;
+}
+
+#league_div ul li {
+	font-size: 1.25em;
+	margin-top:.75em;
+	margin-bottom: 9em;
+}
+#league_div img {
+	width:40%;
+	height:inherit;
+}
+#league_update_form {
+	float:left;
+	padding:1em;
+	margin: 1em 0 0 1em ;
+	background-color: rgba(255, 255, 255, .6);
+	border-radius: 2em;
+	clear:both;
+}
+#league_team_list {
+	background-color: rgba(255, 255, 255, .6);
+	float:right;
+	margin-right:1em;
+	font-size:2em;
+	border-radius: 2em;
+	padding:.5em;
+}
+#league_team_list li a {
+	color: blue;
+}
+#league_team_list li  {
+	margin-top:1em;
+}
+
+#team_div {
+	background-color: rgba(255, 255, 255, .6);
+	border-radius: 2em;
+	margin-left:6em;
+
+}
+#team_div img{
+	padding: 1em;
+	width:50%;
+	height: inherit;
+	float:left;
+}
+#team_div h1 {
+	font-size: 2em;
+	margin:.5em 0 0 0;
+}
+
+#team_div ul li {
+	font-size: 1.25em;
+    padding:1em;
+}
+#team_div img {
+	width:40%;
+	height:inherit;
+}
+#team_update_form {
+	padding:1em;
+	margin: .5em 0 0 6em ;
+	background-color: rgba(255, 255, 255, .6);
+	border-radius: 2em;
+}
+#week_list {
+	background-color: #184f65;
+	padding: .25em;
+	font-size:1.5em;
+	margin: -1em 0 1em;
+}
+#week_list li a {
+	color: blue;
+}
+#week_list li  {
+	color:white;
+	display: inline-block;
+	margin: .25em .5em .1em .5em;
+	text-align:center;
+}
+#week_list h2  {
+	color:white;
+	font-size:1.5em;
+	text-align:center;
+}
+
+.labels {
+	font-weight:bold;
+}
+#container {
+	width:70%;
+	height:100%;
+	margin:0 auto;
+}
+#matchup h2 {
+	font-weight:bold;
+	font-size:2em;
+	margin-bottom:1em;
+}
+#matchup img{
+	width: 25%;
+	height: inherit;
+	vertical-align:middle;
+}
+#matchup #matchup_marquee{
+	font-size:1.45em;
+	vertical-align:middle;
+	text-align:center;
+}
+#matchup .choice-button {
+	margin: 0 2em 0 2em;
+}
+.home-logo-cell {
+	text-align:right;
+}
+.home-logo-cell:hover {
+	background-color: rgba(0,0,255,.5);
+	border-radius:1em;
+}
+.away-logo-cell:hover {
+	background-color: rgba(255,0,0,.5);
+	border-radius:1em;
+}
+
+.away-logo-cell {
+	text-align:left;
+}
+#matchup td {
+	vertical-align:middle;
+	font-weight:bold;
+	text-align:center;
+}
+#matchup {
+	padding:1em;
+	border-radius:1em;
+	background-color: rgba(255,255,255,.6);
+}
+
+td#gameday-info {
+	border-style:none;
+	font-weight:normal;
+}
+.gameday {
+	margin-bottom:3em;
+}
+#results_list {
+	margin-left:6em;
+	text-align:center;
+	clear:both;
+}
+
+#results_list li a {
+	color: blue;
+}
+#results_list li  {
+	margin-bottom:.5em;
+}
+
+#results_list {
+	background-color: rgba(255, 255, 255, .6);
+	font-size:2em;
+	border-radius: 2em;
+	padding:.5em;
+}
+#results_list h2 {
+	margin-bottom:1em;
+}
+
+#matchup h3 {
+	padding-top:.2em;
+	float:left;
+	font-size: 1.3em;
+	margin-bottom:.5em;
+	margin-top:1em;
+	border-bottom: .1em solid white;
+	color:darkblue;
+}
+.table>tbody>tr>td {
+	border:none;
+}
+
+.btn-primary {
+    background: #651829;
+    color: #ffffff;
+}
+.btn-primary:hover {
+    background: #ffffff;
+    color: #651829;
+}
