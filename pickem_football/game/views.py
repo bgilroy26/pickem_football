@@ -37,7 +37,7 @@ class InvitesView(View):
 class WeeklyMatchupsView(View):
 
     def get(self,request,year,week):
-        r = requests.get(os.environ.get('fballAPI') + year + '/' + week + '/matchups/')
+        r = requests.get(os.environ.get('fballAPI')+ '/' + week + '/matchups/')
         string_dict = r.content.decode("utf-8")
         matchup_dict = json.loads(string_dict)
         return JsonResponse({'matchup_dict':matchup_dict})
@@ -45,7 +45,7 @@ class WeeklyMatchupsView(View):
 class WeeklyScoresView(View):
 
     def get(self, request, year, week):
-        r = requests.get(os.environ.get('fballAPI') + year + '/' + week + '/scores/')
+        r = requests.get(os.environ.get('fballAPI') + '/' + week + '/scores/')
         string_dict = r.content.decode("utf-8")
         scores_dict = json.loads(string_dict)
         return JsonResponse({'scores_dict':scores_dict})
@@ -54,9 +54,10 @@ class TeamPickView(View):
 
     def get(self, request, year, week, team_slug):
         week_int = int(week.strip('week-'))
-        r = requests.get(os.environ.get('fballAPI') + week + '/matchups/')
-
+        r = requests.get(os.environ.get('fballAPI') + '/' + week + '/matchups/')
+        print(r.content)
         string_dict = r.content.decode("utf-8")
+        print(string_dict)
         matchups_dict = json.loads(string_dict)
         current_team = Team.objects.filter(slug=team_slug)[0]
         team_dict = current_team.to_json()
@@ -69,7 +70,6 @@ class TeamPickView(View):
     def post(self, request, year, week, team_slug):
         week_int = int(week.strip('week-'))
         current_team = Team.objects.filter(slug=team_slug)[0]
-
         choice_dict = request.POST.dict()
         choice_length = len(choice_dict.keys())
         picks_count = choice_length // 2
@@ -96,7 +96,7 @@ class WeeklyTeamResultsView(View):
             active_user = User.objects.filter(id=active_user_id)[0]
             week_int = int(week.strip('week-'))
 
-            r = requests.get(os.environ.get('fballAPI') + year + '/' + week + '/winners/')
+            r = requests.get(os.environ.get('fballAPI')  + '/' + week + '/winners/')
             string_dict = r.content.decode("utf-8")
             winners_dict = json.loads(string_dict)
 
@@ -186,16 +186,13 @@ class UpdateTeamView(View):
 
     def post(self, request, league_slug, team_slug):
         if request.session.get('_auth_user_id'):
-            print(request.session.get('_auth_user_id'))
             active_user_id = int(request.session.get('_auth_user_id'))
             active_user = User.objects.filter(id=active_user_id)[0]
 
             current_league = League.objects.filter(slug = league_slug)[0]
 
-            print(current_league)
 
             current_team = Team.objects.filter(slug = team_slug, league = current_league)[0]
-            print(current_team)
 
             if active_user == current_team.manager:
 
@@ -215,4 +212,3 @@ class UpdateTeamView(View):
 
 if __name__ == '__main__':
     pal = Selection(13,'New England Patriots')
-    print(pal)
