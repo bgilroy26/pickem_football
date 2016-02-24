@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
 
     about = models.TextField(max_length=700, default='[user description]')
-    picture = models.ImageField(blank=True, upload_to= 'users/static/users')
+    picture = models.ImageField(blank=True, upload_to= 'game/static/users')
     updated_at = models.DateTimeField(auto_now=True)
     user = models.OneToOneField(User)
 
