@@ -123,11 +123,6 @@ class ProfileView(View):
             if User.objects.filter(username=username):
                 profiled_user = User.objects.filter(username=username)[0]
                 viewed_user_profile = UserProfile.objects.filter(user=profiled_user)[0]
-                print(dir(viewed_user_profile.picture))
-                print(viewed_user_profile.picture)
-                print(viewed_user_profile.picture.name)
-                print(viewed_user_profile.picture.path)
-                # print(viewed_user_profile.picture.fileno)
                 viewed_user_profile.picture = viewed_user_profile.picture.name.replace('game/static/users/','')
                 viewed_user_profile.save()
                 user_teams = Team.objects.filter(manager = profiled_user)
