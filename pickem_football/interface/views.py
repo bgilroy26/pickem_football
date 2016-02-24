@@ -416,8 +416,15 @@ class WeekView(View):
             active_user = User.objects.filter(id=active_user_id)[0]
             r = requests.get(os.environ.get('fballAPI') + week_slug + '/winners/')
             all_teams = Team.objects.all()
+<<<<<<< HEAD
             winners_list = r.json().get('winning_teams')
             game_count = len(winners_list)
+=======
+            try:
+                game_count = r.json().get('game_count')
+            except ValueError:
+                game_count = 0
+>>>>>>> origin
             team_weekly_record_list = []
             for team in all_teams:
                 # picks_by_team_by_week = TeamPick.objects.filter(nfl_week=week, team=team, correct=True)
