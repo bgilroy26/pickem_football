@@ -18,8 +18,8 @@ import json
 
 class BaseRedirectView(RedirectView):
     def get(self, request, *args, **kwargs):
-        self.permanent = True
         self.url = '/index/'
+        self.permanent = True
         return super().get(request, *args, **kwargs)
 
 class IndexView(View):
@@ -123,7 +123,7 @@ class ProfileView(View):
             if User.objects.filter(username=username):
                 profiled_user = User.objects.filter(username=username)[0]
                 viewed_user_profile = UserProfile.objects.filter(user=profiled_user)[0]
-                viewed_user_profile.picture = viewed_user_profile.picture.name.strip('static/users/')
+                viewed_user_profile.picture = viewed_user_profile.picture.name.replace('game/static/users/','')
                 viewed_user_profile.save()
                 user_teams = Team.objects.filter(manager = profiled_user)
                 if active_user == profiled_user:
@@ -205,23 +205,26 @@ class LeagueView(View):
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
             current_league = League.objects.filter(slug=league_slug)[0]
-            league_teams = Team.objects.filter(league=current_league).order_by('-wins')
-
+            if Team.objects.filter(league=current_league):
+                league_teams = Team.objects.filter(league=current_league).order_by('-wins')
+            else:
+                league_teams=None
             week_list = [{'slug':"week-"+str(x),'week':x} for x in range(1,18)]
 
             if active_user == current_league.commissioner:
                 league_form = LeagueForm(initial={'name':current_league.name, 'buy_in':current_league.buy_in, 'marquee':current_league.marquee})
                 league_form.fields['buy_in'].widget=forms.HiddenInput()
-                current_league.marquee = current_league.marquee.name.strip('static/league/')
+                current_league.marquee = current_league.marquee.name.replace('game/static/league/','')
                 current_league.save()
-
                 if league_teams:
+
                     for team in league_teams:
                         if Team.objects.filter(name=team.name,manager=active_user):
                             active_user_team_in_league = Team.objects.filter(name=team.name,manager=active_user)[0]
                             return render(request, self.template, {'active_user_team_in_league':active_user_team_in_league,'active_user':active_user, 'current_league':current_league, 'league_teams':league_teams, 'league_form':league_form,'week_list':week_list})
                         return render(request, self.template, {'active_user':active_user, 'current_league':current_league, 'league_teams':league_teams, 'league_form':league_form,'week_list':week_list})
-                return render(request, self.template, {'active_user':active_user, 'current_league':current_league})
+                else:
+                    return render(request, self.template, {'active_user':active_user, 'current_league':current_league,'league_form':league_form})
 
             else:
                 if league_teams:
@@ -230,7 +233,8 @@ class LeagueView(View):
                             active_user_team_in_league = Team.objects.filter(name=team.name,manager=active_user)[0]
                             return render(request, self.template, {'active_user_team_in_league':active_user_team_in_league,'active_user':active_user, 'current_league':current_league, 'league_teams':league_teams,'week_list':week_list})
                         return render(request, self.template, {'active_user':active_user, 'current_league':current_league, 'league_teams':league_teams,'week_list':week_list})
-                return render(request, self.template, {'active_user':active_user, 'current_league':current_league})
+                else:
+                    return render(request, self.template, {'active_user':active_user, 'current_league':current_league})
         return redirect('interface:login')
 
     def post(self,request,league_slug):
@@ -309,7 +313,7 @@ class TeamView(View):
             if active_user == current_team.manager:
                 team_form = TeamForm(initial={'name':current_team.name, 'mascot':current_team.mascot})
                 current_team.name = current_team.name
-                current_team.mascot = current_team.mascot.name.strip('static/team/')
+                current_team.mascot = current_team.mascot.name.replace('game/static/team/','')
                 current_team.slug = slugify(current_team.name)
                 current_team.save()
                 return render(request, self.template, {'active_user':active_user, 'current_team':current_team, 'team_form':team_form, 'current_league':current_league, 'week_list':week_list})
@@ -354,18 +358,20 @@ class MatchupView(View):
 
     def get(self, request, league_slug, team_slug, week_slug):
         if not request.user.is_anonymous():
-            year = '2015'
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
             current_league = League.objects.filter(slug = league_slug)[0]
             current_team = Team.objects.filter(slug = team_slug, league = current_league)[0]
             week = int(week_slug.strip('week-'))
-            r = requests.get(os.environ.get('fballAPI') + year + '/'+ week_slug + '/matchups/')
-            matchup_list = r.json().get('week_{}_schedule'.format(week))
+
+            r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
+            matchup_list = r.json()['week_{}_schedule'.format(week)]
+            print(matchup_list)
             if active_user == current_team.manager:
                 current_picks = TeamPick.objects.filter(team=current_team, nfl_week=week)
                 current_picks_dict_list = [pick.to_json() for pick in current_picks]
                 json_data = {'picks': current_picks_dict_list}
+                print(json_data)
                 matchup_id = -1
                 for game in matchup_list:
                     matchup_id += 1
@@ -392,7 +398,7 @@ class AdminMenuView(View):
         week_to_complete = request.POST.get('week')
         week_slug = 'week-{}'.format(week_to_complete)
         week = int(week_slug.strip('week-'))
-        r = requests.get(os.environ.get('fballAPI') + year + '/' + week_slug + '/matchups/')
+        r = requests.get(os.environ.get('fballAPI') + week_slug + '/matchups/')
         winners_list = r.json().get('winning_teams')
         all_teams = Team.objects.all()
         for team in all_teams:
@@ -405,14 +411,17 @@ class WeekView(View):
 
     def get(self, request, week_slug):
         if not request.user.is_anonymous():
-            year = '2015'
             week = int(week_slug.strip('week-'))
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
-            r = requests.get(os.environ.get('fballAPI') + year + '/' + week_slug + '/winners/')
+            r = requests.get(os.environ.get('fballAPI') + week_slug + '/winners/')
             all_teams = Team.objects.all()
             winners_list = r.json().get('winning_teams')
-            game_count = r.json().get('game_count')
+            game_count = len(winners_list)
+            try:
+                game_count = r.json().get('game_count')
+            except ValueError:
+                game_count = 0
             team_weekly_record_list = []
             for team in all_teams:
                 # picks_by_team_by_week = TeamPick.objects.filter(nfl_week=week, team=team, correct=True)
@@ -427,23 +436,20 @@ class LeagueWeekView(View):
 
     def get(self, request, week_slug, league_slug):
         if not request.user.is_anonymous():
-            year = '2015'
             week = int(week_slug.strip('week-'))
             active_user_id = request.user.id
             active_user = User.objects.filter(id=active_user_id)[0]
             current_league = League.objects.filter(slug=league_slug)[0]
-            r = requests.get(os.environ.get('fballAPI') + year + '/' + week_slug + '/winners/')
+            r = requests.get(os.environ.get('fballAPI') + week_slug + '/winners/')
             league_teams = Team.objects.filter(league=current_league)
+            print(current_league)
             winners_list = r.json().get('winning_teams')
-            game_count = r.json().get('game_count')
+            game_count = len(winners_list)
             team_weekly_record_list = []
             for team in league_teams:
                 # picks_by_team_by_week = TeamPick.objects.filter(nfl_week=week, team=team, correct=True)
                 team_win_count = len(TeamPick.objects.filter(team=team, nfl_week=week, correct=True))
-                if not team_win_count == 0:
-                    team_weekly_record_list.append((team, str(team_win_count) + ' - ' + str(game_count - team_win_count)))
-                else:
-                    team_weekly_record_list.append((team,'0-'+str(game_count)))
+                team_weekly_record_list.append((team, str(team_win_count) + ' - ' + str(game_count - team_win_count)))
                 # team_weekly_record_list = team_weekly_record_list
             return render(request,self.template, {'week_slug':week_slug,'active_user':active_user, 'team_weekly_record_list':team_weekly_record_list,'week':week, 'current_league':current_league})
         return redirect('interface:index')

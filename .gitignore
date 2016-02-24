@@ -58,14 +58,14 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Project specific
 settings.py
 .DS_Store
 nfl_official_app_rules.txt
 settings.py
 venv/
-pickem_football/game/static/league
-pickem_football/game/static/team
-pickem_football/users/static/users/*.jpg
-users/static/users/*.jpg
-*pyc
+*/static/league
+*/static/team
+*/static/users
 restart_gunicorn.sh
