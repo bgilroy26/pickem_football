@@ -43,7 +43,7 @@ $(document).ready(function(){
                         if (initialChoices.indexOf(inputEl.value) > -1) {
                             inputEl.checked = true;
                             $('input[value="' + inputEl.value + '"]').prop('checked', true);
-                        };
+                        }
                     });
 
                 }

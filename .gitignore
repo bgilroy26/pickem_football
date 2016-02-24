@@ -69,3 +69,7 @@ venv/
 */static/team
 */static/users
 restart_gunicorn.sh
+game/static/league/*
+game/static/users/*
+game/static/team/*
+static/*

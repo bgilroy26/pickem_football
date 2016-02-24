@@ -416,8 +416,8 @@ class WeekView(View):
             active_user = User.objects.filter(id=active_user_id)[0]
             r = requests.get(os.environ.get('fballAPI') + week_slug + '/winners/')
             all_teams = Team.objects.all()
+            # game_count = len(winners_list)
             winners_list = r.json().get('winning_teams')
-            game_count = len(winners_list)
             try:
                 game_count = r.json().get('game_count')
             except ValueError:
