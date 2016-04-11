@@ -123,11 +123,6 @@ class ProfileView(View):
             if User.objects.filter(username=username):
                 profiled_user = User.objects.filter(username=username)[0]
                 viewed_user_profile = UserProfile.objects.filter(user=profiled_user)[0]
-                print(dir(viewed_user_profile.picture))
-                print(viewed_user_profile.picture)
-                print(viewed_user_profile.picture.name)
-                print(viewed_user_profile.picture.path)
-                # print(viewed_user_profile.picture.fileno)
                 viewed_user_profile.picture = viewed_user_profile.picture.name.replace('game/static/users/','')
                 viewed_user_profile.save()
                 user_teams = Team.objects.filter(manager = profiled_user)
@@ -421,8 +416,12 @@ class WeekView(View):
             active_user = User.objects.filter(id=active_user_id)[0]
             r = requests.get(os.environ.get('fballAPI') + week_slug + '/winners/')
             all_teams = Team.objects.all()
+            # game_count = len(winners_list)
             winners_list = r.json().get('winning_teams')
-            game_count = len(winners_list)
+            try:
+                game_count = r.json().get('game_count')
+            except ValueError:
+                game_count = 0
             team_weekly_record_list = []
             for team in all_teams:
                 # picks_by_team_by_week = TeamPick.objects.filter(nfl_week=week, team=team, correct=True)
